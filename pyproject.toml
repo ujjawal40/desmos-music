@@ -1,0 +1,15 @@
+[project]
+name = "desmos-music"
+version = "0.1.0"
+description = "Compose music as math functions for the Desmos Graphing Calculator"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+desmos-music = "desmos_music.__main__:main"
+
+[tool.setuptools]
+packages = ["desmos_music"]

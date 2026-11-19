@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>desmos-music player</title>
+  <!-- Desmos API demo key: fine for local testing only. Get your own key for anything public: https://www.desmos.com/my-api -->
+  <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+  <style>
+    html, body { margin: 0; height: 100%; background: #1d1a16; color: #f5e6c8; font-family: system-ui, sans-serif; }
+    header { padding: 8px 12px; display: flex; gap: 12px; align-items: center; }
+    select, button { font: inherit; }
+    #calc { position: absolute; top: 48px; bottom: 0; left: 0; right: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>desmos-music</strong>
+    <select id="song"><option value="dune_one">dune_one</option></select>
+    <button id="load">Load</button>
+    <span>Serve the repo root (e.g. <code>python -m http.server</code>) and open <code>/web/</code>.</span>
+  </header>
+  <div id="calc"></div>
+  <script>
+    const calc = Desmos.GraphingCalculator(document.getElementById('calc'), { expressionsCollapsed: false });
+    async function load() {
+      const name = document.getElementById('song').value;
+      const res = await fetch(`../build/${name}.json`);
+      if (!res.ok) { alert(`build/${name}.json not found — run: python -m desmos_music`); return; }
+      calc.setState(await res.json());
+    }
+    document.getElementById('load').onclick = load;
+    load();
+  </script>
+</body>
+</html>
