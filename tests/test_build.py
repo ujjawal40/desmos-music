@@ -142,3 +142,9 @@ def test_transpose_shifts_any_voice_kind():
 def test_ghost_notes_get_an_amplitude_curve_even_without_env():
     a = next(l for l in latexes(build_state(song(seq="A3 C4?"))) if l.startswith("a_{a}"))
     assert "1\\le x<2:0.5" in a.replace("\\operatorname{mod}\\left(x,2\\right)", "x")
+
+
+def test_arp_voice_is_monophonic():
+    ls = latexes(build_state(song(seq="[A3m]:4 [F3]:4", arp="updown", arp_step=0.5)))
+    assert any(l.startswith("v_{a}") for l in ls)
+    assert not any(l.startswith("v_{a1}") for l in ls)

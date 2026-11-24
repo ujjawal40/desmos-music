@@ -27,6 +27,7 @@ from .music import (
     TIMBRES,
     Hit,
     Note,
+    arpeggiate,
     SongError,
     base_frequency,
     parse_hits,
@@ -43,7 +44,7 @@ KINDS = ("latex", "notes", "seq", "hits")
 SONG_KEYS = {"title", "description", "base", "base_hz", "key", "bpm", "time_scale", "window",
              "length", "sections", "helpers", "voices", "comment"}
 VOICE_KEYS = set(KINDS) | {"name", "key", "step", "loop", "offset", "in", "env", "timbre", "detune",
-                           "glide", "vibrato", "transpose", "swing", "dynamics", "drum", "gain", "muted", "color", "comment"}
+                           "glide", "vibrato", "transpose", "swing", "arp", "arp_step", "dynamics", "drum", "gain", "muted", "color", "comment"}
 
 
 def _check_keys(obj: dict, allowed: set, where: str) -> None:
@@ -245,6 +246,8 @@ def _tracks_for_voice(v: dict, base_hz: float, song_key=None) -> list[Track]:
         notes = parse_notes(v["notes"], base_hz, key)
         loop = v.get("loop")
 
+    if "arp" in v:
+        notes = arpeggiate(notes, v["arp"], float(v.get("arp_step", 0.5)))
     width = max(len(n.pitches) for n in notes)
     u = _clock(loop, offset)
     tracks = []
