@@ -24,3 +24,14 @@ def test_build_writes_manifest_and_console_script(in_tmp):
     assert [e["name"] for e in index] == ["one", "two"]
     js = (in_tmp / "build" / "one.console.js").read_text()
     assert js.splitlines()[1].startswith("Calc.setState(")
+
+
+def test_bad_song_exits_nonzero(in_tmp, capsys):
+    (in_tmp / "songs").mkdir()
+    (in_tmp / "songs" / "bad.json").write_text('{"title": "x", "voices": [{"name": "a"}]}')
+    assert main([]) == 1
+    assert "needs exactly one of" in capsys.readouterr().err
+
+
+def test_no_songs_is_an_error(in_tmp):
+    assert main([]) == 1
