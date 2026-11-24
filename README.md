@@ -36,6 +36,10 @@ Songs included:
 | `dune_one` | Transcription of the first section of @measure_plan's clip |
 | `arrakis` | Original Dune-style piece: beating D drone, Phrygian throat chant, taiko war drums, sliding vocal wail, sandworm riser |
 | `event_horizon` | Original Interstellar-style piece: ticking clock, pipe-organ drone, A-minor organ ostinato, pads, bass, slow melody |
+| `tesseract` | Original Interstellar-style piece in E minor: 3+3+2 clock, organ "pulse" arpeggio, never-ending Shepard rise, bell coda |
+| `docking` | Original high-tension piece in C minor: driving organ pulse, octave bass, fast Shepard rise, taiko, final locked chord |
+| `sietch` | Original Dune-style piece in D double-harmonic: falling Shepard wind, chant with ghost notes, swung taiko, braam, wail |
+| `tutorial_1`…`tutorial_5` | One idea each: drone → melody → chords/arpeggio → drums → sections and dynamics |
 
 You can open a result in one of two ways:
 
