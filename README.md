@@ -67,6 +67,21 @@ Time is in **beats** (set `bpm`), pitch is in note names or semitones, and every
 | `hits` | `"X..x X.x."` | Drum grid per `step`: `X` accent, `x` hit, `.` rest. Pitch-drop drum like the clip's kick. |
 | `shepard` | `{"period": 8, "layers": 4, "low": -2, "span": 4, "direction": "up"}` | Shepard tone: stacked glissandi that seem to rise (or fall) forever. Good for tension. |
 
+### Pitch notation
+
+Anywhere a pitch goes (`seq` tokens, `notes` third field):
+
+| Write | Means |
+|---|---|
+| `A3`, `C#4`, `Bb2` | Note names (scientific pitch, A4 = 440 Hz) |
+| `7`, `-5` | Semitones above/below B |
+| `^1`, `^b3`, `^#4`, `^5'`, `^1,` | Scale degree in the song's or voice's `key` (`'` = octave up, `,` = down, `^8` = octave) |
+| `[A3m]`, `[F3maj7]`, `[E3sus4]` | Chord symbol: root with octave + `m 5 dim aug sus2 sus4 7 maj7 m7 m7b5 dim7 add9 madd9 m9` |
+| `A3+C4+E4` | Any chord, note by note |
+| `A3?` | Ghost note at half volume (`seq` only) |
+
+`"key": "D3 phrygian"` takes a tonic with an octave plus one of `major minor dorian phrygian lydian mixolydian locrian harmonic_minor phrygian_dominant double_harmonic hungarian_minor`. The last few give the "desert" sound.
+
 ### Voice options
 
 | Option | Default | What it does |
