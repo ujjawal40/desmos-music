@@ -17,6 +17,8 @@
     <strong>desmos-music</strong>
     <select id="song"></select>
     <button id="load">Load</button>
+    <button id="play">▶ Play</button>
+    <button id="restart">⏮ Restart</button>
     <span>Run <code>python -m desmos_music serve</code>, pick a song, press ▶ on the ticker.</span>
   </header>
   <div id="calc"></div>
@@ -27,6 +29,7 @@
       const res = await fetch(`../build/${name}.json`);
       if (!res.ok) { alert(`build/${name}.json not found — run: python -m desmos_music`); return; }
       calc.setState(await res.json());
+      document.getElementById('play').textContent = '▶ Play';
     }
     async function init() {
       const sel = document.getElementById('song');
@@ -38,6 +41,17 @@
       sel.onchange = load;
       load();
     }
+    function setPlaying(on) {
+      const s = calc.getState();
+      s.expressions.ticker.playing = on;
+      calc.setState(s, { allowUndo: false });
+      document.getElementById('play').textContent = on ? '⏸ Pause' : '▶ Play';
+    }
+    const isPlaying = () => calc.getState().expressions.ticker?.playing;
+    document.getElementById('play').onclick = () => setPlaying(!isPlaying());
+    document.getElementById('restart').onclick = () => {
+      calc.setExpression({ id: '3', latex: 't=0' });
+    };
     document.getElementById('load').onclick = load;
     window.calc = calc;
     init();
