@@ -40,7 +40,7 @@ from .music import (
 NAME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*$")
 TICK_MS = 50  # ticker step; Desmos fires roughly every 20ms at best
 RESERVED_HELPERS = {"t", "x", "y", "B", "S", "L", "e"}
-KINDS = ("latex", "notes", "seq", "hits")
+KINDS = ("latex", "notes", "seq", "hits", "shepard")
 SONG_KEYS = {"title", "description", "base", "base_hz", "key", "bpm", "time_scale", "window",
              "length", "sections", "helpers", "voices", "comment"}
 VOICE_KEYS = set(KINDS) | {"name", "key", "step", "loop", "offset", "in", "env", "timbre", "detune",
@@ -229,6 +229,9 @@ def _tracks_for_voice(v: dict, base_hz: float, song_key=None) -> list[Track]:
         amp = env if isinstance(env, str) and env not in ENVELOPES else None
         return [Track(name, name, v["latex"], amp, color)]
 
+    if "shepard" in v:
+        return _shepard_tracks(v, offset)
+
     if "hits" in v:
         hits, length = parse_hits(v["hits"], step, float(v.get("swing", 0.5)))
         loop = v.get("loop", length)
@@ -261,6 +264,28 @@ def _tracks_for_voice(v: dict, base_hz: float, song_key=None) -> list[Track]:
         elif env_dict or any(e[3] != 1 for e in evs):
             amp = _melody_env_latex(evs, u, env_dict or {})
         tracks.append(Track(tname, name, pitch, amp, color, share=1 / width))
+    return tracks
+
+
+def _shepard_tracks(v: dict, offset: float) -> list[Track]:
+    """Endless glissando: `layers` sines a fixed interval apart, each fading
+    in at the bottom and out at the top, so the whole seems to rise forever."""
+    cfg = {"period": 8, "layers": 4, "low": -2, "span": 4, "direction": "up", **v["shepard"]}
+    n = int(cfg["layers"])
+    if n < 2 or float(cfg["period"]) <= 0 or float(cfg["span"]) <= 0:
+        raise SongError(f"voice '{v['name']}': shepard needs layers >= 2 and positive period/span")
+    if cfg["direction"] not in ("up", "down"):
+        raise SongError(f"voice '{v['name']}': shepard direction must be 'up' or 'down'")
+    sign = "" if cfg["direction"] == "up" else "-"
+    x = f"\\left(x-{_fmt(offset)}\\right)" if offset else "x"
+    tracks = []
+    for k in range(n):
+        phase = (f"\\operatorname{{mod}}\\left({sign}\\frac{{{x}}}{{{_fmt(cfg['period'])}}}"
+                 f"+{_fmt(k / n)},1\\right)")
+        pitch = f"{_fmt(cfg['low'])}+{_fmt(cfg['span'])}{phase}"
+        amp = f"\\sin\\left(\\pi{phase}\\right)^{{2}}"
+        tracks.append(Track(f"{v['name']}{k + 1}", v["name"], pitch, amp,
+                            v.get("color", "#f5a623"), share=2 / n))
     return tracks
 
 

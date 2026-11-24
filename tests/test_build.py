@@ -148,3 +148,12 @@ def test_arp_voice_is_monophonic():
     ls = latexes(build_state(song(seq="[A3m]:4 [F3]:4", arp="updown", arp_step=0.5)))
     assert any(l.startswith("v_{a}") for l in ls)
     assert not any(l.startswith("v_{a1}") for l in ls)
+
+
+def test_shepard_tone_layers():
+    ls = latexes(build_state(song(shepard={"layers": 3, "period": 6})))
+    layers = [l for l in ls if l.startswith("v_{a")]
+    assert len(layers) == 3 and "\\frac{x}{6}+0.333333" in layers[1]
+    assert sum(l.startswith("a_{a") and "\\sin" in l for l in ls) == 3
+    with pytest.raises(SongError, match="direction"):
+        build_state(song(shepard={"direction": "sideways"}))
