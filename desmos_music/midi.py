@@ -145,6 +145,24 @@ def quantize(notes: list[tuple], grid: float) -> list[tuple]:
 
 COLORS = ["#f5a623", "#9cc3e6", "#c47f1a", "#e8e0c8", "#5b7fa6", "#ffd27a", "#8a5a1c", "#3e5f86"]
 DRUM_CHANNEL = 9
+# General MIDI percussion note -> our drum preset
+GM_DRUMS = {35: "kick", 36: "kick", 41: "tom", 43: "tom", 45: "tom", 47: "tom", 48: "tom", 50: "tom",
+            38: "tom", 40: "tom", 42: "tick", 44: "tick", 46: "tick", 37: "tick", 39: "tick"}
+
+
+def drum_grids(notes: list[tuple], grid: float, length: float) -> dict:
+    """Drum-channel notes -> {preset: 'X..x' grid string} on a `grid` step."""
+    steps = int(round(length / grid))
+    rows: dict = {}
+    for s, _, n, vel in notes:
+        preset = GM_DRUMS.get(n)
+        if not preset:
+            continue
+        row = rows.setdefault(preset, ["."] * steps)
+        i = int(round(s / grid))
+        if 0 <= i < steps:
+            row[i] = "X" if vel >= 100 or row[i] == "X" else "x"
+    return {k: " ".join("".join(r[i:i + 4]) for i in range(0, steps, 4)) for k, r in rows.items()}
 
 
 def _voice_name(raw: str, fallback: str, taken: set) -> str:
@@ -164,6 +182,7 @@ def midi_to_song(data: bytes, title: str, grid: float = 0.25, max_lanes: int = 4
 
     header, tracks = read_chunks(data)
     bpm = None
+    drums: list = []
     groups: dict = {}
     names: dict = {}
     for ti, chunk in enumerate(tracks):
@@ -173,18 +192,18 @@ def midi_to_song(data: bytes, title: str, grid: float = 0.25, max_lanes: int = 4
             bpm = round(60_000_000 / tempo, 2)
         tname = next((p for _, k, p in events if k == "name"), "")
         for ch in sorted({p[0] for _, k, p in events if k in ("on", "off")}):
-            if ch == DRUM_CHANNEL:
-                continue
             evs = [e for e in events if e[1] not in ("on", "off") or e[2][0] == ch]
             notes = quantize(pair_notes(evs, header["ticks_per_beat"]), grid)
-            if notes:
+            if ch == DRUM_CHANNEL:
+                drums += notes
+            elif notes:
                 groups[(ti, ch)] = notes
                 names[(ti, ch)] = tname
     if not groups:
-        raise SongError("no pitched notes found in the MIDI file (drum channel 10 is skipped)")
+        raise SongError("no pitched notes found in the MIDI file")
 
-    all_notes = [n for ns in groups.values() for n in ns]
-    pitches = sorted(n[2] for n in all_notes)
+    all_notes = [n for ns in groups.values() for n in ns] + drums
+    pitches = sorted(n[2] for ns in groups.values() for n in ns)
     end = max(s + d for s, d, _, _ in all_notes)
     length = max(4, -(-end // 4) * 4)  # round up to a 4-beat bar
 
@@ -204,6 +223,11 @@ def midi_to_song(data: bytes, title: str, grid: float = 0.25, max_lanes: int = 4
                 "gain": round(0.5 / len(lanes), 3),
                 "color": COLORS[(gi + li) % len(COLORS)],
             })
+    for preset, pattern in drum_grids(drums, grid, length).items():
+        voices.append({
+            "name": _voice_name(preset, preset, taken), "hits": pattern, "step": grid,
+            "drum": preset, "gain": 0.5 if preset == "kick" else 0.2, "color": "#888888",
+        })
     return {
         "title": title,
         "description": "Imported from MIDI. Edit freely.",

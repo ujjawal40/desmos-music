@@ -102,7 +102,8 @@ def test_midi_to_song_builds():
     )
     song = midi_to_song(data, "demo")
     assert song["bpm"] == 100
-    assert [v["name"] for v in song["voices"]] == ["LeadLine", "Pad", "Pad2", "Pad3"]
+    assert [v["name"] for v in song["voices"]] == ["LeadLine", "Pad", "Pad2", "Pad3", "kick"]
+    assert song["voices"][-1]["hits"] == "X... .... .... ...."
     assert song["voices"][0]["notes"] == [[0, 1, "A4"], [1, 1, "C5"]]
     assert song["length"] == 4
     build_state(song)
@@ -116,3 +117,9 @@ def test_first_tempo_wins_and_default_is_120():
     assert midi_to_song(none, "x")["bpm"] == 120
     slow = smf(note_track("a", [(0, 480, 60)], tempo=1000000))
     assert midi_to_song(slow, "x")["bpm"] == 60
+
+
+def test_drum_grids():
+    from desmos_music.midi import drum_grids
+    notes = [(0, 0.1, 36, 110), (1, 0.1, 36, 80), (0.5, 0.1, 42, 60), (0, 0.1, 99, 100)]
+    assert drum_grids(notes, 0.25, 2) == {"kick": "X... x...", "tick": "..x. ...."}
