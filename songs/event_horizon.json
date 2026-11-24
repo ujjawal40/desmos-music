@@ -1,0 +1,79 @@
+{
+  "title": "Event Horizon (Interstellar-style, original)",
+  "description": "Original piece in the style of a space-film organ score: a ticking clock, a swelling pipe-organ drone, an A-minor eighth-note ostinato (i–VI–iv–V), then pads, bass and a slow melody. Time unit = 1 beat.",
+  "base": "A3",
+  "bpm": 72,
+  "window": 8,
+  "sections": [
+    {"name": "clock", "start": 0, "end": 16},
+    {"name": "orbit", "start": 16, "end": 48},
+    {"name": "gravity", "start": 48, "end": 80},
+    {"name": "horizon", "start": 80, "end": 96}
+  ],
+  "voices": [
+    {
+      "name": "tick",
+      "comment": "Clock tick on every beat, accented each bar.",
+      "hits": "X . x . x . x .",
+      "step": 0.5,
+      "drum": "tick",
+      "gain": 0.12,
+      "color": "#e8e0c8"
+    },
+    {
+      "name": "drone",
+      "comment": "Low A pipe-organ pedal. Detune makes it beat slowly.",
+      "latex": "-1",
+      "timbre": "organ",
+      "detune": 7,
+      "dynamics": [[0, 0], [12, 0.8], [80, 1], [96, 0]],
+      "gain": 0.22,
+      "color": "#5b7fa6"
+    },
+    {
+      "name": "arp",
+      "comment": "Original ostinato: Am | F | Dm | E, eighth notes.",
+      "seq": "A3 E4 A4 C5 B4 C5 A4 E4 | F3 C4 F4 A4 G4 A4 F4 C4 | D3 A3 D4 F4 E4 F4 D4 A3 | E3 B3 E4 G#4 F#4 G#4 E4 B3",
+      "step": 0.5,
+      "in": ["orbit", "gravity"],
+      "env": "organ",
+      "timbre": "organ",
+      "dynamics": [[16, 0.5], [48, 1]],
+      "gain": 0.26,
+      "color": "#9cc3e6"
+    },
+    {
+      "name": "pad",
+      "comment": "Whole-note organ chords, voice-led around A3.",
+      "seq": "A3+C4+E4:4 A3+C4+F4:4 A3+D4+F4:4 G#3+B3+E4:4",
+      "in": ["gravity", "horizon"],
+      "env": "pad",
+      "timbre": "organ",
+      "dynamics": [[48, 0], [56, 1], [84, 1], [96, 0]],
+      "gain": 0.3,
+      "color": "#3e5f86"
+    },
+    {
+      "name": "bass",
+      "seq": "A2:4 F2:4 D2:4 E2:4",
+      "in": "gravity",
+      "env": "pad",
+      "timbre": "organ",
+      "gain": 0.28,
+      "color": "#27405e"
+    },
+    {
+      "name": "melody",
+      "comment": "Original 8-bar line; offset 48 so it starts at the top of 'gravity'.",
+      "seq": "E5:4 | F5:2 E5:2 | D5:3 C5:1 | B4:4 | C5:2 E5:2 | A5:4 | F5:2 D5:2 | E5:2 G#4:2",
+      "offset": 48,
+      "in": "gravity",
+      "env": "voice",
+      "timbre": "hollow",
+      "glide": 0.08,
+      "vibrato": [2.5, 0.15],
+      "gain": 0.26,
+      "color": "#f2f6fb"
+    }
+  ]
+}
