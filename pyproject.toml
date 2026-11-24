@@ -1,6 +1,6 @@
 [project]
 name = "desmos-music"
-version = "0.1.0"
+version = "0.2.0"
 description = "Compose music as math functions for the Desmos Graphing Calculator"
 requires-python = ">=3.9"
 dependencies = []

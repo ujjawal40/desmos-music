@@ -109,3 +109,13 @@ def test_stats_prints_sections(in_tmp, capsys):
     main(["new", "demo"])
     main(["stats"])
     assert "intro 0–16 → main 16–48" in capsys.readouterr().out
+
+
+def test_version_matches_pyproject():
+    import re
+
+    from conftest import ROOT
+
+    import desmos_music
+    pyproject = (ROOT / "pyproject.toml").read_text()
+    assert re.search(r'^version = "(.+)"', pyproject, re.M).group(1) == desmos_music.__version__
