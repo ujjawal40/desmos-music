@@ -65,6 +65,7 @@ Time is in **beats** (set `bpm`), pitch is in note names or semitones, and every
 | `seq` | `"A3 E4 - . C4+E4+G4:2 \| 7"` | Tracker string: note per `step`; `-` hold, `.`/`r` rest, `+` chord, `:2` explicit duration, `\|` bar line (ignored), numbers = semitones. Loops over its own length. |
 | `notes` | `[[0, 2, "D3"], [2, 1, 3], [3, 1, ["A3","C4"]]]` | `[start, duration, pitch]` triples; add `"loop"` to repeat |
 | `hits` | `"X..x X.x."` | Drum grid per `step`: `X` accent, `x` hit, `.` rest. Pitch-drop drum like the clip's kick. |
+| `shepard` | `{"period": 8, "layers": 4, "low": -2, "span": 4, "direction": "up"}` | Shepard tone: stacked glissandi that seem to rise (or fall) forever. Good for tension. |
 
 ### Voice options
 
