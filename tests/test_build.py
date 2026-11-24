@@ -95,3 +95,10 @@ def test_every_song_builds(name):
     state = build_state(load(name))
     ids = [e["id"] for e in state["expressions"]["list"]]
     assert len(ids) == len(set(ids))
+
+
+def test_section_missing_end_is_a_song_error():
+    s = song(seq="A3")
+    s["sections"] = [{"name": "a", "start": 0}]
+    with pytest.raises(SongError, match="needs 'start' and 'end'"):
+        build_state(s)

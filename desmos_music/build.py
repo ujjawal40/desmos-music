@@ -246,6 +246,8 @@ def _sections(song: dict) -> dict:
         if isinstance(s, list):
             s = {"name": s[0], "start": s[1], "end": s[2]}
         n = s.get("name", "")
+        if "start" not in s or "end" not in s:
+            raise SongError(f"section '{n}' needs 'start' and 'end'")
         if not n or n in out:
             raise SongError(f"section names must be unique and non-empty ('{n}')")
         if float(s["end"]) <= float(s["start"]):
