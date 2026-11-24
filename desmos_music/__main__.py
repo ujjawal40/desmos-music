@@ -12,7 +12,7 @@ import json
 import sys
 from pathlib import Path
 
-from .build import SongError, build_file
+from .build import SongError, build_file, load_song
 
 TEMPLATE = {
     "title": "Untitled",
@@ -41,7 +41,7 @@ def build_all(songs, out: Path) -> int:
         except SongError as e:
             print(f"{s}: {e}", file=sys.stderr)
             return 1
-        built.append({"name": Path(s).stem, "title": json.loads(Path(s).read_text())["title"]})
+        built.append({"name": Path(s).stem, "title": load_song(s)["title"]})
     index = out / "index.json"
     known = {}
     if index.exists():

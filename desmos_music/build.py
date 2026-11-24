@@ -425,8 +425,18 @@ def build_state(song: dict) -> dict:
     }
 
 
+def load_song(song_path: Path) -> dict:
+    try:
+        song = json.loads(Path(song_path).read_text())
+    except json.JSONDecodeError as e:
+        raise SongError(f"invalid JSON at line {e.lineno}, column {e.colno}: {e.msg}") from None
+    if not isinstance(song, dict):
+        raise SongError("a song file must contain a JSON object")
+    return song
+
+
 def build_file(song_path: Path, out_dir: Path) -> list[Path]:
-    song = json.loads(Path(song_path).read_text())
+    song = load_song(song_path)
     state = build_state(song)
     out_dir.mkdir(parents=True, exist_ok=True)
     stem = Path(song_path).stem

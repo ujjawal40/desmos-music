@@ -35,3 +35,10 @@ def test_bad_song_exits_nonzero(in_tmp, capsys):
 
 def test_no_songs_is_an_error(in_tmp):
     assert main([]) == 1
+
+
+def test_invalid_json_reports_line(in_tmp, capsys):
+    (in_tmp / "songs").mkdir()
+    (in_tmp / "songs" / "bad.json").write_text('{"title": "x",\n "voices": [,]}')
+    assert main([]) == 1
+    assert "line 2" in capsys.readouterr().err
