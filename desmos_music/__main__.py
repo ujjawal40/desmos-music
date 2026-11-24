@@ -99,7 +99,8 @@ def cmd_stats(argv) -> int:
             return 1
         secs = f"{st['seconds']:.0f}s" if st["seconds"] else "open-ended"
         print(f"\n{st['title']}  ({path})")
-        print(f"  {st['length_beats'] or '-'} beats, {secs}, B = {st['base_hz']:.1f} Hz, "
+        beats = f"{st['length_beats']:g}" if st["length_beats"] else "-"
+        print(f"  {beats} beats, {secs}, B = {st['base_hz']:.1f} Hz, "
               f"{st['tones']} tones, {st['expressions']} expressions")
         for v in st["voices"]:
             hz = f"{v['hz'][0]:.0f}–{v['hz'][1]:.0f} Hz" if v["hz"] else "(latex)"
