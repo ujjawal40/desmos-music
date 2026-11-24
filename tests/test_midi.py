@@ -106,3 +106,13 @@ def test_midi_to_song_builds():
     assert song["voices"][0]["notes"] == [[0, 1, "A4"], [1, 1, "C5"]]
     assert song["length"] == 4
     build_state(song)
+
+
+def test_first_tempo_wins_and_default_is_120():
+    from desmos_music.midi import midi_to_song
+    two = smf(note_track("a", [(0, 480, 60)], tempo=500000), note_track("b", [(0, 480, 62)], tempo=1000000))
+    assert midi_to_song(two, "x")["bpm"] == 120
+    none = smf(note_track("a", [(0, 480, 60)]))
+    assert midi_to_song(none, "x")["bpm"] == 120
+    slow = smf(note_track("a", [(0, 480, 60)], tempo=1000000))
+    assert midi_to_song(slow, "x")["bpm"] == 60

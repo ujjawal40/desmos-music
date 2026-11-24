@@ -163,15 +163,14 @@ def midi_to_song(data: bytes, title: str, grid: float = 0.25, max_lanes: int = 4
     from .music import midi_name
 
     header, tracks = read_chunks(data)
-    bpm = 120.0
+    bpm = None
     groups: dict = {}
     names: dict = {}
     for ti, chunk in enumerate(tracks):
         events = read_events(chunk)
-        for _, kind, payload in events:
-            if kind == "tempo":
-                bpm = round(60_000_000 / payload, 2)
-                break
+        tempo = next((p for _, k, p in events if k == "tempo"), None)
+        if bpm is None and tempo:
+            bpm = round(60_000_000 / tempo, 2)
         tname = next((p for _, k, p in events if k == "name"), "")
         for ch in sorted({p[0] for _, k, p in events if k in ("on", "off")}):
             if ch == DRUM_CHANNEL:
@@ -209,7 +208,7 @@ def midi_to_song(data: bytes, title: str, grid: float = 0.25, max_lanes: int = 4
         "title": title,
         "description": "Imported from MIDI. Edit freely.",
         "base": midi_name(pitches[len(pitches) // 2]),
-        "bpm": bpm,
+        "bpm": bpm or 120,
         "window": 8,
         "length": length,
         "voices": voices,
