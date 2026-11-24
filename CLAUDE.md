@@ -14,9 +14,11 @@ Our reading of it is that `y` is pitch in octaves (that's why the denominators a
 
 ## Layout
 - `songs/*.json` — song definitions (the source of truth)
-- `desmos_music/build.py` — song → Desmos state JSON (`build_state`), plus `notes_to_latex`
-- `desmos_music/__main__.py` — CLI: `python -m desmos_music [songs...] -o build/`
-- `build/` — generated output: `<song>.json` (state) and `<song>.console.js` (`Calc.setState(...)` to paste on desmos.com)
+- `desmos_music/music.py` — note names, `seq`/`hits` parsers, presets (ENVELOPES, TIMBRES, DRUMS). No LaTeX here.
+- `desmos_music/build.py` — song → Desmos state JSON (`build_state`): voices → Tracks → LaTeX
+- `desmos_music/__main__.py` — CLI: `python -m desmos_music [songs...] -o build/`, `new NAME`, `serve`
+- `build/` — generated output: `<song>.json` (state), `<song>.console.js` (`Calc.setState(...)` to paste on desmos.com), `index.json` (song list for the player)
+- Songs: `dune_one` (clip transcription), `arrakis` (original Dune-style), `event_horizon` (original Interstellar-style). Bundled pieces are original compositions *in the style of* those scores; don't transcribe the copyrighted film themes.
 - `web/index.html` — local player using the Desmos API (demo key)
 - `tests/` — pytest
 
@@ -26,14 +28,15 @@ Our reading of it is that `y` is pitch in octaves (that's why the denominators a
 - The ticker **does not** provide `dt`. `t→t+S·dt/1000` parsed `dt` as `d·t`. Use a fixed step (`TICK_MS` in build.py).
 - Function definitions get plotted unless `hidden: true` is set. Graphs need `squareAxes: false`, or the y-range is ignored.
 - User-defined names: single letters, optionally with an alphanumeric subscript (`v_{kick}`).
-- Not yet verified: whether `tone()` makes sound through the embedded API in `web/index.html`.
+- `dune_one`, `arrakis` and `event_horizon` all load with zero expression errors in the local player (API v1.11). Probed values match (notes, glide, chord split, gating, envelopes), and the ticker wraps with `mod(t+…, length)`.
+- Desmos `\min(a,b,c)` accepts multiple args. Never join LaTeX factors as `\cdot` + letter (`\cdotm` breaks); use `\cdot ` with a space.
+- Piecewise takes the first matching branch, so drum hits are cut off at the next hit.
+- Not yet verified: whether `tone()` makes sound through the embedded API in `web/index.html` (nobody has listened yet).
 
 ## Roadmap / ideas (not built yet)
 - Transcribe sections 2–6 of the clip into more songs, or into sections of one song.
-- Song sections/arrangement: switch voice sets over time (`{t<16: ..., t<32: ...}`).
-- Note names in the notes DSL (`"D3"` instead of semitone numbers), scales, chords.
-- Envelopes as reusable helpers (attack/decay applied to gain, not only pitch).
-- Timbre: voice option `harmonics: [1, 0.5, 0.25]` that emits extra `tone()` lines at 2^k multiples.
+- Done: sections (`in`), note names, chords, ADSR envelopes, timbres, detune, glide, vibrato, dynamics, drum grids, offset.
+- Scales/degree notation (`"key": "D phrygian"`, `seq: "1 b2 1 7"`).
 - MIDI → song JSON importer.
 - Playhead-follow viewport option (curves drawn up to a moving dot, as in the clip).
 - Pushing to Desmos: saving a graph needs an account; for now the user pastes the console script.
