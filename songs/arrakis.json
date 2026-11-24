@@ -1,0 +1,86 @@
+{
+  "title": "Arrakis (Dune-style, original)",
+  "description": "Original piece in the style of a desert-epic score: a beating low D drone, a throat-sung Phrygian chant (D–Eb), war drums, a sliding vocal wail and a sandworm riser. Time unit = 1 beat.",
+  "base": "D4",
+  "bpm": 66,
+  "window": 8,
+  "sections": [
+    {"name": "dawn", "start": 0, "end": 16},
+    {"name": "storm", "start": 16, "end": 48},
+    {"name": "worm", "start": 48, "end": 64},
+    {"name": "settle", "start": 64, "end": 72}
+  ],
+  "voices": [
+    {
+      "name": "drone",
+      "latex": "-2",
+      "timbre": "reed",
+      "detune": 9,
+      "dynamics": [[0, 0], [8, 1], [64, 1], [72, 0]],
+      "gain": 0.28,
+      "color": "#8a5a1c"
+    },
+    {
+      "name": "fifth",
+      "comment": "Open fifth (A2) above the drone once the drums arrive.",
+      "latex": "-\\frac{17}{12}",
+      "in": ["storm", "worm"],
+      "timbre": "hollow",
+      "gain": 0.12,
+      "color": "#a8742a"
+    },
+    {
+      "name": "chant",
+      "comment": "Low throat-chant figure in D Phrygian, sliding between notes.",
+      "seq": "D3:3 Eb3:1 | D3:2 C3:2 | D3:4 | F3:2 Eb3:1 D3:1",
+      "env": "voice",
+      "timbre": "brass",
+      "glide": 0.25,
+      "vibrato": [1.5, 0.2],
+      "dynamics": [[0, 0.6], [16, 1], [64, 1], [72, 0.3]],
+      "gain": 0.26,
+      "color": "#c47f1a"
+    },
+    {
+      "name": "drums",
+      "comment": "War-drum pattern, 4 beats: BOOM . . boom BOOM . boom .",
+      "hits": "X . . x X . x .",
+      "step": 0.5,
+      "drum": "taiko",
+      "in": ["storm", "worm"],
+      "gain": 0.8,
+      "color": "#f5a623"
+    },
+    {
+      "name": "toms",
+      "hits": "..x. x.X. ..x. X.x.",
+      "step": 0.25,
+      "drum": "tom",
+      "in": "worm",
+      "gain": 0.45,
+      "color": "#ffb547"
+    },
+    {
+      "name": "wail",
+      "comment": "Original 8-bar vocal line with heavy slides; offset 16 so it starts with 'storm'.",
+      "seq": "D5:2 Eb5:1 D5:1 | C5:2 Bb4:1 A4:1 | Bb4:3 A4:1 | A4:4 | F5:2 Eb5:1 D5:1 | Eb5:3 D5:1 | C5:2 D5:2 | D5:4",
+      "offset": 16,
+      "in": ["storm", "worm"],
+      "env": "voice",
+      "timbre": "hollow",
+      "glide": 0.18,
+      "vibrato": [3, 0.35],
+      "gain": 0.24,
+      "color": "#ffd27a"
+    },
+    {
+      "name": "riser",
+      "comment": "Sandworm riser: a two-octave glissando across the 'worm' section.",
+      "latex": "-1+\\frac{\\operatorname{mod}\\left(x,16\\right)}{8}",
+      "in": "worm",
+      "dynamics": [[48, 0], [62, 1], [64, 0]],
+      "gain": 0.16,
+      "color": "#fff1c9"
+    }
+  ]
+}
