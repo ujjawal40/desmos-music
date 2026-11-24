@@ -1,0 +1,12 @@
+{
+  "title": "Tutorial 3 — chords and arpeggios",
+  "description": "Chord symbols like [A3m] become several voices (pad1, pad2, pad3). The same chords with 'arp' become one moving line.",
+  "base": "A3",
+  "bpm": 72,
+  "voices": [
+    {"name": "pad", "seq": "[A3m]:4 [F3]:4 [C3]:4 [E3]:4", "env": "pad", "timbre": "organ",
+     "gain": 0.3, "color": "#3e5f86"},
+    {"name": "arp", "seq": "[A4m]:4 [F4]:4 [C4]:4 [E4]:4", "arp": "updown", "arp_step": 0.5,
+     "env": "pluck", "gain": 0.3, "color": "#9cc3e6"}
+  ]
+}
