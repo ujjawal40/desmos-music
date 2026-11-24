@@ -61,3 +61,18 @@ def test_import_midi(in_tmp, capsys):
     assert main([]) == 0
     (in_tmp / "junk.mid").write_bytes(b"nope")
     assert main(["import-midi", "junk.mid"]) == 1
+
+
+def test_rebuild_changed_only_rebuilds_edited_songs(in_tmp):
+    import os
+
+    from desmos_music.__main__ import rebuild_changed
+    main(["new", "a"])
+    main(["new", "b"])
+    seen = {}
+    assert len(rebuild_changed(seen)) == 2
+    assert rebuild_changed(seen) == []
+    song = in_tmp / "songs" / "b.json"
+    st = song.stat()
+    os.utime(song, ns=(st.st_atime_ns, st.st_mtime_ns + 1_000_000))
+    assert [p.name for p in rebuild_changed(seen)] == ["b.json"]

@@ -5,6 +5,7 @@
   python -m desmos_music serve [--port 8000]     build all, then serve the local player
   python -m desmos_music stats [songs...]        duration, tone count, ranges, warnings
   python -m desmos_music import-midi FILE.mid    convert a MIDI file into songs/<name>.json
+  python -m desmos_music watch                   rebuild songs whenever they change
 """
 
 import argparse
@@ -12,6 +13,7 @@ import functools
 import http.server
 import json
 import sys
+import time
 from pathlib import Path
 
 from .build import SongError, build_file, load_song
@@ -138,6 +140,33 @@ def cmd_import_midi(argv) -> int:
     return 0
 
 
+def rebuild_changed(seen: dict, out: Path = Path("build")) -> list[Path]:
+    """Build every song whose mtime changed since `seen` (updated in place)."""
+    changed = []
+    for path in sorted(Path("songs").glob("*.json")):
+        mtime = path.stat().st_mtime_ns
+        if seen.get(path) != mtime:
+            seen[path] = mtime
+            changed.append(path)
+            build_all([path], out)
+    return changed
+
+
+def cmd_watch(argv) -> int:
+    p = argparse.ArgumentParser(prog="desmos_music watch")
+    p.add_argument("--interval", type=float, default=0.5)
+    args = p.parse_args(argv)
+    seen: dict = {}
+    rebuild_changed(seen)
+    print("watching songs/ — Ctrl+C to stop")
+    try:
+        while True:
+            time.sleep(args.interval)
+            rebuild_changed(seen)
+    except KeyboardInterrupt:
+        return 0
+
+
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     if argv and argv[0] == "new":
@@ -148,6 +177,8 @@ def main(argv=None) -> int:
         return cmd_stats(argv[1:])
     if argv and argv[0] == "import-midi":
         return cmd_import_midi(argv[1:])
+    if argv and argv[0] == "watch":
+        return cmd_watch(argv[1:])
     p = argparse.ArgumentParser(prog="desmos_music", description="Build Desmos music graphs from song files.")
     p.add_argument("songs", nargs="*", type=Path, help="song JSON files (default: songs/*.json)")
     p.add_argument("-o", "--out", type=Path, default=Path("build"), help="output folder")
