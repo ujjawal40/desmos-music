@@ -15,9 +15,9 @@
 <body>
   <header>
     <strong>desmos-music</strong>
-    <select id="song"><option value="dune_one">dune_one</option></select>
+    <select id="song"></select>
     <button id="load">Load</button>
-    <span>Serve the repo root (e.g. <code>python -m http.server</code>) and open <code>/web/</code>.</span>
+    <span>Run <code>python -m desmos_music serve</code>, pick a song, press ▶ on the ticker.</span>
   </header>
   <div id="calc"></div>
   <script>
@@ -28,8 +28,19 @@
       if (!res.ok) { alert(`build/${name}.json not found — run: python -m desmos_music`); return; }
       calc.setState(await res.json());
     }
+    async function init() {
+      const sel = document.getElementById('song');
+      const res = await fetch('../build/index.json');
+      const songs = res.ok ? await res.json() : [{ name: 'dune_one', title: 'dune_one' }];
+      for (const s of songs) sel.add(new Option(s.title, s.name));
+      const want = new URLSearchParams(location.search).get('song');
+      if (want) sel.value = want;
+      sel.onchange = load;
+      load();
+    }
     document.getElementById('load').onclick = load;
-    load();
+    window.calc = calc;
+    init();
   </script>
 </body>
 </html>
