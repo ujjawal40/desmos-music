@@ -197,20 +197,30 @@ def parse_seq(seq: str, step: float, base_hz: float, key=None) -> tuple[list[Not
     return notes, t
 
 
-def parse_hits(pattern: str, step: float) -> tuple[list[Hit], float]:
-    """Drum grid: 'X' accent, 'x' normal, '.' rest; spaces and '|' ignored."""
+def parse_hits(pattern: str, step: float, swing: float = 0.5) -> tuple[list[Hit], float]:
+    """Drum grid: 'X' accent, 'x' normal, '.' rest; spaces and '|' ignored.
+
+    `swing` is where the off-beat lands inside a pair of steps: 0.5 is
+    straight, ~0.67 is a triplet shuffle.
+    """
+    if not 0.5 <= swing < 1:
+        raise SongError("swing must be in [0.5, 1)")
+    delay = (swing - 0.5) * 2 * step
     hits = []
     t = 0.0
+    i = 0
     for ch in pattern:
         if ch in " |\n\t":
             continue
+        at = t + (delay if i % 2 else 0)
         if ch == "X":
-            hits.append(Hit(t, 1.0))
+            hits.append(Hit(at, 1.0))
         elif ch == "x":
-            hits.append(Hit(t, 0.6))
+            hits.append(Hit(at, 0.6))
         elif ch != ".":
             raise SongError(f"bad drum character '{ch}' (use X x .)")
         t += step
+        i += 1
     if not hits:
         raise SongError("hits pattern has no hits")
     return hits, t

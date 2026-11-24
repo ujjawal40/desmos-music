@@ -43,7 +43,7 @@ KINDS = ("latex", "notes", "seq", "hits")
 SONG_KEYS = {"title", "description", "base", "base_hz", "key", "bpm", "time_scale", "window",
              "length", "sections", "helpers", "voices", "comment"}
 VOICE_KEYS = set(KINDS) | {"name", "key", "step", "loop", "offset", "in", "env", "timbre", "detune",
-                           "glide", "vibrato", "transpose", "dynamics", "drum", "gain", "muted", "color", "comment"}
+                           "glide", "vibrato", "transpose", "swing", "dynamics", "drum", "gain", "muted", "color", "comment"}
 
 
 def _check_keys(obj: dict, allowed: set, where: str) -> None:
@@ -223,7 +223,7 @@ def _tracks_for_voice(v: dict, base_hz: float, song_key=None) -> list[Track]:
         return [Track(name, name, v["latex"], amp, color)]
 
     if "hits" in v:
-        hits, length = parse_hits(v["hits"], step)
+        hits, length = parse_hits(v["hits"], step, float(v.get("swing", 0.5)))
         loop = v.get("loop", length)
         u = _clock(loop, offset)
         drum = dict(resolve_preset(v.get("drum", "kick"), DRUMS, "drum"))

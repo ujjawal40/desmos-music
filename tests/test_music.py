@@ -56,3 +56,11 @@ def test_seq_with_degrees():
     from desmos_music.music import parse_key
     notes, _ = parse_seq("^1 ^2+^4", 1, note_hz("A3"), parse_key("A3 minor"))
     assert [n.pitches for n in notes] == [[0], [2, 5]]
+
+
+def test_swing_delays_offbeats():
+    hits, length = parse_hits("xxxx", 0.5, swing=0.75)
+    assert [h.start for h in hits] == [0, 0.75, 1.0, 1.75]
+    assert length == 2
+    with pytest.raises(SongError):
+        parse_hits("x", 1, swing=0.2)
