@@ -141,3 +141,76 @@ def quantize(notes: list[tuple], grid: float) -> list[tuple]:
         qe = max(round((s + d) / grid) * grid, qs + grid)
         out.append((round(qs, 6), round(qe - qs, 6), n, v))
     return out
+
+
+COLORS = ["#f5a623", "#9cc3e6", "#c47f1a", "#e8e0c8", "#5b7fa6", "#ffd27a", "#8a5a1c", "#3e5f86"]
+DRUM_CHANNEL = 9
+
+
+def _voice_name(raw: str, fallback: str, taken: set) -> str:
+    name = "".join(ch for ch in raw if ch.isalnum()) or fallback
+    if not name[0].isalpha():
+        name = "t" + name
+    base, i = name, 2
+    while name in taken:
+        name, i = f"{base}{i}", i + 1
+    taken.add(name)
+    return name
+
+
+def midi_to_song(data: bytes, title: str, grid: float = 0.25, max_lanes: int = 4) -> dict:
+    """Turn a .mid file into a song dict: one `notes` voice per monophonic lane."""
+    from .music import midi_name
+
+    header, tracks = read_chunks(data)
+    bpm = 120.0
+    groups: dict = {}
+    names: dict = {}
+    for ti, chunk in enumerate(tracks):
+        events = read_events(chunk)
+        for _, kind, payload in events:
+            if kind == "tempo":
+                bpm = round(60_000_000 / payload, 2)
+                break
+        tname = next((p for _, k, p in events if k == "name"), "")
+        for ch in sorted({p[0] for _, k, p in events if k in ("on", "off")}):
+            if ch == DRUM_CHANNEL:
+                continue
+            evs = [e for e in events if e[1] not in ("on", "off") or e[2][0] == ch]
+            notes = quantize(pair_notes(evs, header["ticks_per_beat"]), grid)
+            if notes:
+                groups[(ti, ch)] = notes
+                names[(ti, ch)] = tname
+    if not groups:
+        raise SongError("no pitched notes found in the MIDI file (drum channel 10 is skipped)")
+
+    all_notes = [n for ns in groups.values() for n in ns]
+    pitches = sorted(n[2] for n in all_notes)
+    end = max(s + d for s, d, _, _ in all_notes)
+    length = max(4, -(-end // 4) * 4)  # round up to a 4-beat bar
+
+    taken: set = set()
+    voices = []
+    for gi, (key, notes) in enumerate(groups.items()):
+        lanes = split_lanes(notes)[:max_lanes]
+        stem = _voice_name(names[key], f"t{key[0]}c{key[1] + 1}", taken)
+        for li, lane in enumerate(lanes):
+            name = stem if li == 0 else _voice_name(f"{stem}{li + 1}", stem, taken)
+            voices.append({
+                "name": name,
+                "notes": [[s, d, midi_name(n)] for s, d, n, _ in lane],
+                "loop": length,
+                "env": "organ",
+                "timbre": "organ",
+                "gain": round(0.5 / len(lanes), 3),
+                "color": COLORS[(gi + li) % len(COLORS)],
+            })
+    return {
+        "title": title,
+        "description": "Imported from MIDI. Edit freely.",
+        "base": midi_name(pitches[len(pitches) // 2]),
+        "bpm": bpm,
+        "window": 8,
+        "length": length,
+        "voices": voices,
+    }

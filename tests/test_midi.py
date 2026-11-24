@@ -74,3 +74,35 @@ def test_quantize():
         (1.0, 0.5, 60, 1), (2.0, 0.25, 62, 1),
     ]
     assert quantize([(0.98, 0.49, 60, 1)], 0) == [(0.98, 0.49, 60, 1)]
+
+
+def note_track(name, notes, ch=0, tempo=None):
+    """notes: [(start_tick, dur_tick, midi)] -> track bytes."""
+    evs = []
+    for s, d, n in notes:
+        evs += [(s, bytes([0x90 | ch, n, 100])), (s + d, bytes([0x80 | ch, n, 0]))]
+    evs.sort(key=lambda e: (e[0], e[1][0] & 0xF0 == 0x90))
+    out = b"\x00\xff\x03" + varlen(len(name)) + name.encode()
+    if tempo:
+        out += b"\x00\xff\x51\x03" + tempo.to_bytes(3, "big")
+    t = 0
+    for tick, msg in evs:
+        out += varlen(tick - t) + msg
+        t = tick
+    return out + b"\x00\xff\x2f\x00"
+
+
+def test_midi_to_song_builds():
+    from desmos_music.build import build_state
+    from desmos_music.midi import midi_to_song
+    data = smf(
+        note_track("Lead Line", [(0, 480, 69), (480, 480, 72)], tempo=600000),
+        note_track("Pad", [(0, 960, 57), (0, 960, 60), (0, 960, 64)], ch=1),
+        note_track("Kit", [(0, 120, 36)], ch=9),
+    )
+    song = midi_to_song(data, "demo")
+    assert song["bpm"] == 100
+    assert [v["name"] for v in song["voices"]] == ["LeadLine", "Pad", "Pad2", "Pad3"]
+    assert song["voices"][0]["notes"] == [[0, 1, "A4"], [1, 1, "C5"]]
+    assert song["length"] == 4
+    build_state(song)
