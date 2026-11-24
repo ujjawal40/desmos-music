@@ -30,6 +30,7 @@ from .music import (
     SongError,
     base_frequency,
     parse_hits,
+    parse_key,
     parse_notes,
     parse_seq,
     resolve_preset,
@@ -39,9 +40,9 @@ NAME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*$")
 TICK_MS = 50  # ticker step; Desmos fires roughly every 20ms at best
 RESERVED_HELPERS = {"t", "x", "y", "B", "S", "L", "e"}
 KINDS = ("latex", "notes", "seq", "hits")
-SONG_KEYS = {"title", "description", "base", "base_hz", "bpm", "time_scale", "window",
+SONG_KEYS = {"title", "description", "base", "base_hz", "key", "bpm", "time_scale", "window",
              "length", "sections", "helpers", "voices", "comment"}
-VOICE_KEYS = set(KINDS) | {"name", "step", "loop", "offset", "in", "env", "timbre", "detune",
+VOICE_KEYS = set(KINDS) | {"name", "key", "step", "loop", "offset", "in", "env", "timbre", "detune",
                            "glide", "vibrato", "dynamics", "drum", "gain", "muted", "color", "comment"}
 
 
@@ -208,10 +209,11 @@ def _section_gate(v: dict, sections: dict) -> list[tuple[float, float]] | None:
     return spans
 
 
-def _tracks_for_voice(v: dict, base_hz: float) -> list[Track]:
+def _tracks_for_voice(v: dict, base_hz: float, song_key=None) -> list[Track]:
     name, color = v["name"], v.get("color", "#f5a623")
     step = float(v.get("step", 1))
     offset = float(v.get("offset", 0))
+    key = parse_key(v["key"]) if "key" in v else song_key
     glide = float(v.get("glide", 0))
     env = v.get("env")
     env_dict = resolve_preset(env, ENVELOPES, "envelope") if env is not None else None
@@ -231,10 +233,10 @@ def _tracks_for_voice(v: dict, base_hz: float) -> list[Track]:
         return [Track(name, name, pitch, amp, color)]
 
     if "seq" in v:
-        notes, length = parse_seq(v["seq"], step, base_hz)
+        notes, length = parse_seq(v["seq"], step, base_hz, key)
         loop = v.get("loop", length)
     else:
-        notes = parse_notes(v["notes"], base_hz)
+        notes = parse_notes(v["notes"], base_hz, key)
         loop = v.get("loop")
 
     width = max(len(n.pitches) for n in notes)
@@ -314,7 +316,8 @@ def build_state(song: dict) -> dict:
     speed = song.get("time_scale") or (song["bpm"] / 60 if "bpm" in song else 1)
 
     voices = song["voices"]
-    tracks_by_voice = [(v, _tracks_for_voice(v, base_hz)) for v in voices]
+    song_key = parse_key(song["key"]) if "key" in song else None
+    tracks_by_voice = [(v, _tracks_for_voice(v, base_hz, song_key)) for v in voices]
     all_names = [t.name for _, ts in tracks_by_voice for t in ts]
     if len(all_names) != len(set(all_names)):
         raise SongError(f"voice names collide after chord expansion: {all_names}")

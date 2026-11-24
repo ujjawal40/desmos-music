@@ -121,3 +121,13 @@ def test_unknown_song_key_suggests_fix():
     s["bmp"] = 90
     with pytest.raises(SongError, match="did you mean 'bpm'"):
         build_state(s)
+
+
+def test_song_key_enables_degrees_and_voice_key_overrides():
+    s = song(seq="^1 ^3")
+    s["key"] = "A3 minor"
+    v = next(l for l in latexes(build_state(s)) if l.startswith("v_{a}"))
+    assert "\\frac{3}{12}" in v
+    s["voices"][0]["key"] = "A3 major"
+    v = next(l for l in latexes(build_state(s)) if l.startswith("v_{a}"))
+    assert "\\frac{4}{12}" in v
