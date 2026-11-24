@@ -64,5 +64,11 @@
     "title": "Tutorial 1 — a drone",
     "length": 16,
     "sections": []
+  },
+  {
+    "name": "tutorial_2_melody",
+    "title": "Tutorial 2 — a melody with seq",
+    "length": null,
+    "sections": []
   }
 ]

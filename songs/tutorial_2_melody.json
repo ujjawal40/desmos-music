@@ -1,0 +1,10 @@
+{
+  "title": "Tutorial 2 — a melody with seq",
+  "description": "Each token lasts one step; '-' holds, '.' rests, ':2' sets a duration in beats. Glide slides between touching notes.",
+  "base": "A3",
+  "bpm": 80,
+  "voices": [
+    {"name": "tune", "seq": "A3 C4 E4 - | D4 C4 B3 . | C4:2 A3:2 | E3:4", "env": "voice",
+     "timbre": "hollow", "glide": 0.1, "gain": 0.4, "color": "#f2f6fb"}
+  ]
+}
