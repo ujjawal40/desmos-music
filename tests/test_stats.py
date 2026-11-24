@@ -63,3 +63,16 @@ def test_lint_phrase_alignment_ignores_continuous_play():
     s = one_voice(seq="A3:4 C4:4 E4:4", offset=0, **{"in": ["a", "b"]})
     s["sections"] = [["a", 0, 16], ["b", 16, 32]]
     assert lint(s) == []
+
+
+# dune_one is a transcription of the clip's mix, so its gains stay as they were.
+LINT_EXEMPT = {"dune_one.json"}
+
+
+def test_bundled_songs_are_lint_clean():
+    from conftest import ROOT
+
+    from desmos_music.stats import lint
+    for path in sorted((ROOT / "songs").glob("*.json")):
+        if path.name not in LINT_EXEMPT:
+            assert lint(load_song(path.name)) == [], path.name
