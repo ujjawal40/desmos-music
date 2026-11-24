@@ -156,6 +156,8 @@ def cmd_stats(argv) -> int:
         beats = f"{st['length_beats']:g}" if st["length_beats"] else "-"
         print(f"  {beats} beats, {secs}, B = {st['base_hz']:.1f} Hz, "
               f"{st['tones']} tones, {st['expressions']} expressions")
+        if st["sections"]:
+            print("  " + " → ".join(f"{x['name']} {x['start']:g}–{x['end']:g}" for x in st["sections"]))
         for v in st["voices"]:
             hz = f"{v['hz'][0]:.0f}–{v['hz'][1]:.0f} Hz" if v["hz"] else "(latex)"
             print(f"  {v['name']:<10} {v['kind']:<8} gain {v['gain']:<5g} {hz}")

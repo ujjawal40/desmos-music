@@ -103,3 +103,9 @@ def test_check_detects_stale_build(in_tmp):
     song = in_tmp / "songs" / "demo.json"
     song.write_text(song.read_text().replace('"bpm": 72', '"bpm": 90'))
     assert main(["--check"]) == 1
+
+
+def test_stats_prints_sections(in_tmp, capsys):
+    main(["new", "demo"])
+    main(["stats"])
+    assert "intro 0–16 → main 16–48" in capsys.readouterr().out

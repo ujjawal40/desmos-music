@@ -103,6 +103,7 @@ def song_stats(song: dict) -> dict:
         "tones": len(tones),
         "expressions": len(state["expressions"]["list"]),
         "voices": voices,
+        "sections": [{"name": n, "start": a, "end": b} for n, (a, b) in sections.items()],
     }
 
 
