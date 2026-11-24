@@ -23,6 +23,9 @@ Each generated graph includes sliders for tempo (`S`), base pitch (`B`), visible
 python -m desmos_music serve       # build every song, serve http://localhost:8000/web/ (--port N)
 python -m desmos_music new my_song # scaffold songs/my_song.json from a template
 python -m desmos_music             # just build songs/*.json into build/
+python -m desmos_music watch       # rebuild on save (tick "live" in the player)
+python -m desmos_music stats       # duration, tone count, frequency ranges, warnings
+python -m desmos_music import-midi tune.mid   # MIDI -> songs/tune.json
 python -m pytest -q                # tests
 ```
 
