@@ -37,3 +37,12 @@ def test_lint_total_gain():
     assert any("clip" in w for w in lint(s))
     s["voices"][1]["muted"] = True
     assert not any("clip" in w for w in lint(s))
+
+
+def test_lint_phrase_alignment():
+    from desmos_music.stats import lint
+    s = one_voice(seq="A3:4 C4:4 E4:4", **{"in": "b"})  # 12-beat phrase
+    s["sections"] = [["a", 0, 16], ["b", 16, 32]]
+    assert any("4 beats into its 12-beat phrase" in w for w in lint(s))
+    s["voices"][0]["offset"] = 16
+    assert lint(s) == []

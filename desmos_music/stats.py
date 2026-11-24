@@ -51,6 +51,17 @@ def _range(v: dict, base_hz: float, song_key) -> tuple[float, float] | None:
     return lo + t - vib, hi + t + vib
 
 
+def _loop_length(v: dict, base_hz: float) -> float | None:
+    if "loop" in v:
+        return float(v["loop"]) or None
+    step = float(v.get("step", 1))
+    if "seq" in v:
+        return parse_seq(v["seq"], step, base_hz, parse_key("C4"))[1]
+    if "hits" in v:
+        return parse_hits(v["hits"], step)[1]
+    return None
+
+
 def song_stats(song: dict) -> dict:
     state = build_state(song)  # validates
     base_hz = base_frequency(song)
@@ -98,6 +109,16 @@ def lint(song: dict) -> list[str]:
     if loud > MAX_GAIN:
         warns.append(f"unmuted voice gains add up to {loud:.2f}; above {MAX_GAIN} it may clip "
                      "when everything plays at once")
+    sections = _sections(song)
+    for v in song["voices"]:
+        loop = _loop_length(v, st["base_hz"])
+        names = v.get("in", [])
+        for name in [names] if isinstance(names, str) else names:
+            start = sections[name][0]
+            into = (start - float(v.get("offset", 0))) % loop if loop else 0
+            if 1e-9 < into < loop - 1e-9:
+                warns.append(f"voice '{v['name']}' enters section '{name}' {into:g} beats into its "
+                             f"{loop:g}-beat phrase; set \"offset\": {start:g} to start it from the top")
     if st["tones"] > MAX_TONES:
         warns.append(f"{st['tones']} tone() expressions; above ~{MAX_TONES} playback may stutter "
                      "(use simpler timbres or fewer voices)")
