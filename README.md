@@ -97,6 +97,10 @@ Anywhere a pitch goes (`seq` tokens, `notes` third field):
 | `vibrato` | none | `[rate per beat, depth in semitones]` |
 | `dynamics` | none | `[[beat, level], ...]` linear automation (crescendos and fades) |
 | `drum` | `kick` | For `hits`: `kick`, `taiko`, `tom`, `tick`, or `{"top","bottom","decay","len"}` |
+| `key` | song's key | Key for `^degree` pitches in this voice |
+| `transpose` | `0` | Shift the whole voice by semitones (any voice kind) |
+| `arp`, `arp_step` | none, `0.5` | Break chords into an arpeggio: `up`, `down`, `updown`, `alberti`, `pulse`, or indices like `"0 2 1 3"` (past the top wraps an octave up) |
+| `swing` | `0.5` | For `hits`: where off-beats land (0.5 straight, ~0.67 shuffle) |
 | `gain`, `muted`, `color` | `0.3`, `false`, orange | Mixer and look |
 
 Helper names (`"helpers": {"h": ...}`) must be single letters, other than `t x y B S L e`.
