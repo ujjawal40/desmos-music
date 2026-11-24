@@ -13,6 +13,7 @@ import functools
 import http.server
 import json
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -230,12 +231,35 @@ def main(argv=None) -> int:
     p = argparse.ArgumentParser(prog="desmos_music", description="Build Desmos music graphs from song files.")
     p.add_argument("songs", nargs="*", type=Path, help="song JSON files (default: songs/*.json)")
     p.add_argument("-o", "--out", type=Path, default=Path("build"), help="output folder")
+    p.add_argument("--check", action="store_true", help="don't write; exit 1 if the output folder is stale")
     args = p.parse_args(argv)
     songs = args.songs or sorted(Path("songs").glob("*.json"))
     if not songs:
         print("no songs found", file=sys.stderr)
         return 1
+    if args.check:
+        return check_build(songs, args.out)
     return build_all(songs, args.out)
+
+
+def check_build(songs, out: Path) -> int:
+    """Build into a temp dir and compare with `out`, file by file."""
+    with tempfile.TemporaryDirectory() as tmp:
+        if index := out / "index.json":
+            if index.exists():
+                (Path(tmp) / "index.json").write_text(index.read_text())
+        import contextlib
+        import io
+        with contextlib.redirect_stdout(io.StringIO()):
+            if build_all(songs, Path(tmp)):
+                return 1
+        stale = [f.name for f in sorted(Path(tmp).iterdir())
+                 if not (out / f.name).exists() or (out / f.name).read_bytes() != f.read_bytes()]
+    for name in stale:
+        print(f"stale: {out / name}", file=sys.stderr)
+    if stale:
+        print("run: python -m desmos_music", file=sys.stderr)
+    return 1 if stale else 0
 
 
 if __name__ == "__main__":

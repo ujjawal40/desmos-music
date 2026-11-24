@@ -93,3 +93,13 @@ def test_new_styles_build_and_lint_clean(in_tmp):
         song = json.loads((in_tmp / "songs" / f"{style}.json").read_text())
         assert lint(song) == [], style
     assert main([]) == 0
+
+
+def test_check_detects_stale_build(in_tmp):
+    main(["new", "demo"])
+    assert main(["--check"]) == 1
+    main([])
+    assert main(["--check"]) == 0
+    song = in_tmp / "songs" / "demo.json"
+    song.write_text(song.read_text().replace('"bpm": 72', '"bpm": 90'))
+    assert main(["--check"]) == 1
