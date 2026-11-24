@@ -44,6 +44,8 @@ You can open a result in one of two ways:
 
 ## Writing a song
 
+For ready-made sounds (organ, clock, war drums, throat chant, Shepard riser) see [docs/COOKBOOK.md](docs/COOKBOOK.md).
+
 Time is in **beats** (set `bpm`), pitch is in note names or semitones, and everything compiles down to plain Desmos functions you can see and edit.
 
 ```jsonc
