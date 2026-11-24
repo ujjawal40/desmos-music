@@ -31,6 +31,8 @@ Our reading of it is that `y` is pitch in octaves (that's why the denominators a
 - `dune_one`, `arrakis` and `event_horizon` all load with zero expression errors in the local player (API v1.11). Probed values match (notes, glide, chord split, gating, envelopes), and the ticker wraps with `mod(t+…, length)`.
 - Desmos `\min(a,b,c)` accepts multiple args. Never join LaTeX factors as `\cdot` + letter (`\cdotm` breaks); use `\cdot ` with a space.
 - Piecewise takes the first matching branch, so drum hits are cut off at the next hit.
+- `calc.setState()` silently disconnects every `HelperExpression`. Re-create helpers after each setState (see `setGraph` in web/index.html).
+- The playhead slider has the stable id `playhead`, so seek with `calc.setExpression({id: 'playhead', latex: 't=…'})`.
 - Not yet verified: whether `tone()` makes sound through the embedded API in `web/index.html` (nobody has listened yet).
 
 ## Roadmap / ideas (not built yet)
