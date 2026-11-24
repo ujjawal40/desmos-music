@@ -60,6 +60,33 @@
     ]
   },
   {
+    "name": "sietch",
+    "title": "Sietch (Dune-style, original)",
+    "length": 64.0,
+    "sections": [
+      {
+        "name": "wind",
+        "start": 0.0,
+        "end": 16.0
+      },
+      {
+        "name": "gathering",
+        "start": 16.0,
+        "end": 40.0
+      },
+      {
+        "name": "rite",
+        "start": 40.0,
+        "end": 56.0
+      },
+      {
+        "name": "dusk",
+        "start": 56.0,
+        "end": 64.0
+      }
+    ]
+  },
+  {
     "name": "tesseract",
     "title": "Tesseract (Interstellar-style, original)",
     "length": 80.0,
