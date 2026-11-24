@@ -20,36 +20,78 @@ Each generated graph includes sliders for tempo (`S`), base pitch (`B`), visible
 ## Quick start
 
 ```bash
-python -m desmos_music            # builds every songs/*.json into build/
-python -m pytest -q               # tests
+python -m desmos_music serve       # build every song, serve http://localhost:8000/web/ (--port N)
+python -m desmos_music new my_song # scaffold songs/my_song.json from a template
+python -m desmos_music             # just build songs/*.json into build/
+python -m pytest -q                # tests
 ```
 
-Open the result in one of two ways:
+Songs included:
 
-1. **On desmos.com.** Open https://www.desmos.com/calculator, open the browser console, paste the contents of `build/dune_one.console.js`, and press Enter. Press ▶ on the ticker and turn on the sound icons in the **Audio** folder. Save the graph to get a shareable link.
-2. **Local player.** Run `python -m http.server` in the repo root, then open http://localhost:8000/web/. This uses the Desmos API demo key, which is for local testing only.
+| Song | What it is |
+|---|---|
+| `dune_one` | Transcription of the first section of @measure_plan's clip |
+| `arrakis` | Original Dune-style piece: beating D drone, Phrygian throat chant, taiko war drums, sliding vocal wail, sandworm riser |
+| `event_horizon` | Original Interstellar-style piece: ticking clock, pipe-organ drone, A-minor organ ostinato, pads, bass, slow melody |
+
+You can open a result in one of two ways:
+
+1. **Local player.** `python -m desmos_music serve`, then pick a song and press ▶ on the ticker. This uses the Desmos API demo key, which is for local testing only.
+2. **On desmos.com.** Open https://www.desmos.com/calculator, open the browser console, paste `build/<song>.console.js`, and press Enter. Save the graph to get a shareable link.
 
 ## Writing a song
 
-```json
+Time is in **beats** (set `bpm`), pitch is in note names or semitones, and everything compiles down to plain Desmos functions you can see and edit.
+
+```jsonc
 {
   "title": "My piece",
-  "base_hz": 220,
-  "time_scale": 1,
-  "window": 8,
-  "helpers": { "h": "\\operatorname{mod}\\left(\\frac{x}{2},1\\right)" },
-  "voices": [
-    { "name": "kick",  "latex": "\\left\\{h\\left(x\\right)<0.3:1.5e^{-14h\\left(x\\right)}-2.1\\right\\}", "gain": 0.9 },
-    { "name": "lead",  "notes": [[0, 2, 0], [2, 1, 3], [3, 1, 7]], "loop": 4, "gain": 0.3, "muted": true }
-  ]
+  "base": "A3",            // B = this note's frequency (or "base_hz": 220)
+  "bpm": 72,               // or "time_scale": units per second
+  "window": 8,             // beats of history drawn behind the playhead
+  "sections": [            // optional; the playhead loops at the end of the last section
+    {"name": "intro", "start": 0, "end": 16},
+    {"name": "main",  "start": 16, "end": 48}
+  ],
+  "voices": [ ... ]
 }
 ```
 
-- `latex` voices take any Desmos expression in `x`.
-- `notes` voices are `[start, duration, semitones]` lists, and the generator turns them into a piecewise function for you. `loop` repeats the phrase.
-- Helper names must be single letters, other than `t x y B S L e`. Voice names must be alphanumeric.
+### Voice kinds (exactly one per voice)
+
+| Key | Example | Meaning |
+|---|---|---|
+| `latex` | `"-1"`, `"\\frac{7}{12}-\\frac{w(x)}{12}"` | Any Desmos expression in `x`, in octaves vs B |
+| `seq` | `"A3 E4 - . C4+E4+G4:2 \| 7"` | Tracker string: note per `step`; `-` hold, `.`/`r` rest, `+` chord, `:2` explicit duration, `\|` bar line (ignored), numbers = semitones. Loops over its own length. |
+| `notes` | `[[0, 2, "D3"], [2, 1, 3], [3, 1, ["A3","C4"]]]` | `[start, duration, pitch]` triples; add `"loop"` to repeat |
+| `hits` | `"X..x X.x."` | Drum grid per `step`: `X` accent, `x` hit, `.` rest. Pitch-drop drum like the clip's kick. |
+
+### Voice options
+
+| Option | Default | What it does |
+|---|---|---|
+| `step` | `1` | Beats per `seq`/`hits` token (`0.5` = eighth notes) |
+| `loop` | seq length | Repeat period. `0` = don't loop |
+| `offset` | `0` | Shift the voice's clock so a phrase starts at beat N |
+| `in` | always | Section name(s) the voice plays in |
+| `env` | none | Per-note ADSR: `pluck`, `organ`, `pad`, `voice`, `bell`, or `{"a":..,"d":..,"s":..,"r":..}`. Can also be a LaTeX gain curve in `x`. |
+| `timbre` | `sine` | Harmonic stack. Presets are `organ`, `full_organ`, `reed`, `hollow`, and `brass`, or a list of amplitudes for harmonics 1, 2, 3, ... Each harmonic is one extra `tone()`. |
+| `detune` | `0` | Adds a copy this many cents sharp, which gives a slow beating/chorus |
+| `glide` | `0` | Portamento time between back-to-back notes |
+| `vibrato` | none | `[rate per beat, depth in semitones]` |
+| `dynamics` | none | `[[beat, level], ...]` linear automation (crescendos and fades) |
+| `drum` | `kick` | For `hits`: `kick`, `taiko`, `tom`, `tick`, or `{"top","bottom","decay","len"}` |
+| `gain`, `muted`, `color` | `0.3`, `false`, orange | Mixer and look |
+
+Helper names (`"helpers": {"h": ...}`) must be single letters, other than `t x y B S L e`.
+
+### What gets generated
+
+For voice `arp`: `v_{arp}(x)` is pitch in octaves (`p_{arp}` holds the ungated pattern when `in` is used), `a_{arp}(x)` is the note envelope, `d_{arp}(x)` is dynamics, and `g_{arp}`/`m_{arp}` are its gain and mute sliders. Chords become `v_{pad1}`, `v_{pad2}`, ..., which share one gain. Each `tone()` is
+`tone(B·2^(v(t))·k, weight·g·m·a(t)·d(t))`.
 
 ## Known limits
 
 - The Desmos ticker fires about every 20–50 ms, so timing isn't sample-accurate. That matters most for fast drums.
 - `tone()` plays only sine waves. Richer timbres come from stacking several voices (overtones, detuning).
+- Many voices × timbre partials means many `tone()` calls (≈20–25 in the bundled songs). Keep it moderate if playback stutters.
