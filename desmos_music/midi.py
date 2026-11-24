@@ -129,3 +129,15 @@ def split_lanes(notes: list[tuple]) -> list[list[tuple]]:
         else:
             lanes.append([note])
     return lanes
+
+
+def quantize(notes: list[tuple], grid: float) -> list[tuple]:
+    """Snap starts and ends to a beat grid (e.g. 0.25 = sixteenths). 0 = off."""
+    if not grid:
+        return notes
+    out = []
+    for s, d, n, v in notes:
+        qs = round(s / grid) * grid
+        qe = max(round((s + d) / grid) * grid, qs + grid)
+        out.append((round(qs, 6), round(qe - qs, 6), n, v))
+    return out

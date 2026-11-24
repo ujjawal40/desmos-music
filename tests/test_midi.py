@@ -66,3 +66,11 @@ def test_split_lanes_keeps_melody_on_top():
     notes = [(0, 2, 48, 1), (0, 1, 72, 1), (1, 1, 74, 1), (2, 1, 50, 1)]
     lanes = split_lanes(notes)
     assert [[n[2] for n in lane] for lane in lanes] == [[72, 74, 50], [48]]
+
+
+def test_quantize():
+    from desmos_music.midi import quantize
+    assert quantize([(0.98, 0.49, 60, 1), (2.01, 0.02, 62, 1)], 0.25) == [
+        (1.0, 0.5, 60, 1), (2.0, 0.25, 62, 1),
+    ]
+    assert quantize([(0.98, 0.49, 60, 1)], 0) == [(0.98, 0.49, 60, 1)]
