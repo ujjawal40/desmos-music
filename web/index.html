@@ -21,6 +21,7 @@
     <button id="play">▶ Play</button>
     <button id="restart">⏮ Restart</button>
     <code id="pos">–</code>
+    <label title="Reload the graph when build/ changes (run: python -m desmos_music watch)"><input type="checkbox" id="live" /> live</label>
     <button id="copy" title="Copy the Calc.setState(...) script to paste into the console on desmos.com">Copy for desmos.com</button>
     <span>Space = play/pause. Turn on the speakers in the Audio folder.</span>
   </header>
@@ -31,9 +32,10 @@
       const name = document.getElementById('song').value;
       localStorage.setItem('desmos-music:song', name);
       history.replaceState(null, '', `?song=${encodeURIComponent(name)}`);
-      const res = await fetch(`../build/${name}.json`);
+      const res = await fetch(`../build/${name}.json`, { cache: 'no-store' });
       if (!res.ok) { alert(`build/${name}.json not found — run: python -m desmos_music`); return; }
-      calc.setState(await res.json());
+      lastText = await res.text();
+      calc.setState(JSON.parse(lastText));
       document.getElementById('play').textContent = '▶ Play';
     }
     let songs = [];
@@ -81,6 +83,22 @@
       b.textContent = 'Copied — paste in the desmos.com console';
       setTimeout(() => (b.textContent = 'Copy for desmos.com'), 2500);
     };
+    // Live reload: keep the playhead and play state, swap in the new graph.
+    let lastText = '';
+    setInterval(async () => {
+      if (!document.getElementById('live').checked) return;
+      const name = document.getElementById('song').value;
+      const res = await fetch(`../build/${name}.json`, { cache: 'no-store' });
+      if (!res.ok) return;
+      const text = await res.text();
+      if (text === lastText) return;
+      lastText = text;
+      const t = playhead.numericValue, playing = isPlaying();
+      const next = JSON.parse(text);
+      next.expressions.ticker.playing = playing;
+      calc.setState(next, { allowUndo: false });
+      if (Number.isFinite(t)) calc.setExpression({ id: 'playhead', latex: `t=${t}` });
+    }, 1000);
     document.getElementById('load').onclick = load;
     window.calc = calc;
     init();
