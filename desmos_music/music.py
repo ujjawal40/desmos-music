@@ -54,6 +54,42 @@ def base_frequency(song: dict) -> float:
     return float(song.get("base_hz", 220))
 
 
+# --- scales ----------------------------------------------------------------
+
+SCALES = {
+    "major": [0, 2, 4, 5, 7, 9, 11],
+    "dorian": [0, 2, 3, 5, 7, 9, 10],
+    "phrygian": [0, 1, 3, 5, 7, 8, 10],
+    "lydian": [0, 2, 4, 6, 7, 9, 11],
+    "mixolydian": [0, 2, 4, 5, 7, 9, 10],
+    "minor": [0, 2, 3, 5, 7, 8, 10],
+    "locrian": [0, 1, 3, 5, 6, 8, 10],
+    "harmonic_minor": [0, 2, 3, 5, 7, 8, 11],
+    "phrygian_dominant": [0, 1, 4, 5, 7, 8, 10],
+    "double_harmonic": [0, 1, 4, 5, 7, 8, 11],
+    "hungarian_minor": [0, 2, 3, 6, 7, 8, 11],
+}
+SCALES["ionian"] = SCALES["major"]
+SCALES["aeolian"] = SCALES["minor"]
+
+
+@dataclass
+class Key:
+    tonic_hz: float
+    steps: list
+
+
+def parse_key(text: str) -> Key:
+    """'D3 phrygian' -> Key. The tonic needs an octave; mode defaults to major."""
+    parts = text.split()
+    if not parts or len(parts) > 2:
+        raise SongError(f"bad key '{text}' (use e.g. 'D3 phrygian')")
+    mode = parts[1].lower() if len(parts) == 2 else "major"
+    if mode not in SCALES:
+        raise SongError(f"unknown scale '{mode}' (have: {', '.join(sorted(SCALES))})")
+    return Key(note_hz(parts[0]), SCALES[mode])
+
+
 # --- events ----------------------------------------------------------------
 
 @dataclass

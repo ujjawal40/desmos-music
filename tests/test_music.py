@@ -28,3 +28,13 @@ def test_hits():
     assert length == 2
     assert [(h.start, h.amp) for h in hits] == [(0, 1), (0.5, 0.6), (1.5, 0.6)]
 
+
+
+def test_parse_key():
+    from desmos_music.music import parse_key
+    k = parse_key("D3 phrygian")
+    assert k.tonic_hz == pytest.approx(note_hz("D3"))
+    assert k.steps[1] == 1
+    assert parse_key("C4").steps == [0, 2, 4, 5, 7, 9, 11]
+    with pytest.raises(SongError, match="unknown scale"):
+        parse_key("C4 blorp")
