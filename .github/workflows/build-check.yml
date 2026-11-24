@@ -8,6 +8,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: python -m desmos_music
       - name: build/ must match songs/
-        run: git diff --exit-code -- build/
+        run: python -m desmos_music --check
+      - name: song report
+        run: python -m desmos_music stats
