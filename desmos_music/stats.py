@@ -83,6 +83,7 @@ def song_stats(song: dict) -> dict:
 
 
 MAX_TONES = 32
+MAX_GAIN = 1.8
 
 
 def lint(song: dict) -> list[str]:
@@ -93,6 +94,10 @@ def lint(song: dict) -> list[str]:
         if v["hz"] and (v["hz"][0] < 20 or v["hz"][1] > 20000):
             warns.append(f"voice '{v['name']}' reaches {v['hz'][0]:.0f}–{v['hz'][1]:.0f} Hz; "
                          "Desmos tone() only plays 20–20000 Hz")
+    loud = sum(float(v.get("gain", 0.3)) for v in song["voices"] if not v.get("muted"))
+    if loud > MAX_GAIN:
+        warns.append(f"unmuted voice gains add up to {loud:.2f}; above {MAX_GAIN} it may clip "
+                     "when everything plays at once")
     if st["tones"] > MAX_TONES:
         warns.append(f"{st['tones']} tone() expressions; above ~{MAX_TONES} playback may stutter "
                      "(use simpler timbres or fewer voices)")

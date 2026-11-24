@@ -28,3 +28,12 @@ def test_lint_too_many_tones():
     from desmos_music.stats import lint
     many = one_voice(seq="[A3m9]+[C5m9]", timbre="full_organ")
     assert any("tone() expressions" in w for w in lint(many))
+
+
+def test_lint_total_gain():
+    from desmos_music.stats import lint
+    s = one_voice(seq="A3", gain=1)
+    s["voices"].append({"name": "b", "seq": "A3", "gain": 1})
+    assert any("clip" in w for w in lint(s))
+    s["voices"][1]["muted"] = True
+    assert not any("clip" in w for w in lint(s))
