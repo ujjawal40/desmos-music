@@ -23,7 +23,7 @@
      "gain": 0.3, "color": "#ffb547"},
     {"name": "taiko", "hits": "X . . x . . X . x . . . X . x x", "step": 0.5, "drum": "taiko",
      "swing": 0.58, "in": "rite", "gain": 0.55, "color": "#f5a623"},
-    {"name": "braam", "notes": [[40, 4, ["D2", "A2", "D3"]]], "timbre": "brass", "detune": 12,
+    {"name": "braam", "notes": [[40, 4, ["D2", "A2", "D3"]]], "timbre": [1, 0.6, 0.4], "detune": 12,
      "env": {"a": 0.02, "d": 1.5, "s": 0.5, "r": 1.5}, "gain": 0.3, "color": "#7a3b0c"},
     {"name": "wail", "seq": "^5:3 ^b6 | ^5:2 ^4 ^3 | ^b2:3 ^1 | ^1:4", "key": "D4 double_harmonic",
      "in": "rite", "offset": 40, "env": "voice", "timbre": "hollow", "glide": 0.2,

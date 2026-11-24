@@ -804,126 +804,90 @@
       {
         "type": "expression",
         "id": "97",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)},0.0866\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)},0.119\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "98",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)}\\cdot2,0.0693\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)}\\cdot2,0.0714\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "99",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)}\\cdot3,0.0519\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)}\\cdot3,0.0476\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "100",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)}\\cdot4,0.0346\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)+0.01},0.0952\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "101",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)}\\cdot5,0.0216\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)},0.119\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "102",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam1}\\left(t\\right)+0.01},0.0693\\cdot g_{braam}m_{braam}\\cdot a_{braam1}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)}\\cdot2,0.0714\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "103",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)},0.0866\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)}\\cdot3,0.0476\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "104",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)}\\cdot2,0.0693\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)+0.01},0.0952\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "105",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)}\\cdot3,0.0519\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)},0.119\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "106",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)}\\cdot4,0.0346\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)}\\cdot2,0.0714\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "107",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)}\\cdot5,0.0216\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)}\\cdot3,0.0476\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "108",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam2}\\left(t\\right)+0.01},0.0693\\cdot g_{braam}m_{braam}\\cdot a_{braam2}\\left(t\\right)\\right)",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)+0.01},0.0952\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
         "id": "109",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)},0.0866\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
-        "folderId": "80"
-      },
-      {
-        "type": "expression",
-        "id": "110",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)}\\cdot2,0.0693\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
-        "folderId": "80"
-      },
-      {
-        "type": "expression",
-        "id": "111",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)}\\cdot3,0.0519\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
-        "folderId": "80"
-      },
-      {
-        "type": "expression",
-        "id": "112",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)}\\cdot4,0.0346\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
-        "folderId": "80"
-      },
-      {
-        "type": "expression",
-        "id": "113",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)}\\cdot5,0.0216\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
-        "folderId": "80"
-      },
-      {
-        "type": "expression",
-        "id": "114",
-        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{braam3}\\left(t\\right)+0.01},0.0693\\cdot g_{braam}m_{braam}\\cdot a_{braam3}\\left(t\\right)\\right)",
-        "folderId": "80"
-      },
-      {
-        "type": "expression",
-        "id": "115",
         "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{wail}\\left(t\\right)},0.6536\\cdot g_{wail}m_{wail}\\cdot a_{wail}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
-        "id": "116",
+        "id": "110",
         "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{wail}\\left(t\\right)}\\cdot3,0.2157\\cdot g_{wail}m_{wail}\\cdot a_{wail}\\left(t\\right)\\right)",
         "folderId": "80"
       },
       {
         "type": "expression",
-        "id": "117",
+        "id": "111",
         "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{wail}\\left(t\\right)}\\cdot5,0.1307\\cdot g_{wail}m_{wail}\\cdot a_{wail}\\left(t\\right)\\right)",
         "folderId": "80"
       }
