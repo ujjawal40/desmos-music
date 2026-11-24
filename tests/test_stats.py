@@ -46,3 +46,13 @@ def test_lint_phrase_alignment():
     assert any("4 beats into its 12-beat phrase" in w for w in lint(s))
     s["voices"][0]["offset"] = 16
     assert lint(s) == []
+
+
+def test_lint_gain_is_per_section():
+    from desmos_music.stats import lint
+    s = one_voice(seq="A3", gain=1, **{"in": "a"})
+    s["voices"].append({"name": "b", "seq": "A3", "gain": 1, "in": "b"})
+    s["sections"] = [["a", 0, 4], ["b", 4, 8]]
+    assert lint(s) == []
+    s["voices"][1]["in"] = ["a", "b"]
+    assert any("section 'a'" in w for w in lint(s))

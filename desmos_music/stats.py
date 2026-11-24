@@ -51,6 +51,19 @@ def _range(v: dict, base_hz: float, song_key) -> tuple[float, float] | None:
     return lo + t - vib, hi + t + vib
 
 
+def _gain_by_section(song: dict, sections: dict) -> dict:
+    """Section name -> gains of the unmuted voices playing in it ('' = no sections)."""
+    out = {}
+    for name in sections or [""]:
+        out[name] = []
+        for v in song["voices"]:
+            ins = v.get("in")
+            ins = [ins] if isinstance(ins, str) else ins
+            if not v.get("muted") and (ins is None or name in ins):
+                out[name].append(float(v.get("gain", 0.3)))
+    return out
+
+
 def _loop_length(v: dict, base_hz: float) -> float | None:
     if "loop" in v:
         return float(v["loop"]) or None
@@ -105,11 +118,12 @@ def lint(song: dict) -> list[str]:
         if v["hz"] and (v["hz"][0] < 20 or v["hz"][1] > 20000):
             warns.append(f"voice '{v['name']}' reaches {v['hz'][0]:.0f}–{v['hz'][1]:.0f} Hz; "
                          "Desmos tone() only plays 20–20000 Hz")
-    loud = sum(float(v.get("gain", 0.3)) for v in song["voices"] if not v.get("muted"))
-    if loud > MAX_GAIN:
-        warns.append(f"unmuted voice gains add up to {loud:.2f}; above {MAX_GAIN} it may clip "
-                     "when everything plays at once")
     sections = _sections(song)
+    for name, gains in _gain_by_section(song, sections).items():
+        loud = sum(gains)
+        if loud > MAX_GAIN:
+            where = f"in section '{name}'" if name else "with everything playing"
+            warns.append(f"unmuted voice gains add up to {loud:.2f} {where}; above {MAX_GAIN} it may clip")
     for v in song["voices"]:
         loop = _loop_length(v, st["base_hz"])
         names = v.get("in", [])
