@@ -58,5 +58,11 @@
         "end": 96.0
       }
     ]
+  },
+  {
+    "name": "tutorial_1_drone",
+    "title": "Tutorial 1 — a drone",
+    "length": 16,
+    "sections": []
   }
 ]

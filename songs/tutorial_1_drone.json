@@ -1,0 +1,11 @@
+{
+  "title": "Tutorial 1 — a drone",
+  "description": "One voice, one number. y = -1 means one octave below B (A2). Change the timbre and detune, rebuild, and listen.",
+  "base": "A3",
+  "bpm": 60,
+  "length": 16,
+  "voices": [
+    {"name": "drone", "latex": "-1", "timbre": "organ", "detune": 6,
+     "dynamics": [[0, 0], [4, 1], [12, 1], [16, 0]], "gain": 0.4, "color": "#5b7fa6"}
+  ]
+}
