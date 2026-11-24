@@ -42,3 +42,10 @@ def test_invalid_json_reports_line(in_tmp, capsys):
     (in_tmp / "songs" / "bad.json").write_text('{"title": "x",\n "voices": [,]}')
     assert main([]) == 1
     assert "line 2" in capsys.readouterr().err
+
+
+def test_stats_command(in_tmp, capsys):
+    main(["new", "demo"])
+    assert main(["stats"]) == 0
+    out = capsys.readouterr().out
+    assert "tones" in out and "drone" in out
