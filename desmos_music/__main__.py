@@ -4,6 +4,7 @@
   python -m desmos_music new NAME                scaffold songs/NAME.json
   python -m desmos_music serve [--port 8000]     build all, then serve the local player
   python -m desmos_music stats [songs...]        duration, tone count, ranges, warnings
+  python -m desmos_music import-midi FILE.mid    convert a MIDI file into songs/<name>.json
 """
 
 import argparse
@@ -111,6 +112,32 @@ def cmd_stats(argv) -> int:
     return 1 if args.strict and total_warns else 0
 
 
+def cmd_import_midi(argv) -> int:
+    from .midi import midi_to_song
+
+    p = argparse.ArgumentParser(prog="desmos_music import-midi")
+    p.add_argument("file", type=Path)
+    p.add_argument("--name", help="song name (default: the MIDI file's name)")
+    p.add_argument("--grid", type=float, default=0.25, help="quantize grid in beats, 0 = off")
+    p.add_argument("--max-lanes", type=int, default=4, help="max simultaneous notes per track")
+    p.add_argument("--force", action="store_true", help="overwrite an existing song")
+    args = p.parse_args(argv)
+    name = args.name or "".join(c if c.isalnum() else "_" for c in args.file.stem).lower()
+    out = Path("songs") / f"{name}.json"
+    if out.exists() and not args.force:
+        print(f"{out} already exists (use --force)", file=sys.stderr)
+        return 1
+    try:
+        song = midi_to_song(args.file.read_bytes(), name, args.grid, args.max_lanes)
+    except (OSError, SongError) as e:
+        print(f"{args.file}: {e}", file=sys.stderr)
+        return 1
+    out.parent.mkdir(exist_ok=True)
+    out.write_text(json.dumps(song, indent=2) + "\n")
+    print(f"wrote {out} ({len(song['voices'])} voices, {song['length']:g} beats at {song['bpm']:g} bpm)")
+    return 0
+
+
 def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     if argv and argv[0] == "new":
@@ -119,6 +146,8 @@ def main(argv=None) -> int:
         return cmd_serve(argv[1:])
     if argv and argv[0] == "stats":
         return cmd_stats(argv[1:])
+    if argv and argv[0] == "import-midi":
+        return cmd_import_midi(argv[1:])
     p = argparse.ArgumentParser(prog="desmos_music", description="Build Desmos music graphs from song files.")
     p.add_argument("songs", nargs="*", type=Path, help="song JSON files (default: songs/*.json)")
     p.add_argument("-o", "--out", type=Path, default=Path("build"), help="output folder")

@@ -49,3 +49,15 @@ def test_stats_command(in_tmp, capsys):
     assert main(["stats"]) == 0
     out = capsys.readouterr().out
     assert "tones" in out and "drone" in out
+
+
+def test_import_midi(in_tmp, capsys):
+    from test_midi import note_track, smf
+    (in_tmp / "My Tune.mid").write_bytes(smf(note_track("lead", [(0, 480, 69)])))
+    assert main(["import-midi", "My Tune.mid"]) == 0
+    assert (in_tmp / "songs" / "my_tune.json").exists()
+    assert main(["import-midi", "My Tune.mid"]) == 1
+    assert main(["import-midi", "My Tune.mid", "--force"]) == 0
+    assert main([]) == 0
+    (in_tmp / "junk.mid").write_bytes(b"nope")
+    assert main(["import-midi", "junk.mid"]) == 1
