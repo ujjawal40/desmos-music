@@ -16,7 +16,7 @@
       {
         "type": "text",
         "id": "1",
-        "text": "Dune — part one (after @measure_plan)\nRecreation of the first section of the viral 'Dune soundtrack on a graphing calculator' clip. Pitch is in octaves relative to base_hz, so 1/12 = one semitone.\nPress the ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
+        "text": "Dune — part one (after @measure_plan)\nRecreation of the first section of the viral 'Dune soundtrack on a graphing calculator' clip. Pitch is in octaves relative to base_hz, so 1/12 = one semitone.\nPress ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
       },
       {
         "type": "folder",
