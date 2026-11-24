@@ -31,3 +31,21 @@ def test_read_chunks():
     assert tracks == [b"\x00\xff\x2f\x00", b""]
     with pytest.raises(SongError):
         read_chunks(b"RIFF....")
+
+
+def test_read_events_running_status_and_meta():
+    from desmos_music.midi import read_events
+    track = (
+        b"\x00\xff\x03\x04Lead"            # track name
+        + b"\x00\xff\x51\x03\x07\xa1\x20"  # tempo 500000 (120 bpm)
+        + b"\x00\x90\x45\x64"              # A4 on
+        + varlen(480) + b"\x45\x00"        # running status: A4 vel 0 = off
+        + b"\x00\x48\x50"                  # C5 on (still running status)
+        + varlen(240) + b"\x80\x48\x40"    # explicit off
+        + b"\x00\xf0\x02\x01\xf7"          # sysex, skipped
+        + b"\x00\xff\x2f\x00"
+    )
+    assert read_events(track) == [
+        (0, "name", "Lead"), (0, "tempo", 500000), (0, "on", (0, 69, 100)),
+        (480, "off", (0, 69)), (480, "on", (0, 72, 80)), (720, "off", (0, 72)),
+    ]
