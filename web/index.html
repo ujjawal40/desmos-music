@@ -19,7 +19,7 @@
     <button id="load">Load</button>
     <button id="play">▶ Play</button>
     <button id="restart">⏮ Restart</button>
-    <span>Run <code>python -m desmos_music serve</code>, pick a song, press ▶ on the ticker.</span>
+    <span>Space = play/pause. Turn on the speakers in the Audio folder.</span>
   </header>
   <div id="calc"></div>
   <script>
@@ -52,6 +52,12 @@
     document.getElementById('restart').onclick = () => {
       calc.setExpression({ id: 'playhead', latex: 't=0' });
     };
+    document.addEventListener('keydown', (e) => {
+      // Space toggles playback unless the user is typing in Desmos or a control.
+      if (e.code !== 'Space' || e.target.closest('.dcg-container, input, select, textarea, button')) return;
+      e.preventDefault();
+      setPlaying(!isPlaying());
+    });
     document.getElementById('load').onclick = load;
     window.calc = calc;
     init();
