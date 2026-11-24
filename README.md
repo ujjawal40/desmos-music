@@ -113,6 +113,19 @@ Helper names (`"helpers": {"h": ...}`) must be single letters, other than `t x y
 For voice `arp`: `v_{arp}(x)` is pitch in octaves (`p_{arp}` holds the ungated pattern when `in` is used), `a_{arp}(x)` is the note envelope, `d_{arp}(x)` is dynamics, and `g_{arp}`/`m_{arp}` are its gain and mute sliders. Chords become `v_{pad1}`, `v_{pad2}`, ..., which share one gain. Each `tone()` is
 `tone(B·2^(v(t))·k, weight·g·m·a(t)·d(t))`.
 
+## Importing MIDI
+
+`python -m desmos_music import-midi file.mid [--name x] [--grid 0.25] [--max-lanes 4] [--force]`
+
+- Every track/channel becomes `notes` voices. Overlapping notes are spread over monophonic lanes (`pad`, `pad2`, ...), because each `tone()` plays one pitch, and the top line stays in the first lane.
+- Channel 10 (General MIDI drums) becomes `hits` voices: kicks go to `kick`, toms and snares to `tom`, hats to `tick`.
+- Timing is quantized to `--grid` beats (`0` turns it off). The first tempo in the file sets `bpm`.
+- The result is a normal song file. Edit it, add sections, change timbres.
+
+## Player
+
+`python -m desmos_music serve` opens a song picker with ▶/⏸ (or Space), ⏮ restart, a beat/section readout and a **Copy for desmos.com** button. Tick **live** while `watch` runs to hot-reload the graph on every save without losing the playhead.
+
 ## Known limits
 
 - The Desmos ticker fires about every 20–50 ms, so timing isn't sample-accurate. That matters most for fast drums.
