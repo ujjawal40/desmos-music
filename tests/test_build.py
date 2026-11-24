@@ -109,3 +109,15 @@ def test_voices_must_be_a_list_of_objects():
         build_state({"title": "x", "voices": {"a": 1}})
     with pytest.raises(SongError, match="object"):
         build_state({"title": "x", "voices": ["A3"]})
+
+
+def test_unknown_voice_key_suggests_fix():
+    with pytest.raises(SongError, match="did you mean 'timbre'"):
+        build_state(song(latex="0", timber="organ"))
+
+
+def test_unknown_song_key_suggests_fix():
+    s = song(latex="0")
+    s["bmp"] = 90
+    with pytest.raises(SongError, match="did you mean 'bpm'"):
+        build_state(s)

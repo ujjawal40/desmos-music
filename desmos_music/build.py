@@ -15,6 +15,7 @@ Voice kinds: `latex` (raw expression in x), `notes` ([start, dur, pitch]),
 
 from __future__ import annotations
 
+import difflib
 import json
 import re
 from dataclasses import dataclass, field
@@ -38,6 +39,18 @@ NAME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*$")
 TICK_MS = 50  # ticker step; Desmos fires roughly every 20ms at best
 RESERVED_HELPERS = {"t", "x", "y", "B", "S", "L", "e"}
 KINDS = ("latex", "notes", "seq", "hits")
+SONG_KEYS = {"title", "description", "base", "base_hz", "bpm", "time_scale", "window",
+             "length", "sections", "helpers", "voices", "comment"}
+VOICE_KEYS = set(KINDS) | {"name", "step", "loop", "offset", "in", "env", "timbre", "detune",
+                           "glide", "vibrato", "dynamics", "drum", "gain", "muted", "color", "comment"}
+
+
+def _check_keys(obj: dict, allowed: set, where: str) -> None:
+    for k in obj:
+        if k not in allowed:
+            close = difflib.get_close_matches(k, sorted(allowed), n=1)
+            hint = f" — did you mean '{close[0]}'?" if close else ""
+            raise SongError(f"unknown key '{k}' in {where}{hint}")
 
 
 def _fmt(n: float) -> str:
@@ -260,6 +273,7 @@ def validate(song: dict) -> None:
     for key in ("title", "voices"):
         if key not in song:
             raise SongError(f"song is missing '{key}'")
+    _check_keys(song, SONG_KEYS, "song")
     helpers = song.get("helpers", {})
     for name in helpers:
         if len(name) != 1 or not name.isalpha() or name in RESERVED_HELPERS:
@@ -273,6 +287,7 @@ def validate(song: dict) -> None:
         if not isinstance(v, dict):
             raise SongError(f"each voice must be an object, got {v!r}")
         name = v.get("name", "")
+        _check_keys(v, VOICE_KEYS, f"voice '{name}'")
         if not NAME_RE.match(name):
             raise SongError(f"voice name '{name}' must be alphanumeric, starting with a letter")
         if name in seen:
