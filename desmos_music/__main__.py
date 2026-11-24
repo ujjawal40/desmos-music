@@ -9,8 +9,10 @@
 """
 
 import argparse
+import contextlib
 import functools
 import http.server
+import io
 import json
 import sys
 import tempfile
@@ -245,11 +247,9 @@ def main(argv=None) -> int:
 def check_build(songs, out: Path) -> int:
     """Build into a temp dir and compare with `out`, file by file."""
     with tempfile.TemporaryDirectory() as tmp:
-        if index := out / "index.json":
-            if index.exists():
-                (Path(tmp) / "index.json").write_text(index.read_text())
-        import contextlib
-        import io
+        index = out / "index.json"
+        if index.exists():  # the manifest merges, so start from the current one
+            (Path(tmp) / "index.json").write_text(index.read_text())
         with contextlib.redirect_stdout(io.StringIO()):
             if build_all(songs, Path(tmp)):
                 return 1
