@@ -97,3 +97,10 @@ def test_arpeggiate():
     assert [(n.start, n.dur) for n in out[:3]] == [(0, 0.75), (0.75, 0.75), (1.5, 0.5)]
     with pytest.raises(SongError):
         arpeggiate(notes, "a b", 1)
+
+
+def test_midi_name_roundtrip():
+    from desmos_music.music import midi_name
+    assert midi_name(60) == "C4" and midi_name(69) == "A4" and midi_name(70) == "Bb4"
+    for m in range(21, 109):
+        assert note_hz(midi_name(m)) == pytest.approx(440 * 2 ** ((m - 69) / 12))

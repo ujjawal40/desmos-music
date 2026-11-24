@@ -340,3 +340,11 @@ def resolve_preset(value, table: dict, what: str) -> dict | list:
             raise SongError(f"unknown {what} '{value}' (have: {', '.join(table)})")
         return table[value]
     return value
+
+
+NAMES = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "Ab", "A", "Bb", "B"]
+
+
+def midi_name(midi: int) -> str:
+    """60 -> 'C4', 70 -> 'Bb4'."""
+    return f"{NAMES[midi % 12]}{midi // 12 - 1}"
