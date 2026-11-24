@@ -43,7 +43,7 @@ KINDS = ("latex", "notes", "seq", "hits")
 SONG_KEYS = {"title", "description", "base", "base_hz", "key", "bpm", "time_scale", "window",
              "length", "sections", "helpers", "voices", "comment"}
 VOICE_KEYS = set(KINDS) | {"name", "key", "step", "loop", "offset", "in", "env", "timbre", "detune",
-                           "glide", "vibrato", "dynamics", "drum", "gain", "muted", "color", "comment"}
+                           "glide", "vibrato", "transpose", "dynamics", "drum", "gain", "muted", "color", "comment"}
 
 
 def _check_keys(obj: dict, allowed: set, where: str) -> None:
@@ -379,6 +379,8 @@ def build_state(song: dict) -> dict:
         vib = v.get("vibrato")
         for tr in tracks:
             body = tr.pitch
+            if v.get("transpose"):
+                body = f"{body}+{_frac(float(v['transpose']))}"
             if vib:
                 rate, depth = vib
                 body = f"{body}+{_frac(depth)}\\sin\\left({_fmt(2 * rate)}\\pi x\\right)"

@@ -131,3 +131,9 @@ def test_song_key_enables_degrees_and_voice_key_overrides():
     s["voices"][0]["key"] = "A3 major"
     v = next(l for l in latexes(build_state(s)) if l.startswith("v_{a}"))
     assert "\\frac{4}{12}" in v
+
+
+def test_transpose_shifts_any_voice_kind():
+    for kind in ({"latex": "0"}, {"seq": "A3"}, {"hits": "x"}):
+        v = next(l for l in latexes(build_state(song(transpose=-12, **kind))) if l.startswith("v_{a}"))
+        assert v.endswith("+\\frac{-12}{12}")
