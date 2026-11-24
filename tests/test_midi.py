@@ -49,3 +49,13 @@ def test_read_events_running_status_and_meta():
         (0, "name", "Lead"), (0, "tempo", 500000), (0, "on", (0, 69, 100)),
         (480, "off", (0, 69)), (480, "on", (0, 72, 80)), (720, "off", (0, 72)),
     ]
+
+
+def test_pair_notes():
+    from desmos_music.midi import pair_notes
+    events = [
+        (0, "on", (0, 60, 100)), (0, "on", (0, 64, 90)),
+        (240, "off", (0, 60)), (480, "off", (0, 64)),
+        (480, "on", (1, 67, 70)), (960, "tempo", 500000),
+    ]
+    assert pair_notes(events, 480) == [(0, 0.5, 60, 100), (0, 1.0, 64, 90), (1.0, 1.0, 67, 70)]

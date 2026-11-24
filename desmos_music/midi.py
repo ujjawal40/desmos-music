@@ -88,3 +88,25 @@ def read_events(track: bytes) -> list[tuple]:
         elif kind == 0x80 or kind == 0x90:
             events.append((tick, "off", (ch, args[0])))
     return events
+
+
+def pair_notes(events: list[tuple], ticks_per_beat: int) -> list[tuple]:
+    """Match note-ons with note-offs -> [(start_beat, dur_beat, midi_note, velocity)].
+
+    A note still held at the end of the track ends at the last event.
+    """
+    held: dict = {}
+    out = []
+    last = 0
+    for tick, kind, data in events:
+        last = max(last, tick)
+        if kind == "on":
+            held.setdefault(data[:2], []).append((tick, data[2]))
+        elif kind == "off" and held.get(data):
+            start, vel = held[data].pop(0)
+            if tick > start:
+                out.append((start, tick - start, data[1], vel))
+    for (_, note), starts in held.items():
+        out += [(s, last - s, note, v) for s, v in starts if last > s]
+    out.sort()
+    return [(s / ticks_per_beat, d / ticks_per_beat, n, v) for s, d, n, v in out]
