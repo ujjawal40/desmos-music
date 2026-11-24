@@ -1,14 +1,62 @@
 [
   {
     "name": "arrakis",
-    "title": "Arrakis (Dune-style, original)"
+    "title": "Arrakis (Dune-style, original)",
+    "length": 72.0,
+    "sections": [
+      {
+        "name": "dawn",
+        "start": 0.0,
+        "end": 16.0
+      },
+      {
+        "name": "storm",
+        "start": 16.0,
+        "end": 48.0
+      },
+      {
+        "name": "worm",
+        "start": 48.0,
+        "end": 64.0
+      },
+      {
+        "name": "settle",
+        "start": 64.0,
+        "end": 72.0
+      }
+    ]
   },
   {
     "name": "dune_one",
-    "title": "Dune — part one (after @measure_plan)"
+    "title": "Dune — part one (after @measure_plan)",
+    "length": null,
+    "sections": []
   },
   {
     "name": "event_horizon",
-    "title": "Event Horizon (Interstellar-style, original)"
+    "title": "Event Horizon (Interstellar-style, original)",
+    "length": 96.0,
+    "sections": [
+      {
+        "name": "clock",
+        "start": 0.0,
+        "end": 16.0
+      },
+      {
+        "name": "orbit",
+        "start": 16.0,
+        "end": 48.0
+      },
+      {
+        "name": "gravity",
+        "start": 48.0,
+        "end": 80.0
+      },
+      {
+        "name": "horizon",
+        "start": 80.0,
+        "end": 96.0
+      }
+    ]
   }
 ]

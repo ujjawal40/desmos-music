@@ -36,6 +36,21 @@ TEMPLATE = {
 }
 
 
+def manifest_entry(path) -> dict:
+    """What the player needs to know about a song without parsing its state."""
+    from .build import _sections
+
+    song = load_song(path)
+    sections = _sections(song)
+    length = song.get("length") or (max(e for _, e in sections.values()) if sections else None)
+    return {
+        "name": Path(path).stem,
+        "title": song["title"],
+        "length": length,
+        "sections": [{"name": n, "start": a, "end": b} for n, (a, b) in sections.items()],
+    }
+
+
 def build_all(songs, out: Path) -> int:
     built = []
     for s in songs:
@@ -45,7 +60,7 @@ def build_all(songs, out: Path) -> int:
         except SongError as e:
             print(f"{s}: {e}", file=sys.stderr)
             return 1
-        built.append({"name": Path(s).stem, "title": load_song(s)["title"]})
+        built.append(manifest_entry(s))
     index = out / "index.json"
     known = {}
     if index.exists():

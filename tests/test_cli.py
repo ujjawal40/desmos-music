@@ -76,3 +76,11 @@ def test_rebuild_changed_only_rebuilds_edited_songs(in_tmp):
     st = song.stat()
     os.utime(song, ns=(st.st_atime_ns, st.st_mtime_ns + 1_000_000))
     assert [p.name for p in rebuild_changed(seen)] == ["b.json"]
+
+
+def test_manifest_lists_sections_and_length(in_tmp):
+    main(["new", "demo"])
+    main([])
+    entry = json.loads((in_tmp / "build" / "index.json").read_text())[0]
+    assert entry["length"] == 48
+    assert [s["name"] for s in entry["sections"]] == ["intro", "main"]
