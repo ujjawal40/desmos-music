@@ -16,3 +16,9 @@ def test_stats_for_bundled_song():
     assert st["length_beats"] == 96 and round(st["seconds"]) == 80
     assert st["tones"] == 23
     assert next(v for v in st["voices"] if v["name"] == "drone")["semitones"] == (-12, -12)
+
+
+def test_lint_frequency_range():
+    from desmos_music.stats import lint
+    assert lint(one_voice(seq="A3")) == []
+    assert "20–20000" in lint(one_voice(seq="A3", transpose=-60))[0]

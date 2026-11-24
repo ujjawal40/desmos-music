@@ -80,3 +80,14 @@ def song_stats(song: dict) -> dict:
         "expressions": len(state["expressions"]["list"]),
         "voices": voices,
     }
+
+
+def lint(song: dict) -> list[str]:
+    """Warnings about things that build fine but will probably sound wrong."""
+    st = song_stats(song)
+    warns = []
+    for v in st["voices"]:
+        if v["hz"] and (v["hz"][0] < 20 or v["hz"][1] > 20000):
+            warns.append(f"voice '{v['name']}' reaches {v['hz'][0]:.0f}–{v['hz'][1]:.0f} Hz; "
+                         "Desmos tone() only plays 20–20000 Hz")
+    return warns
