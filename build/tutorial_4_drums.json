@@ -1,0 +1,294 @@
+{
+  "version": 11,
+  "randomSeed": "desmos-music",
+  "graph": {
+    "viewport": {
+      "xmin": -8.5,
+      "xmax": 1.5,
+      "ymin": -3,
+      "ymax": 3
+    },
+    "showGrid": false,
+    "squareAxes": false
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "text",
+        "id": "1",
+        "text": "Tutorial 4 — drums\nDrums are fast pitch drops: X is an accent, x a normal hit, . a rest. Try swing 0.6 on the toms.\nPress ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
+      },
+      {
+        "type": "folder",
+        "id": "2",
+        "title": "Controls",
+        "collapsed": false
+      },
+      {
+        "type": "expression",
+        "id": "playhead",
+        "latex": "t=0",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "min": "0",
+          "max": "64"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "latex": "B=220",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "55",
+          "max": "880"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "latex": "S=1.5",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "min": "0.25",
+          "max": "4",
+          "step": "0.05"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "latex": "L=8",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "min": "1",
+          "max": "32"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "latex": "m_{kick}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "latex": "g_{kick}=0.7",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "latex": "m_{toms}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "10",
+        "latex": "g_{toms}=0.35",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "11",
+        "latex": "m_{tick}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "12",
+        "latex": "g_{tick}=0.08",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "13",
+        "title": "Voices (pitch in octaves vs B)",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "latex": "v_{kick}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,4\\right)<0.6:-2.1+1.5e^{-7\\left(\\operatorname{mod}\\left(x,4\\right)-0\\right)},1.5\\le \\operatorname{mod}\\left(x,4\\right)<2:-2.1+1.5e^{-7\\left(\\operatorname{mod}\\left(x,4\\right)-1.5\\right)},2\\le \\operatorname{mod}\\left(x,4\\right)<2.6:-2.1+1.5e^{-7\\left(\\operatorname{mod}\\left(x,4\\right)-2\\right)},3\\le \\operatorname{mod}\\left(x,4\\right)<3.6:-2.1+1.5e^{-7\\left(\\operatorname{mod}\\left(x,4\\right)-3\\right)}\\right\\}",
+        "folderId": "13",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "latex": "a_{kick}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,4\\right)<0.6:1\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-0}{0.6}\\right),1.5\\le \\operatorname{mod}\\left(x,4\\right)<2:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-1.5}{0.6}\\right),2\\le \\operatorname{mod}\\left(x,4\\right)<2.6:1\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-2}{0.6}\\right),3\\le \\operatorname{mod}\\left(x,4\\right)<3.6:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-3}{0.6}\\right)\\right\\}",
+        "folderId": "13",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "latex": "v_{toms}\\left(x\\right)=\\left\\{0.5\\le \\operatorname{mod}\\left(x,4\\right)<1:-1+1e^{-6\\left(\\operatorname{mod}\\left(x,4\\right)-0.5\\right)},1\\le \\operatorname{mod}\\left(x,4\\right)<1.5:-1+1e^{-6\\left(\\operatorname{mod}\\left(x,4\\right)-1\\right)},2.5\\le \\operatorname{mod}\\left(x,4\\right)<3:-1+1e^{-6\\left(\\operatorname{mod}\\left(x,4\\right)-2.5\\right)},3.25\\le \\operatorname{mod}\\left(x,4\\right)<3.5:-1+1e^{-6\\left(\\operatorname{mod}\\left(x,4\\right)-3.25\\right)},3.5\\le \\operatorname{mod}\\left(x,4\\right)<4:-1+1e^{-6\\left(\\operatorname{mod}\\left(x,4\\right)-3.5\\right)}\\right\\}",
+        "folderId": "13",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "latex": "a_{toms}\\left(x\\right)=\\left\\{0.5\\le \\operatorname{mod}\\left(x,4\\right)<1:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-0.5}{0.5}\\right),1\\le \\operatorname{mod}\\left(x,4\\right)<1.5:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-1}{0.5}\\right),2.5\\le \\operatorname{mod}\\left(x,4\\right)<3:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-2.5}{0.5}\\right),3.25\\le \\operatorname{mod}\\left(x,4\\right)<3.5:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-3.25}{0.5}\\right),3.5\\le \\operatorname{mod}\\left(x,4\\right)<4:1\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-3.5}{0.5}\\right)\\right\\}",
+        "folderId": "13",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "latex": "v_{tick}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,4\\right)<0.12:2.5,0.5\\le \\operatorname{mod}\\left(x,4\\right)<0.62:2.5,1\\le \\operatorname{mod}\\left(x,4\\right)<1.12:2.5,1.5\\le \\operatorname{mod}\\left(x,4\\right)<1.62:2.5,2\\le \\operatorname{mod}\\left(x,4\\right)<2.12:2.5,2.5\\le \\operatorname{mod}\\left(x,4\\right)<2.62:2.5,3\\le \\operatorname{mod}\\left(x,4\\right)<3.12:2.5,3.5\\le \\operatorname{mod}\\left(x,4\\right)<3.62:2.5\\right\\}",
+        "folderId": "13",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "19",
+        "latex": "a_{tick}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,4\\right)<0.12:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-0}{0.12}\\right),0.5\\le \\operatorname{mod}\\left(x,4\\right)<0.62:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-0.5}{0.12}\\right),1\\le \\operatorname{mod}\\left(x,4\\right)<1.12:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-1}{0.12}\\right),1.5\\le \\operatorname{mod}\\left(x,4\\right)<1.62:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-1.5}{0.12}\\right),2\\le \\operatorname{mod}\\left(x,4\\right)<2.12:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-2}{0.12}\\right),2.5\\le \\operatorname{mod}\\left(x,4\\right)<2.62:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-2.5}{0.12}\\right),3\\le \\operatorname{mod}\\left(x,4\\right)<3.12:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-3}{0.12}\\right),3.5\\le \\operatorname{mod}\\left(x,4\\right)<3.62:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-3.5}{0.12}\\right)\\right\\}",
+        "folderId": "13",
+        "hidden": true
+      },
+      {
+        "type": "folder",
+        "id": "20",
+        "title": "Graph",
+        "collapsed": false
+      },
+      {
+        "type": "expression",
+        "id": "21",
+        "latex": "y=v_{kick}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{kick}=1\\right\\}",
+        "folderId": "20",
+        "color": "#f5a623",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "22",
+        "latex": "\\left(0,v_{kick}\\left(t\\right)\\right)\\left\\{m_{kick}=1\\right\\}",
+        "folderId": "20",
+        "color": "#f5a623",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "latex": "y=v_{toms}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{toms}=1\\right\\}",
+        "folderId": "20",
+        "color": "#ffb547",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "24",
+        "latex": "\\left(0,v_{toms}\\left(t\\right)\\right)\\left\\{m_{toms}=1\\right\\}",
+        "folderId": "20",
+        "color": "#ffb547",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "25",
+        "latex": "y=v_{tick}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{tick}=1\\right\\}",
+        "folderId": "20",
+        "color": "#e8e0c8",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "26",
+        "latex": "\\left(0,v_{tick}\\left(t\\right)\\right)\\left\\{m_{tick}=1\\right\\}",
+        "folderId": "20",
+        "color": "#e8e0c8",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "27",
+        "latex": "x=0",
+        "folderId": "20",
+        "color": "#888888",
+        "lineStyle": "DASHED",
+        "lineOpacity": "0.4"
+      },
+      {
+        "type": "folder",
+        "id": "28",
+        "title": "Audio",
+        "collapsed": false
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{kick}\\left(t\\right)},g_{kick}m_{kick}\\cdot a_{kick}\\left(t\\right)\\right)",
+        "folderId": "28"
+      },
+      {
+        "type": "expression",
+        "id": "30",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{toms}\\left(t\\right)},g_{toms}m_{toms}\\cdot a_{toms}\\left(t\\right)\\right)",
+        "folderId": "28"
+      },
+      {
+        "type": "expression",
+        "id": "31",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{tick}\\left(t\\right)},g_{tick}m_{tick}\\cdot a_{tick}\\left(t\\right)\\right)",
+        "folderId": "28"
+      }
+    ],
+    "ticker": {
+      "handlerLatex": "t\\to t+0.05S",
+      "minStepLatex": "50",
+      "open": true,
+      "playing": false
+    }
+  }
+}

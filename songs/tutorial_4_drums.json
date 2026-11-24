@@ -1,0 +1,11 @@
+{
+  "title": "Tutorial 4 — drums",
+  "description": "Drums are fast pitch drops: X is an accent, x a normal hit, . a rest. Try swing 0.6 on the toms.",
+  "base": "A3",
+  "bpm": 90,
+  "voices": [
+    {"name": "kick", "hits": "X... ..x. X... x...", "step": 0.25, "drum": "kick", "gain": 0.7, "color": "#f5a623"},
+    {"name": "toms", "hits": "..x. x... ..x. .xX.", "step": 0.25, "drum": "tom", "swing": 0.5, "gain": 0.35, "color": "#ffb547"},
+    {"name": "tick", "hits": "x.x. x.x. x.x. x.x.", "step": 0.25, "drum": "tick", "gain": 0.08, "color": "#e8e0c8"}
+  ]
+}
