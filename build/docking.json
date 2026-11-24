@@ -1,0 +1,892 @@
+{
+  "version": 11,
+  "randomSeed": "desmos-music",
+  "graph": {
+    "viewport": {
+      "xmin": -8.5,
+      "xmax": 1.5,
+      "ymin": -3,
+      "ymax": 3
+    },
+    "showGrid": false,
+    "squareAxes": false
+  },
+  "expressions": {
+    "list": [
+      {
+        "type": "text",
+        "id": "1",
+        "text": "Docking (Interstellar-style, original)\nOriginal high-tension piece in C minor: a driving organ pulse over i–VI–III–VII, an octave-bouncing bass, a fast Shepard rise, taiko on the downbeats, then everything locks into one held chord. Time unit = 1 beat.\nSections: approach (0–16) → spin (16–48) → lock (48–56)\nPress ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
+      },
+      {
+        "type": "folder",
+        "id": "2",
+        "title": "Controls",
+        "collapsed": false
+      },
+      {
+        "type": "expression",
+        "id": "playhead",
+        "latex": "t=0",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "min": "0",
+          "max": "56"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "4",
+        "latex": "B=261.6256",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "55",
+          "max": "880"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "5",
+        "latex": "S=1.6667",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "min": "0.25",
+          "max": "4",
+          "step": "0.05"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "6",
+        "latex": "L=8",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "min": "1",
+          "max": "32"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "7",
+        "latex": "m_{tick}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "8",
+        "latex": "g_{tick}=0.1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "9",
+        "latex": "m_{arp}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "10",
+        "latex": "g_{arp}=0.26",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "11",
+        "latex": "m_{bass}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "12",
+        "latex": "g_{bass}=0.3",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "13",
+        "latex": "m_{drums}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "14",
+        "latex": "g_{drums}=0.55",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "15",
+        "latex": "m_{rise}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "16",
+        "latex": "g_{rise}=0.14",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "17",
+        "latex": "m_{lock}=1",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "1"
+        }
+      },
+      {
+        "type": "expression",
+        "id": "18",
+        "latex": "g_{lock}=0.35",
+        "folderId": "2",
+        "slider": {
+          "hardMin": true,
+          "hardMax": true,
+          "min": "0",
+          "max": "1",
+          "step": "0.01"
+        }
+      },
+      {
+        "type": "folder",
+        "id": "19",
+        "title": "Voices (pitch in octaves vs B)",
+        "collapsed": true
+      },
+      {
+        "type": "expression",
+        "id": "20",
+        "latex": "p_{tick}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,4\\right)<0.12:2.5,1\\le \\operatorname{mod}\\left(x,4\\right)<1.12:2.5,2\\le \\operatorname{mod}\\left(x,4\\right)<2.12:2.5,3\\le \\operatorname{mod}\\left(x,4\\right)<3.12:2.5\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "21",
+        "latex": "v_{tick}\\left(x\\right)=\\left\\{0\\le x<16:p_{tick}\\left(x\\right),16\\le x<48:p_{tick}\\left(x\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "22",
+        "latex": "a_{tick}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,4\\right)<0.12:1\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-0}{0.12}\\right),1\\le \\operatorname{mod}\\left(x,4\\right)<1.12:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-1}{0.12}\\right),2\\le \\operatorname{mod}\\left(x,4\\right)<2.12:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-2}{0.12}\\right),3\\le \\operatorname{mod}\\left(x,4\\right)<3.12:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,4\\right)-3}{0.12}\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "23",
+        "latex": "p_{arp}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,16\\right)<0.5:\\frac{0}{12},0.5\\le \\operatorname{mod}\\left(x,16\\right)<1:\\frac{12}{12},1\\le \\operatorname{mod}\\left(x,16\\right)<1.5:\\frac{3}{12},1.5\\le \\operatorname{mod}\\left(x,16\\right)<2:\\frac{12}{12},2\\le \\operatorname{mod}\\left(x,16\\right)<2.5:\\frac{7}{12},2.5\\le \\operatorname{mod}\\left(x,16\\right)<3:\\frac{12}{12},3\\le \\operatorname{mod}\\left(x,16\\right)<3.5:\\frac{3}{12},3.5\\le \\operatorname{mod}\\left(x,16\\right)<4:\\frac{12}{12},4\\le \\operatorname{mod}\\left(x,16\\right)<4.5:\\frac{-4}{12},4.5\\le \\operatorname{mod}\\left(x,16\\right)<5:\\frac{8}{12},5\\le \\operatorname{mod}\\left(x,16\\right)<5.5:\\frac{0}{12},5.5\\le \\operatorname{mod}\\left(x,16\\right)<6:\\frac{8}{12},6\\le \\operatorname{mod}\\left(x,16\\right)<6.5:\\frac{3}{12},6.5\\le \\operatorname{mod}\\left(x,16\\right)<7:\\frac{8}{12},7\\le \\operatorname{mod}\\left(x,16\\right)<7.5:\\frac{0}{12},7.5\\le \\operatorname{mod}\\left(x,16\\right)<8:\\frac{8}{12},8\\le \\operatorname{mod}\\left(x,16\\right)<8.5:\\frac{-9}{12},8.5\\le \\operatorname{mod}\\left(x,16\\right)<9:\\frac{3}{12},9\\le \\operatorname{mod}\\left(x,16\\right)<9.5:\\frac{-5}{12},9.5\\le \\operatorname{mod}\\left(x,16\\right)<10:\\frac{3}{12},10\\le \\operatorname{mod}\\left(x,16\\right)<10.5:\\frac{-2}{12},10.5\\le \\operatorname{mod}\\left(x,16\\right)<11:\\frac{3}{12},11\\le \\operatorname{mod}\\left(x,16\\right)<11.5:\\frac{-5}{12},11.5\\le \\operatorname{mod}\\left(x,16\\right)<12:\\frac{3}{12},12\\le \\operatorname{mod}\\left(x,16\\right)<12.5:\\frac{-2}{12},12.5\\le \\operatorname{mod}\\left(x,16\\right)<13:\\frac{10}{12},13\\le \\operatorname{mod}\\left(x,16\\right)<13.5:\\frac{2}{12},13.5\\le \\operatorname{mod}\\left(x,16\\right)<14:\\frac{10}{12},14\\le \\operatorname{mod}\\left(x,16\\right)<14.5:\\frac{5}{12},14.5\\le \\operatorname{mod}\\left(x,16\\right)<15:\\frac{10}{12},15\\le \\operatorname{mod}\\left(x,16\\right)<15.5:\\frac{2}{12},15.5\\le \\operatorname{mod}\\left(x,16\\right)<16:\\frac{10}{12}\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "24",
+        "latex": "v_{arp}\\left(x\\right)=\\left\\{0\\le x<16:p_{arp}\\left(x\\right),16\\le x<48:p_{arp}\\left(x\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "25",
+        "latex": "a_{arp}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,16\\right)<0.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-0}{0.04},\\frac{0.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),0.5\\le \\operatorname{mod}\\left(x,16\\right)<1:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-0.5}{0.04},\\frac{1-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),1\\le \\operatorname{mod}\\left(x,16\\right)<1.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-1}{0.04},\\frac{1.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),1.5\\le \\operatorname{mod}\\left(x,16\\right)<2:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-1.5}{0.04},\\frac{2-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),2\\le \\operatorname{mod}\\left(x,16\\right)<2.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-2}{0.04},\\frac{2.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),2.5\\le \\operatorname{mod}\\left(x,16\\right)<3:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-2.5}{0.04},\\frac{3-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),3\\le \\operatorname{mod}\\left(x,16\\right)<3.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-3}{0.04},\\frac{3.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),3.5\\le \\operatorname{mod}\\left(x,16\\right)<4:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-3.5}{0.04},\\frac{4-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),4\\le \\operatorname{mod}\\left(x,16\\right)<4.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-4}{0.04},\\frac{4.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),4.5\\le \\operatorname{mod}\\left(x,16\\right)<5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-4.5}{0.04},\\frac{5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),5\\le \\operatorname{mod}\\left(x,16\\right)<5.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-5}{0.04},\\frac{5.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),5.5\\le \\operatorname{mod}\\left(x,16\\right)<6:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-5.5}{0.04},\\frac{6-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),6\\le \\operatorname{mod}\\left(x,16\\right)<6.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-6}{0.04},\\frac{6.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),6.5\\le \\operatorname{mod}\\left(x,16\\right)<7:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-6.5}{0.04},\\frac{7-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),7\\le \\operatorname{mod}\\left(x,16\\right)<7.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-7}{0.04},\\frac{7.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),7.5\\le \\operatorname{mod}\\left(x,16\\right)<8:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-7.5}{0.04},\\frac{8-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),8\\le \\operatorname{mod}\\left(x,16\\right)<8.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-8}{0.04},\\frac{8.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),8.5\\le \\operatorname{mod}\\left(x,16\\right)<9:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-8.5}{0.04},\\frac{9-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),9\\le \\operatorname{mod}\\left(x,16\\right)<9.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-9}{0.04},\\frac{9.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),9.5\\le \\operatorname{mod}\\left(x,16\\right)<10:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-9.5}{0.04},\\frac{10-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),10\\le \\operatorname{mod}\\left(x,16\\right)<10.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-10}{0.04},\\frac{10.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),10.5\\le \\operatorname{mod}\\left(x,16\\right)<11:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-10.5}{0.04},\\frac{11-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),11\\le \\operatorname{mod}\\left(x,16\\right)<11.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-11}{0.04},\\frac{11.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),11.5\\le \\operatorname{mod}\\left(x,16\\right)<12:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-11.5}{0.04},\\frac{12-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),12\\le \\operatorname{mod}\\left(x,16\\right)<12.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-12}{0.04},\\frac{12.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),12.5\\le \\operatorname{mod}\\left(x,16\\right)<13:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-12.5}{0.04},\\frac{13-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),13\\le \\operatorname{mod}\\left(x,16\\right)<13.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-13}{0.04},\\frac{13.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),13.5\\le \\operatorname{mod}\\left(x,16\\right)<14:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-13.5}{0.04},\\frac{14-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),14\\le \\operatorname{mod}\\left(x,16\\right)<14.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-14}{0.04},\\frac{14.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),14.5\\le \\operatorname{mod}\\left(x,16\\right)<15:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-14.5}{0.04},\\frac{15-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),15\\le \\operatorname{mod}\\left(x,16\\right)<15.5:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-15}{0.04},\\frac{15.5-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right),15.5\\le \\operatorname{mod}\\left(x,16\\right)<16:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-15.5}{0.04},\\frac{16-\\operatorname{mod}\\left(x,16\\right)}{0.08}\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "26",
+        "latex": "d_{arp}\\left(x\\right)=\\left\\{x<0:0.3,x<16:0.3+0.03125\\left(x-0\\right),x<48:0.8+0.00625\\left(x-16\\right),1\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "27",
+        "latex": "p_{bass}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,16\\right)<2:\\frac{-24}{12},2\\le \\operatorname{mod}\\left(x,16\\right)<3:\\frac{-12}{12},3\\le \\operatorname{mod}\\left(x,16\\right)<4:\\frac{-24}{12},4\\le \\operatorname{mod}\\left(x,16\\right)<6:\\frac{-28}{12},6\\le \\operatorname{mod}\\left(x,16\\right)<7:\\frac{-16}{12},7\\le \\operatorname{mod}\\left(x,16\\right)<8:\\frac{-28}{12},8\\le \\operatorname{mod}\\left(x,16\\right)<10:\\frac{-21}{12},10\\le \\operatorname{mod}\\left(x,16\\right)<11:\\frac{-9}{12},11\\le \\operatorname{mod}\\left(x,16\\right)<12:\\frac{-21}{12},12\\le \\operatorname{mod}\\left(x,16\\right)<14:\\frac{-26}{12},14\\le \\operatorname{mod}\\left(x,16\\right)<15:\\frac{-14}{12},15\\le \\operatorname{mod}\\left(x,16\\right)<16:\\frac{-26}{12}\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "28",
+        "latex": "v_{bass}\\left(x\\right)=\\left\\{16\\le x<48:p_{bass}\\left(x\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "29",
+        "latex": "a_{bass}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,16\\right)<2:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-0}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-0-0.01\\right)}{0.35}\\right),\\frac{2-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),2\\le \\operatorname{mod}\\left(x,16\\right)<3:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-2}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-2-0.01\\right)}{0.35}\\right),\\frac{3-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),3\\le \\operatorname{mod}\\left(x,16\\right)<4:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-3}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-3-0.01\\right)}{0.35}\\right),\\frac{4-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),4\\le \\operatorname{mod}\\left(x,16\\right)<6:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-4}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-4-0.01\\right)}{0.35}\\right),\\frac{6-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),6\\le \\operatorname{mod}\\left(x,16\\right)<7:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-6}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-6-0.01\\right)}{0.35}\\right),\\frac{7-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),7\\le \\operatorname{mod}\\left(x,16\\right)<8:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-7}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-7-0.01\\right)}{0.35}\\right),\\frac{8-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),8\\le \\operatorname{mod}\\left(x,16\\right)<10:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-8}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-8-0.01\\right)}{0.35}\\right),\\frac{10-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),10\\le \\operatorname{mod}\\left(x,16\\right)<11:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-10}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-10-0.01\\right)}{0.35}\\right),\\frac{11-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),11\\le \\operatorname{mod}\\left(x,16\\right)<12:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-11}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-11-0.01\\right)}{0.35}\\right),\\frac{12-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),12\\le \\operatorname{mod}\\left(x,16\\right)<14:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-12}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-12-0.01\\right)}{0.35}\\right),\\frac{14-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),14\\le \\operatorname{mod}\\left(x,16\\right)<15:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-14}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-14-0.01\\right)}{0.35}\\right),\\frac{15-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right),15\\le \\operatorname{mod}\\left(x,16\\right)<16:\\min\\left(1,\\frac{\\operatorname{mod}\\left(x,16\\right)-15}{0.01},\\max\\left(0.25,1-\\frac{0.75\\left(\\operatorname{mod}\\left(x,16\\right)-15-0.01\\right)}{0.35}\\right),\\frac{16-\\operatorname{mod}\\left(x,16\\right)}{0.05}\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "30",
+        "latex": "p_{drums}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,8\\right)<1:-1.9+1.2e^{-4\\left(\\operatorname{mod}\\left(x,8\\right)-0\\right)},2\\le \\operatorname{mod}\\left(x,8\\right)<3:-1.9+1.2e^{-4\\left(\\operatorname{mod}\\left(x,8\\right)-2\\right)},4\\le \\operatorname{mod}\\left(x,8\\right)<5:-1.9+1.2e^{-4\\left(\\operatorname{mod}\\left(x,8\\right)-4\\right)},6\\le \\operatorname{mod}\\left(x,8\\right)<7:-1.9+1.2e^{-4\\left(\\operatorname{mod}\\left(x,8\\right)-6\\right)},7\\le \\operatorname{mod}\\left(x,8\\right)<8:-1.9+1.2e^{-4\\left(\\operatorname{mod}\\left(x,8\\right)-7\\right)}\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "31",
+        "latex": "v_{drums}\\left(x\\right)=\\left\\{16\\le x<48:p_{drums}\\left(x\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "32",
+        "latex": "a_{drums}\\left(x\\right)=\\left\\{0\\le \\operatorname{mod}\\left(x,8\\right)<1:1\\left(1-\\frac{\\operatorname{mod}\\left(x,8\\right)-0}{1}\\right),2\\le \\operatorname{mod}\\left(x,8\\right)<3:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,8\\right)-2}{1}\\right),4\\le \\operatorname{mod}\\left(x,8\\right)<5:1\\left(1-\\frac{\\operatorname{mod}\\left(x,8\\right)-4}{1}\\right),6\\le \\operatorname{mod}\\left(x,8\\right)<7:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,8\\right)-6}{1}\\right),7\\le \\operatorname{mod}\\left(x,8\\right)<8:0.6\\left(1-\\frac{\\operatorname{mod}\\left(x,8\\right)-7}{1}\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "33",
+        "latex": "p_{rise1}\\left(x\\right)=-1+4\\operatorname{mod}\\left(\\frac{x}{4}+0,1\\right)",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "34",
+        "latex": "v_{rise1}\\left(x\\right)=\\left\\{16\\le x<48:p_{rise1}\\left(x\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "35",
+        "latex": "a_{rise1}\\left(x\\right)=\\sin\\left(\\pi\\operatorname{mod}\\left(\\frac{x}{4}+0,1\\right)\\right)^{2}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "36",
+        "latex": "p_{rise2}\\left(x\\right)=-1+4\\operatorname{mod}\\left(\\frac{x}{4}+0.25,1\\right)",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "37",
+        "latex": "v_{rise2}\\left(x\\right)=\\left\\{16\\le x<48:p_{rise2}\\left(x\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "38",
+        "latex": "a_{rise2}\\left(x\\right)=\\sin\\left(\\pi\\operatorname{mod}\\left(\\frac{x}{4}+0.25,1\\right)\\right)^{2}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "39",
+        "latex": "p_{rise3}\\left(x\\right)=-1+4\\operatorname{mod}\\left(\\frac{x}{4}+0.5,1\\right)",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "40",
+        "latex": "v_{rise3}\\left(x\\right)=\\left\\{16\\le x<48:p_{rise3}\\left(x\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "41",
+        "latex": "a_{rise3}\\left(x\\right)=\\sin\\left(\\pi\\operatorname{mod}\\left(\\frac{x}{4}+0.5,1\\right)\\right)^{2}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "42",
+        "latex": "p_{rise4}\\left(x\\right)=-1+4\\operatorname{mod}\\left(\\frac{x}{4}+0.75,1\\right)",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "43",
+        "latex": "v_{rise4}\\left(x\\right)=\\left\\{16\\le x<48:p_{rise4}\\left(x\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "44",
+        "latex": "a_{rise4}\\left(x\\right)=\\sin\\left(\\pi\\operatorname{mod}\\left(\\frac{x}{4}+0.75,1\\right)\\right)^{2}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "45",
+        "latex": "d_{rise}\\left(x\\right)=\\left\\{x<16:0,x<32:0+0.0375\\left(x-16\\right),x<48:0.6+0.025\\left(x-32\\right),1\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "46",
+        "latex": "v_{lock1}\\left(x\\right)=\\left\\{48\\le x<56:\\frac{-12}{12}\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "47",
+        "latex": "a_{lock1}\\left(x\\right)=\\left\\{48\\le x<56:\\min\\left(1,\\frac{x-48}{0.8},\\frac{56-x}{0.8}\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "48",
+        "latex": "v_{lock2}\\left(x\\right)=\\left\\{48\\le x<56:\\frac{-5}{12}\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "49",
+        "latex": "a_{lock2}\\left(x\\right)=\\left\\{48\\le x<56:\\min\\left(1,\\frac{x-48}{0.8},\\frac{56-x}{0.8}\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "50",
+        "latex": "v_{lock3}\\left(x\\right)=\\left\\{48\\le x<56:\\frac{3}{12}\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "51",
+        "latex": "a_{lock3}\\left(x\\right)=\\left\\{48\\le x<56:\\min\\left(1,\\frac{x-48}{0.8},\\frac{56-x}{0.8}\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "52",
+        "latex": "v_{lock4}\\left(x\\right)=\\left\\{48\\le x<56:\\frac{7}{12}\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "expression",
+        "id": "53",
+        "latex": "a_{lock4}\\left(x\\right)=\\left\\{48\\le x<56:\\min\\left(1,\\frac{x-48}{0.8},\\frac{56-x}{0.8}\\right)\\right\\}",
+        "folderId": "19",
+        "hidden": true
+      },
+      {
+        "type": "folder",
+        "id": "54",
+        "title": "Graph",
+        "collapsed": false
+      },
+      {
+        "type": "expression",
+        "id": "55",
+        "latex": "y=v_{tick}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{tick}=1\\right\\}",
+        "folderId": "54",
+        "color": "#e8e0c8",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "56",
+        "latex": "\\left(0,v_{tick}\\left(t\\right)\\right)\\left\\{m_{tick}=1\\right\\}",
+        "folderId": "54",
+        "color": "#e8e0c8",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "57",
+        "latex": "y=v_{arp}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{arp}=1\\right\\}",
+        "folderId": "54",
+        "color": "#9cc3e6",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "58",
+        "latex": "\\left(0,v_{arp}\\left(t\\right)\\right)\\left\\{m_{arp}=1\\right\\}",
+        "folderId": "54",
+        "color": "#9cc3e6",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "59",
+        "latex": "y=v_{bass}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{bass}=1\\right\\}",
+        "folderId": "54",
+        "color": "#27405e",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "60",
+        "latex": "\\left(0,v_{bass}\\left(t\\right)\\right)\\left\\{m_{bass}=1\\right\\}",
+        "folderId": "54",
+        "color": "#27405e",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "61",
+        "latex": "y=v_{drums}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{drums}=1\\right\\}",
+        "folderId": "54",
+        "color": "#f5a623",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "62",
+        "latex": "\\left(0,v_{drums}\\left(t\\right)\\right)\\left\\{m_{drums}=1\\right\\}",
+        "folderId": "54",
+        "color": "#f5a623",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "63",
+        "latex": "y=v_{rise1}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{rise}=1\\right\\}",
+        "folderId": "54",
+        "color": "#c9d8e8",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "64",
+        "latex": "\\left(0,v_{rise1}\\left(t\\right)\\right)\\left\\{m_{rise}=1\\right\\}",
+        "folderId": "54",
+        "color": "#c9d8e8",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "65",
+        "latex": "y=v_{rise2}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{rise}=1\\right\\}",
+        "folderId": "54",
+        "color": "#c9d8e8",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "66",
+        "latex": "\\left(0,v_{rise2}\\left(t\\right)\\right)\\left\\{m_{rise}=1\\right\\}",
+        "folderId": "54",
+        "color": "#c9d8e8",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "67",
+        "latex": "y=v_{rise3}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{rise}=1\\right\\}",
+        "folderId": "54",
+        "color": "#c9d8e8",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "68",
+        "latex": "\\left(0,v_{rise3}\\left(t\\right)\\right)\\left\\{m_{rise}=1\\right\\}",
+        "folderId": "54",
+        "color": "#c9d8e8",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "69",
+        "latex": "y=v_{rise4}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{rise}=1\\right\\}",
+        "folderId": "54",
+        "color": "#c9d8e8",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "70",
+        "latex": "\\left(0,v_{rise4}\\left(t\\right)\\right)\\left\\{m_{rise}=1\\right\\}",
+        "folderId": "54",
+        "color": "#c9d8e8",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "71",
+        "latex": "y=v_{lock1}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{lock}=1\\right\\}",
+        "folderId": "54",
+        "color": "#5b7fa6",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "72",
+        "latex": "\\left(0,v_{lock1}\\left(t\\right)\\right)\\left\\{m_{lock}=1\\right\\}",
+        "folderId": "54",
+        "color": "#5b7fa6",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "73",
+        "latex": "y=v_{lock2}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{lock}=1\\right\\}",
+        "folderId": "54",
+        "color": "#5b7fa6",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "74",
+        "latex": "\\left(0,v_{lock2}\\left(t\\right)\\right)\\left\\{m_{lock}=1\\right\\}",
+        "folderId": "54",
+        "color": "#5b7fa6",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "75",
+        "latex": "y=v_{lock3}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{lock}=1\\right\\}",
+        "folderId": "54",
+        "color": "#5b7fa6",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "76",
+        "latex": "\\left(0,v_{lock3}\\left(t\\right)\\right)\\left\\{m_{lock}=1\\right\\}",
+        "folderId": "54",
+        "color": "#5b7fa6",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "77",
+        "latex": "y=v_{lock4}\\left(x+t\\right)\\left\\{-L<x<0\\right\\}\\left\\{m_{lock}=1\\right\\}",
+        "folderId": "54",
+        "color": "#5b7fa6",
+        "lineWidth": "3"
+      },
+      {
+        "type": "expression",
+        "id": "78",
+        "latex": "\\left(0,v_{lock4}\\left(t\\right)\\right)\\left\\{m_{lock}=1\\right\\}",
+        "folderId": "54",
+        "color": "#5b7fa6",
+        "pointSize": "12"
+      },
+      {
+        "type": "expression",
+        "id": "79",
+        "latex": "x=0",
+        "folderId": "54",
+        "color": "#888888",
+        "lineStyle": "DASHED",
+        "lineOpacity": "0.4"
+      },
+      {
+        "type": "expression",
+        "id": "80",
+        "latex": "\\left(0-t,2.6\\right)",
+        "folderId": "54",
+        "color": "#888888",
+        "label": "approach",
+        "showLabel": true,
+        "pointSize": "6"
+      },
+      {
+        "type": "expression",
+        "id": "81",
+        "latex": "\\left(16-t,2.6\\right)",
+        "folderId": "54",
+        "color": "#888888",
+        "label": "spin",
+        "showLabel": true,
+        "pointSize": "6"
+      },
+      {
+        "type": "expression",
+        "id": "82",
+        "latex": "\\left(48-t,2.6\\right)",
+        "folderId": "54",
+        "color": "#888888",
+        "label": "lock",
+        "showLabel": true,
+        "pointSize": "6"
+      },
+      {
+        "type": "folder",
+        "id": "83",
+        "title": "Audio",
+        "collapsed": false
+      },
+      {
+        "type": "expression",
+        "id": "84",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{tick}\\left(t\\right)},g_{tick}m_{tick}\\cdot a_{tick}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "85",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{arp}\\left(t\\right)},0.4651\\cdot g_{arp}m_{arp}\\cdot a_{arp}\\left(t\\right)\\cdot d_{arp}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "86",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{arp}\\left(t\\right)}\\cdot2,0.3256\\cdot g_{arp}m_{arp}\\cdot a_{arp}\\left(t\\right)\\cdot d_{arp}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "87",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{arp}\\left(t\\right)}\\cdot4,0.2093\\cdot g_{arp}m_{arp}\\cdot a_{arp}\\left(t\\right)\\cdot d_{arp}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "88",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{bass}\\left(t\\right)},0.4651\\cdot g_{bass}m_{bass}\\cdot a_{bass}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "89",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{bass}\\left(t\\right)}\\cdot2,0.3256\\cdot g_{bass}m_{bass}\\cdot a_{bass}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "90",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{bass}\\left(t\\right)}\\cdot4,0.2093\\cdot g_{bass}m_{bass}\\cdot a_{bass}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "91",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{drums}\\left(t\\right)},g_{drums}m_{drums}\\cdot a_{drums}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "92",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{rise1}\\left(t\\right)},0.5\\cdot g_{rise}m_{rise}\\cdot a_{rise1}\\left(t\\right)\\cdot d_{rise}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "93",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{rise2}\\left(t\\right)},0.5\\cdot g_{rise}m_{rise}\\cdot a_{rise2}\\left(t\\right)\\cdot d_{rise}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "94",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{rise3}\\left(t\\right)},0.5\\cdot g_{rise}m_{rise}\\cdot a_{rise3}\\left(t\\right)\\cdot d_{rise}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "95",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{rise4}\\left(t\\right)},0.5\\cdot g_{rise}m_{rise}\\cdot a_{rise4}\\left(t\\right)\\cdot d_{rise}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "96",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock1}\\left(t\\right)},0.0847\\cdot g_{lock}m_{lock}\\cdot a_{lock1}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "97",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock1}\\left(t\\right)}\\cdot2,0.0593\\cdot g_{lock}m_{lock}\\cdot a_{lock1}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "98",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock1}\\left(t\\right)}\\cdot4,0.0381\\cdot g_{lock}m_{lock}\\cdot a_{lock1}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "99",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock1}\\left(t\\right)+0.005},0.0678\\cdot g_{lock}m_{lock}\\cdot a_{lock1}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "100",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock2}\\left(t\\right)},0.0847\\cdot g_{lock}m_{lock}\\cdot a_{lock2}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "101",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock2}\\left(t\\right)}\\cdot2,0.0593\\cdot g_{lock}m_{lock}\\cdot a_{lock2}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "102",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock2}\\left(t\\right)}\\cdot4,0.0381\\cdot g_{lock}m_{lock}\\cdot a_{lock2}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "103",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock2}\\left(t\\right)+0.005},0.0678\\cdot g_{lock}m_{lock}\\cdot a_{lock2}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "104",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock3}\\left(t\\right)},0.0847\\cdot g_{lock}m_{lock}\\cdot a_{lock3}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "105",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock3}\\left(t\\right)}\\cdot2,0.0593\\cdot g_{lock}m_{lock}\\cdot a_{lock3}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "106",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock3}\\left(t\\right)}\\cdot4,0.0381\\cdot g_{lock}m_{lock}\\cdot a_{lock3}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "107",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock3}\\left(t\\right)+0.005},0.0678\\cdot g_{lock}m_{lock}\\cdot a_{lock3}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "108",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock4}\\left(t\\right)},0.0847\\cdot g_{lock}m_{lock}\\cdot a_{lock4}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "109",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock4}\\left(t\\right)}\\cdot2,0.0593\\cdot g_{lock}m_{lock}\\cdot a_{lock4}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "110",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock4}\\left(t\\right)}\\cdot4,0.0381\\cdot g_{lock}m_{lock}\\cdot a_{lock4}\\left(t\\right)\\right)",
+        "folderId": "83"
+      },
+      {
+        "type": "expression",
+        "id": "111",
+        "latex": "\\operatorname{tone}\\left(B\\cdot2^{v_{lock4}\\left(t\\right)+0.005},0.0678\\cdot g_{lock}m_{lock}\\cdot a_{lock4}\\left(t\\right)\\right)",
+        "folderId": "83"
+      }
+    ],
+    "ticker": {
+      "handlerLatex": "t\\to\\operatorname{mod}\\left(t+0.05S,56\\right)",
+      "minStepLatex": "50",
+      "open": true,
+      "playing": false
+    }
+  }
+}

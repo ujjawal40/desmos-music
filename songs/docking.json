@@ -1,0 +1,27 @@
+{
+  "title": "Docking (Interstellar-style, original)",
+  "description": "Original high-tension piece in C minor: a driving organ pulse over i–VI–III–VII, an octave-bouncing bass, a fast Shepard rise, taiko on the downbeats, then everything locks into one held chord. Time unit = 1 beat.",
+  "base": "C4",
+  "bpm": 100,
+  "window": 8,
+  "sections": [
+    {"name": "approach", "start": 0, "end": 16},
+    {"name": "spin", "start": 16, "end": 48},
+    {"name": "lock", "start": 48, "end": 56}
+  ],
+  "voices": [
+    {"name": "tick", "hits": "X . x . x . x .", "step": 0.5, "drum": "tick", "in": ["approach", "spin"],
+     "gain": 0.1, "color": "#e8e0c8"},
+    {"name": "arp", "seq": "[C4m]:4 [Ab3]:4 [Eb3]:4 [Bb3]:4", "arp": "pulse", "arp_step": 0.5,
+     "in": ["approach", "spin"], "env": "organ", "timbre": "organ",
+     "dynamics": [[0, 0.3], [16, 0.8], [48, 1]], "gain": 0.26, "color": "#9cc3e6"},
+    {"name": "bass", "seq": "C2 - C3 C2 | Ab1 - Ab2 Ab1 | Eb2 - Eb3 Eb2 | Bb1 - Bb2 Bb1",
+     "in": "spin", "env": "pluck", "timbre": "organ", "gain": 0.3, "color": "#27405e"},
+    {"name": "drums", "hits": "X . . . x . . . X . . . x . x .", "step": 0.5, "drum": "taiko",
+     "in": "spin", "gain": 0.55, "color": "#f5a623"},
+    {"name": "rise", "shepard": {"period": 4, "layers": 4, "low": -1, "span": 4}, "in": "spin",
+     "dynamics": [[16, 0], [32, 0.6], [48, 1]], "gain": 0.14, "color": "#c9d8e8"},
+    {"name": "lock", "notes": [[48, 8, ["C3", "G3", "Eb4", "G4"]]], "env": "pad", "timbre": "organ",
+     "detune": 6, "gain": 0.35, "color": "#5b7fa6"}
+  ]
+}

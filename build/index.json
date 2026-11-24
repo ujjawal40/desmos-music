@@ -27,6 +27,28 @@
     ]
   },
   {
+    "name": "docking",
+    "title": "Docking (Interstellar-style, original)",
+    "length": 56.0,
+    "sections": [
+      {
+        "name": "approach",
+        "start": 0.0,
+        "end": 16.0
+      },
+      {
+        "name": "spin",
+        "start": 16.0,
+        "end": 48.0
+      },
+      {
+        "name": "lock",
+        "start": 48.0,
+        "end": 56.0
+      }
+    ]
+  },
+  {
     "name": "dune_one",
     "title": "Dune — part one (after @measure_plan)",
     "length": null,
