@@ -38,3 +38,21 @@ def test_parse_key():
     assert parse_key("C4").steps == [0, 2, 4, 5, 7, 9, 11]
     with pytest.raises(SongError, match="unknown scale"):
         parse_key("C4 blorp")
+
+
+def test_scale_degrees():
+    from desmos_music.music import parse_key
+    k = parse_key("D3 phrygian")
+    base = note_hz("D3")
+    assert [semitones(d, base, k) for d in ["^1", "^2", "^3", "^5", "^8"]] == [0, 1, 3, 7, 12]
+    assert semitones("^#4", base, k) == 6
+    assert semitones("^5'", base, k) == 19
+    assert semitones("^1,", base, k) == -12
+    with pytest.raises(SongError, match="needs a 'key'"):
+        semitones("^1", base)
+
+
+def test_seq_with_degrees():
+    from desmos_music.music import parse_key
+    notes, _ = parse_seq("^1 ^2+^4", 1, note_hz("A3"), parse_key("A3 minor"))
+    assert [n.pitches for n in notes] == [[0], [2, 5]]

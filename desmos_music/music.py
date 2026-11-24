@@ -33,8 +33,33 @@ def note_hz(name: str) -> float:
     return 440.0 * 2 ** ((midi - 69) / 12)
 
 
-def semitones(pitch, base_hz: float) -> float:
-    """Pitch (number of semitones, or note name) -> semitones above base_hz."""
+DEGREE_RE = re.compile(r"^\^([#b]?)(\d+)([',]*)$")
+
+
+def _rel(hz: float, base_hz: float) -> float:
+    s = 12 * math.log2(hz / base_hz)
+    r = round(s)
+    return float(r) if abs(s - r) < 1e-6 else round(s, 4)
+
+
+def degree_hz(token: str, key) -> float:
+    """'^1' tonic, '^b2', '^#4', '^8' (octave up), "^5'" (up), '^5,' (down)."""
+    m = DEGREE_RE.match(token)
+    if not m:
+        raise SongError(f"bad scale degree '{token}' (use e.g. ^1 ^b3 ^5')")
+    if key is None:
+        raise SongError(f"scale degree '{token}' needs a 'key' on the song or voice")
+    acc, num, marks = m.groups()
+    idx = int(num) - 1
+    if idx < 0:
+        raise SongError("scale degrees start at ^1")
+    st = key.steps[idx % 7] + 12 * (idx // 7)
+    st += {"#": 1, "b": -1, "": 0}[acc] + 12 * (marks.count("'") - marks.count(","))
+    return key.tonic_hz * 2 ** (st / 12)
+
+
+def semitones(pitch, base_hz: float, key=None) -> float:
+    """Pitch (semitones, note name, or ^degree) -> semitones above base_hz."""
     if isinstance(pitch, (int, float)) and not isinstance(pitch, bool):
         return float(pitch)
     if isinstance(pitch, str):
@@ -42,9 +67,9 @@ def semitones(pitch, base_hz: float) -> float:
             return float(pitch)
         except ValueError:
             pass
-        s = 12 * math.log2(note_hz(pitch) / base_hz)
-        r = round(s)
-        return float(r) if abs(s - r) < 1e-6 else round(s, 4)
+        if pitch.startswith("^"):
+            return _rel(degree_hz(pitch, key), base_hz)
+        return _rel(note_hz(pitch), base_hz)
     raise SongError(f"bad pitch {pitch!r}")
 
 
@@ -109,7 +134,7 @@ class Hit:
     amp: float
 
 
-def parse_notes(notes: list, base_hz: float) -> list[Note]:
+def parse_notes(notes: list, base_hz: float, key=None) -> list[Note]:
     """[[start, duration, pitch], ...]; pitch may be a list for a chord."""
     out = []
     for i, n in enumerate(notes):
@@ -119,7 +144,7 @@ def parse_notes(notes: list, base_hz: float) -> list[Note]:
         if dur <= 0:
             raise SongError(f"note #{i} has non-positive duration")
         ps = p if isinstance(p, list) else [p]
-        out.append(Note(float(start), float(dur), [semitones(x, base_hz) for x in ps]))
+        out.append(Note(float(start), float(dur), [semitones(x, base_hz, key) for x in ps]))
     if not out:
         raise SongError("notes voice needs at least one note")
     return out
@@ -138,7 +163,7 @@ def _split_dur(tok: str, step: float) -> tuple[str, float]:
     return tok, step
 
 
-def parse_seq(seq: str, step: float, base_hz: float) -> tuple[list[Note], float]:
+def parse_seq(seq: str, step: float, base_hz: float, key=None) -> tuple[list[Note], float]:
     """Tracker-style sequence -> (notes, total length).
 
     Tokens, whitespace separated, each `step` long unless given `:dur`:
@@ -164,7 +189,7 @@ def parse_seq(seq: str, step: float, base_hz: float) -> tuple[list[Note], float]
         if body in (".", "r"):
             last_was_note = False
         else:
-            notes.append(Note(t, dur, [semitones(p, base_hz) for p in body.split("+")]))
+            notes.append(Note(t, dur, [semitones(p, base_hz, key) for p in body.split("+")]))
             last_was_note = True
         t += dur
     if not notes:
