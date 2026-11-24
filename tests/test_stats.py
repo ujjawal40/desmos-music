@@ -22,3 +22,9 @@ def test_lint_frequency_range():
     from desmos_music.stats import lint
     assert lint(one_voice(seq="A3")) == []
     assert "20–20000" in lint(one_voice(seq="A3", transpose=-60))[0]
+
+
+def test_lint_too_many_tones():
+    from desmos_music.stats import lint
+    many = one_voice(seq="[A3m9]+[C5m9]", timbre="full_organ")
+    assert any("tone() expressions" in w for w in lint(many))

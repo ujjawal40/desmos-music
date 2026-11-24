@@ -82,6 +82,9 @@ def song_stats(song: dict) -> dict:
     }
 
 
+MAX_TONES = 32
+
+
 def lint(song: dict) -> list[str]:
     """Warnings about things that build fine but will probably sound wrong."""
     st = song_stats(song)
@@ -90,4 +93,7 @@ def lint(song: dict) -> list[str]:
         if v["hz"] and (v["hz"][0] < 20 or v["hz"][1] > 20000):
             warns.append(f"voice '{v['name']}' reaches {v['hz'][0]:.0f}–{v['hz'][1]:.0f} Hz; "
                          "Desmos tone() only plays 20–20000 Hz")
+    if st["tones"] > MAX_TONES:
+        warns.append(f"{st['tones']} tone() expressions; above ~{MAX_TONES} playback may stutter "
+                     "(use simpler timbres or fewer voices)")
     return warns
