@@ -9,6 +9,7 @@
     html, body { margin: 0; height: 100%; background: #1d1a16; color: #f5e6c8; font-family: system-ui, sans-serif; }
     header { padding: 8px 12px; display: flex; gap: 12px; align-items: center; }
     select, button { font: inherit; }
+    #pos { min-width: 16ch; color: #ffd27a; }
     #calc { position: absolute; top: 48px; bottom: 0; left: 0; right: 0; }
   </style>
 </head>
@@ -19,6 +20,7 @@
     <button id="load">Load</button>
     <button id="play">▶ Play</button>
     <button id="restart">⏮ Restart</button>
+    <code id="pos">–</code>
     <span>Space = play/pause. Turn on the speakers in the Audio folder.</span>
   </header>
   <div id="calc"></div>
@@ -31,10 +33,20 @@
       calc.setState(await res.json());
       document.getElementById('play').textContent = '▶ Play';
     }
+    let songs = [];
+    const playhead = calc.HelperExpression({ latex: 't' });
+    playhead.observe('numericValue', () => {
+      const t = playhead.numericValue;
+      const song = songs.find((s) => s.name === document.getElementById('song').value) || {};
+      const sec = (song.sections || []).find((s) => s.start <= t && t < s.end);
+      const len = song.length ? ` / ${song.length}` : '';
+      document.getElementById('pos').textContent =
+        Number.isFinite(t) ? `beat ${t.toFixed(1)}${len}${sec ? ' · ' + sec.name : ''}` : '–';
+    });
     async function init() {
       const sel = document.getElementById('song');
       const res = await fetch('../build/index.json');
-      const songs = res.ok ? await res.json() : [{ name: 'dune_one', title: 'dune_one' }];
+      songs = res.ok ? await res.json() : [{ name: 'dune_one', title: 'dune_one' }];
       for (const s of songs) sel.add(new Option(s.title, s.name));
       const want = new URLSearchParams(location.search).get('song');
       if (want) sel.value = want;
