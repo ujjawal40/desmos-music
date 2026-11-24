@@ -88,3 +88,11 @@ A little `swing` (0.55–0.6) makes it lurch rather than march.
 {"name": "braam", "notes": [[32, 4, ["D2", "A2", "D3"]]], "timbre": "brass", "detune": 12,
  "env": {"a": 0.02, "d": 1.5, "s": 0.5, "r": 1.5}, "gain": 0.35}
 ```
+
+## Mixing in Desmos
+
+- Run `python -m desmos_music stats` and fix its warnings first. It flags clipping risk per section, out-of-range frequencies, and too many `tone()` calls.
+- Drums cut through at about 2× the gain of sustained voices, because they're short.
+- Chord voices split their gain across their notes automatically, so a 3-note pad at `gain: 0.3` is as loud as a single voice at 0.3.
+- Above ~25 `tone()` calls the ticker can lag. Drop harmonics on inner voices first (`timbre: "sine"`).
+- Desmos's ticker fires every ~50 ms, so anything shorter than ~0.1 s (at your bpm) may be skipped. Keep drum `len` and `arp_step` above that.
