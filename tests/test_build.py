@@ -1,15 +1,11 @@
 import json
-from pathlib import Path
 
 import pytest
+from conftest import ROOT, latexes
+from conftest import load_song as load
+from conftest import one_voice as song
 
 from desmos_music.build import SongError, build_state, notes_to_latex
-
-ROOT = Path(__file__).resolve().parents[1]
-
-
-def load(name):
-    return json.loads((ROOT / "songs" / name).read_text())
 
 
 def test_dune_builds():
@@ -42,14 +38,6 @@ def test_rejects_bad_helper():
 
 
 # --- generator features --------------------------------------------------------
-
-def song(**voice):
-    return {"title": "x", "base": "A3", "voices": [{"name": "a", **voice}]}
-
-
-def latexes(state):
-    return [e.get("latex", "") for e in state["expressions"]["list"]]
-
 
 def test_chord_splits_into_voices_and_shares_gain():
     ls = latexes(build_state(song(seq="A3+C4+E4:4")))
