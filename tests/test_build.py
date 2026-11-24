@@ -163,3 +163,9 @@ def test_playhead_has_stable_id():
     state = build_state(song(seq="A3"))
     t = next(e for e in state["expressions"]["list"] if e.get("latex") == "t=0")
     assert t["id"] == "playhead"
+
+
+@pytest.mark.parametrize("bad", [{"vibrato": [3]}, {"vibrato": "fast"}, {"dynamics": [[0]]}, {"dynamics": 5}])
+def test_malformed_options_are_song_errors(bad):
+    with pytest.raises(SongError):
+        build_state(song(seq="A3", **bad))

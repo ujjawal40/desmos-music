@@ -332,6 +332,25 @@ def validate(song: dict) -> None:
         seen.add(name)
         if sum(k in v for k in KINDS) != 1:
             raise SongError(f"voice '{name}' needs exactly one of {', '.join(KINDS)}")
+        _check_pairs(v, "vibrato", name, single=True)
+        _check_pairs(v, "dynamics", name)
+
+
+def _is_num(x) -> bool:
+    return isinstance(x, (int, float)) and not isinstance(x, bool)
+
+
+def _check_pairs(v: dict, key: str, name: str, single: bool = False) -> None:
+    """vibrato = [a, b]; dynamics = [[a, b], ...] — numbers only."""
+    if key not in v or v[key] is None:
+        return
+    val = v[key]
+    pairs = [val] if single else val
+    shape = "[rate, depth]" if single else "[[beat, level], ...]"
+    ok = isinstance(pairs, list) and pairs and all(
+        isinstance(p, list) and len(p) == 2 and all(_is_num(x) for x in p) for p in pairs)
+    if not ok:
+        raise SongError(f"voice '{name}': '{key}' must look like {shape}, got {val!r}")
 
 
 class _Ids:
