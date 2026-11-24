@@ -110,3 +110,22 @@ def pair_notes(events: list[tuple], ticks_per_beat: int) -> list[tuple]:
         out += [(s, last - s, note, v) for s, v in starts if last > s]
     out.sort()
     return [(s / ticks_per_beat, d / ticks_per_beat, n, v) for s, d, n, v in out]
+
+
+def split_lanes(notes: list[tuple]) -> list[list[tuple]]:
+    """Spread overlapping notes over monophonic lanes (one tone() each).
+
+    Each note goes to the lowest-numbered lane that is free at its start, so
+    a melody stays in lane 1 and chord tones fill lanes 2, 3, ...
+    Notes starting together are placed highest pitch first.
+    """
+    lanes: list[list[tuple]] = []
+    for note in sorted(notes, key=lambda n: (n[0], -n[2])):
+        for lane in lanes:
+            prev = lane[-1]
+            if prev[0] + prev[1] <= note[0] + 1e-9:
+                lane.append(note)
+                break
+        else:
+            lanes.append([note])
+    return lanes

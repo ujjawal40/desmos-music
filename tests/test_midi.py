@@ -59,3 +59,10 @@ def test_pair_notes():
         (480, "on", (1, 67, 70)), (960, "tempo", 500000),
     ]
     assert pair_notes(events, 480) == [(0, 0.5, 60, 100), (0, 1.0, 64, 90), (1.0, 1.0, 67, 70)]
+
+
+def test_split_lanes_keeps_melody_on_top():
+    from desmos_music.midi import split_lanes
+    notes = [(0, 2, 48, 1), (0, 1, 72, 1), (1, 1, 74, 1), (2, 1, 50, 1)]
+    lanes = split_lanes(notes)
+    assert [[n[2] for n in lane] for lane in lanes] == [[72, 74, 50], [48]]
