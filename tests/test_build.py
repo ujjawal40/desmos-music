@@ -137,3 +137,8 @@ def test_transpose_shifts_any_voice_kind():
     for kind in ({"latex": "0"}, {"seq": "A3"}, {"hits": "x"}):
         v = next(l for l in latexes(build_state(song(transpose=-12, **kind))) if l.startswith("v_{a}"))
         assert v.endswith("+\\frac{-12}{12}")
+
+
+def test_ghost_notes_get_an_amplitude_curve_even_without_env():
+    a = next(l for l in latexes(build_state(song(seq="A3 C4?"))) if l.startswith("a_{a}"))
+    assert "1\\le x<2:0.5" in a.replace("\\operatorname{mod}\\left(x,2\\right)", "x")

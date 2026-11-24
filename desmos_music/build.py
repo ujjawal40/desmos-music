@@ -118,7 +118,7 @@ def _cond(u: str, start: float, end: float) -> str:
 def _melody_latex(evs: list[tuple], u: str, glide: float) -> str:
     branches = []
     prev = None
-    for start, end, p in evs:
+    for start, end, p, *_ in evs:
         body = _frac(p)
         if glide > 0 and prev is not None and abs(prev[1] - start) < 1e-9 and prev[2] != p:
             q = prev[2]
@@ -130,7 +130,13 @@ def _melody_latex(evs: list[tuple], u: str, glide: float) -> str:
 
 
 def _melody_env_latex(evs: list[tuple], u: str, env: dict) -> str:
-    return _piecewise([f"{_cond(u, s, e)}:{_adsr(u, s, e, env)}" for s, e, _ in evs])
+    branches = []
+    for s, e, _, amp in evs:
+        shape = _adsr(u, s, e, env)
+        if amp != 1:
+            shape = _fmt(amp) if shape == "1" else f"{_fmt(amp)}{shape}"
+        branches.append(f"{_cond(u, s, e)}:{shape}")
+    return _piecewise(branches)
 
 
 def _drum_latex(hits: list[Hit], u: str, loop, drum: dict) -> tuple[str, str]:
@@ -243,14 +249,14 @@ def _tracks_for_voice(v: dict, base_hz: float, song_key=None) -> list[Track]:
     u = _clock(loop, offset)
     tracks = []
     for i in range(width):
-        evs = [(n.start, n.end, n.pitches[i]) for n in notes if len(n.pitches) > i]
+        evs = [(n.start, n.end, n.pitches[i], n.amp) for n in notes if len(n.pitches) > i]
         tname = name if width == 1 else f"{name}{i + 1}"
         pitch = _melody_latex(evs, u, glide)
         amp = None
         if isinstance(env, str) and env not in ENVELOPES:
             amp = env
-        elif env_dict:
-            amp = _melody_env_latex(evs, u, env_dict)
+        elif env_dict or any(e[3] != 1 for e in evs):
+            amp = _melody_env_latex(evs, u, env_dict or {})
         tracks.append(Track(tname, name, pitch, amp, color, share=1 / width))
     return tracks
 

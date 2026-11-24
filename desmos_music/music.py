@@ -122,6 +122,7 @@ class Note:
     start: float
     dur: float
     pitches: list  # semitones; several = chord
+    amp: float = 1.0  # 0.5 for ghost notes ('A3?')
 
     @property
     def end(self) -> float:
@@ -169,6 +170,7 @@ def parse_seq(seq: str, step: float, base_hz: float, key=None) -> tuple[list[Not
     Tokens, whitespace separated, each `step` long unless given `:dur`:
       A3  C#4  Bb2  7      a note (name or semitones above base)
       A3+C4+E4             a chord
+      A3?                  ghost note (half volume)
       -                    hold the previous note one more step
       .  or  r             rest
       |                    bar line (ignored)
@@ -189,7 +191,10 @@ def parse_seq(seq: str, step: float, base_hz: float, key=None) -> tuple[list[Not
         if body in (".", "r"):
             last_was_note = False
         else:
-            notes.append(Note(t, dur, [semitones(p, base_hz, key) for p in body.split("+")]))
+            amp = 1.0
+            if body.endswith("?"):
+                body, amp = body[:-1], 0.5
+            notes.append(Note(t, dur, [semitones(p, base_hz, key) for p in body.split("+")], amp))
             last_was_note = True
         t += dur
     if not notes:

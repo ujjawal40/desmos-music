@@ -64,3 +64,8 @@ def test_swing_delays_offbeats():
     assert length == 2
     with pytest.raises(SongError):
         parse_hits("x", 1, swing=0.2)
+
+
+def test_ghost_notes():
+    notes, _ = parse_seq("A3 C4? E4", 1, 220)
+    assert [n.amp for n in notes] == [1, 0.5, 1]
