@@ -34,3 +34,57 @@
 {"name": "pad", "seq": "[A3m]:8 [F3maj7]:8", "env": "pad", "timbre": "organ",
  "dynamics": [[48, 0], [56, 1]], "gain": 0.3}
 ```
+
+## Desert epic (Dune-style)
+
+**Scales.** `phrygian` (♭2) is the classic darkness. `phrygian_dominant` and `double_harmonic` add the augmented second that reads as "desert". Set it once on the song:
+
+```json
+"key": "D3 double_harmonic"
+```
+
+Then write melodies in degrees: `"^1:2 ^b2 ^1 ^7, ^1:4"`.
+
+**War drums.** `taiko` is a long, low pitch-drop. Keep the pattern sparse and leave the gaps:
+
+```json
+{"name": "drums", "hits": "X . . x X . x .", "step": 0.5, "drum": "taiko", "gain": 0.6}
+```
+
+A little `swing` (0.55–0.6) makes it lurch rather than march.
+
+**Throat chant.** Use a buzzy timbre low in the range, with slow slides and a slow wobble:
+
+```json
+{"name": "chant", "seq": "^1:3 ^b2 ^1:2 ^7,:2", "key": "D3 phrygian", "timbre": "brass",
+ "env": "voice", "glide": 0.25, "vibrato": [1.5, 0.2], "gain": 0.25}
+```
+
+**Vocal wail.** Use a hollow (odd-harmonic) tone, high, with long glides and a wide vibrato. Glide only happens between notes that touch, so avoid rests inside a phrase:
+
+```json
+{"name": "wail", "seq": "D5:2 Eb5 D5 C5:2 Bb4 A4", "timbre": "hollow", "env": "voice",
+ "glide": 0.18, "vibrato": [3, 0.35], "gain": 0.22}
+```
+
+## Tension
+
+**Shepard tone.** It seems to rise forever, which is ideal under a build:
+
+```json
+{"name": "rise", "shepard": {"period": 8, "layers": 4, "low": -2, "span": 4}, "gain": 0.15}
+```
+
+**One-shot riser.** A latex voice that climbs across one section. In this example it climbs 2 octaves over 16 beats, from beat 48:
+
+```json
+{"name": "riser", "latex": "-1+\\frac{\\operatorname{mod}\\left(x,16\\right)}{8}", "in": "worm",
+ "dynamics": [[48, 0], [62, 1], [64, 0]], "gain": 0.12}
+```
+
+**Braam / impact.** Use a loud low brass chord with a fast attack and long release, played once at a section start. A detune makes it rougher:
+
+```json
+{"name": "braam", "notes": [[32, 4, ["D2", "A2", "D3"]]], "timbre": "brass", "detune": 12,
+ "env": {"a": 0.02, "d": 1.5, "s": 0.5, "r": 1.5}, "gain": 0.35}
+```
