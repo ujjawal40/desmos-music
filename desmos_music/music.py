@@ -234,6 +234,45 @@ def parse_seq(seq: str, step: float, base_hz: float, key=None) -> tuple[list[Not
     return notes, t
 
 
+ARP_PATTERNS = {
+    "up": "0 1 2 3",
+    "down": "3 2 1 0",
+    "updown": "0 1 2 3 2 1",
+    "alberti": "0 2 1 2",
+    "pulse": "0 3 1 3 2 3 1 3",
+}
+
+
+def arpeggiate(notes: list, pattern: str, step: float) -> list:
+    """Break every chord into single notes following `pattern`.
+
+    Pattern entries index the chord tones from the bottom; an index past the
+    top wraps up an octave (so '0 1 2 3' on a triad ends on the octave).
+    Single notes pass through unchanged.
+    """
+    pattern = ARP_PATTERNS.get(pattern, pattern)
+    try:
+        idx = [int(i) for i in pattern.split()]
+    except ValueError:
+        raise SongError(f"arp pattern must be integers or one of {', '.join(ARP_PATTERNS)}") from None
+    if not idx or step <= 0:
+        raise SongError("arp needs a non-empty pattern and a positive step")
+    out = []
+    for n in notes:
+        if len(n.pitches) < 2:
+            out.append(n)
+            continue
+        tones = sorted(n.pitches)
+        t, k = n.start, 0
+        while t < n.end - 1e-9:
+            i = idx[k % len(idx)]
+            p = tones[i % len(tones)] + 12 * (i // len(tones))
+            out.append(Note(t, min(step, n.end - t), [p], n.amp))
+            t += step
+            k += 1
+    return out
+
+
 def parse_hits(pattern: str, step: float, swing: float = 0.5) -> tuple[list[Hit], float]:
     """Drum grid: 'X' accent, 'x' normal, '.' rest; spaces and '|' ignored.
 

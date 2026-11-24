@@ -85,3 +85,15 @@ def test_seq_chord_symbols():
     notes, _ = parse_seq("[A3m]:4 [F3]+A4", 1, 220)
     assert notes[0].pitches == [0, 3, 7] and notes[0].dur == 4
     assert notes[1].pitches == [-4, 0, 3, 12]
+
+
+def test_arpeggiate():
+    from desmos_music.music import arpeggiate
+    notes, _ = parse_seq("[A3m]:2 C5", 1, 220)
+    out = arpeggiate(notes, "up", 0.5)
+    assert [n.pitches[0] for n in out] == [0, 3, 7, 12, 15]
+    assert [n.start for n in out] == [0, 0.5, 1, 1.5, 2]
+    out = arpeggiate(notes, "0 2", 0.75)
+    assert [(n.start, n.dur) for n in out[:3]] == [(0, 0.75), (0.75, 0.75), (1.5, 0.5)]
+    with pytest.raises(SongError):
+        arpeggiate(notes, "a b", 1)
