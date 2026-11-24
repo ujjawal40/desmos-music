@@ -35,19 +35,27 @@
       const res = await fetch(`../build/${name}.json`, { cache: 'no-store' });
       if (!res.ok) { alert(`build/${name}.json not found — run: python -m desmos_music`); return; }
       lastText = await res.text();
-      calc.setState(JSON.parse(lastText));
+      setGraph(JSON.parse(lastText));
       document.getElementById('play').textContent = '▶ Play';
     }
     let songs = [];
-    const playhead = calc.HelperExpression({ latex: 't' });
-    playhead.observe('numericValue', () => {
+    // calc.setState() disconnects HelperExpressions, so every setState goes
+    // through setGraph(), which re-attaches the playhead observer.
+    let playhead = null;
+    function setGraph(state) {
+      calc.setState(state, { allowUndo: false });
+      if (playhead) playhead.unobserve('numericValue');
+      playhead = calc.HelperExpression({ latex: 't' });
+      playhead.observe('numericValue', showPosition);
+    }
+    function showPosition() {
       const t = playhead.numericValue;
       const song = songs.find((s) => s.name === document.getElementById('song').value) || {};
       const sec = (song.sections || []).find((s) => s.start <= t && t < s.end);
       const len = song.length ? ` / ${song.length}` : '';
       document.getElementById('pos').textContent =
         Number.isFinite(t) ? `beat ${t.toFixed(1)}${len}${sec ? ' · ' + sec.name : ''}` : '–';
-    });
+    }
     async function init() {
       const sel = document.getElementById('song');
       const res = await fetch('../build/index.json');
@@ -61,7 +69,7 @@
     function setPlaying(on) {
       const s = calc.getState();
       s.expressions.ticker.playing = on;
-      calc.setState(s, { allowUndo: false });
+      setGraph(s);
       document.getElementById('play').textContent = on ? '⏸ Pause' : '▶ Play';
     }
     const isPlaying = () => calc.getState().expressions.ticker?.playing;
@@ -96,7 +104,7 @@
       const t = playhead.numericValue, playing = isPlaying();
       const next = JSON.parse(text);
       next.expressions.ticker.playing = playing;
-      calc.setState(next, { allowUndo: false });
+      setGraph(next);
       if (Number.isFinite(t)) calc.setExpression({ id: 'playhead', latex: `t=${t}` });
     }, 1000);
     document.getElementById('load').onclick = load;
