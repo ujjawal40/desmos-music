@@ -266,8 +266,12 @@ def validate(song: dict) -> None:
             raise SongError(
                 f"helper '{name}' must be a single letter not in {sorted(RESERVED_HELPERS)}"
             )
+    if not isinstance(song["voices"], list) or not song["voices"]:
+        raise SongError("'voices' must be a non-empty list")
     seen = set()
     for v in song["voices"]:
+        if not isinstance(v, dict):
+            raise SongError(f"each voice must be an object, got {v!r}")
         name = v.get("name", "")
         if not NAME_RE.match(name):
             raise SongError(f"voice name '{name}' must be alphanumeric, starting with a letter")

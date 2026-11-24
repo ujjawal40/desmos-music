@@ -102,3 +102,10 @@ def test_section_missing_end_is_a_song_error():
     s["sections"] = [{"name": "a", "start": 0}]
     with pytest.raises(SongError, match="needs 'start' and 'end'"):
         build_state(s)
+
+
+def test_voices_must_be_a_list_of_objects():
+    with pytest.raises(SongError, match="list"):
+        build_state({"title": "x", "voices": {"a": 1}})
+    with pytest.raises(SongError, match="object"):
+        build_state({"title": "x", "voices": ["A3"]})
