@@ -115,6 +115,27 @@ def parse_key(text: str) -> Key:
     return Key(note_hz(parts[0]), SCALES[mode])
 
 
+# --- chords ----------------------------------------------------------------
+
+CHORDS = {
+    "": [0, 4, 7], "m": [0, 3, 7], "5": [0, 7], "dim": [0, 3, 6], "aug": [0, 4, 8],
+    "sus2": [0, 2, 7], "sus4": [0, 5, 7], "7": [0, 4, 7, 10], "maj7": [0, 4, 7, 11],
+    "m7": [0, 3, 7, 10], "m7b5": [0, 3, 6, 10], "dim7": [0, 3, 6, 9],
+    "add9": [0, 4, 7, 14], "madd9": [0, 3, 7, 14], "m9": [0, 3, 7, 10, 14],
+}
+CHORD_RE = re.compile(r"^([A-Ga-g][#b]*-?\d+)([a-z0-9]*)$")
+
+
+def chord_hz(symbol: str) -> list:
+    """'A3m' -> frequencies of A3, C4, E4. Root needs an octave."""
+    m = CHORD_RE.match(symbol)
+    if not m or m.group(2) not in CHORDS:
+        raise SongError(f"bad chord '{symbol}' (root with octave + one of: "
+                        f"{', '.join(repr(q) for q in CHORDS)})")
+    root = note_hz(m.group(1))
+    return [root * 2 ** (i / 12) for i in CHORDS[m.group(2)]]
+
+
 # --- events ----------------------------------------------------------------
 
 @dataclass

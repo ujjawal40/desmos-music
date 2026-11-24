@@ -69,3 +69,13 @@ def test_swing_delays_offbeats():
 def test_ghost_notes():
     notes, _ = parse_seq("A3 C4? E4", 1, 220)
     assert [n.amp for n in notes] == [1, 0.5, 1]
+
+
+def test_chord_symbols():
+    from desmos_music.music import chord_hz
+    assert [round(f, 2) for f in chord_hz("A3m")] == [220, 261.63, 329.63]
+    assert len(chord_hz("G2m9")) == 5
+    with pytest.raises(SongError, match="bad chord"):
+        chord_hz("A3blah")
+    with pytest.raises(SongError):
+        chord_hz("Am")
