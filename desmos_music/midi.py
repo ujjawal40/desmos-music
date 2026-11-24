@@ -25,6 +25,8 @@ def read_chunks(data: bytes) -> tuple[dict, list[bytes]]:
     """Split a .mid file into its header fields and raw track chunks."""
     if data[:4] != b"MThd":
         raise SongError("not a MIDI file (missing MThd header)")
+    if len(data) < 14:
+        raise SongError("truncated MIDI header")
     (hlen,) = struct.unpack(">I", data[4:8])
     fmt, ntracks, division = struct.unpack(">HHH", data[8:14])
     if division & 0x8000:
@@ -82,6 +84,8 @@ def read_events(track: bytes) -> list[tuple]:
             raise SongError("MIDI data byte without a status byte")
         kind, ch = status & 0xF0, status & 0x0F
         args = track[pos:pos + DATA_BYTES[kind]]
+        if len(args) < DATA_BYTES[kind]:
+            raise SongError("truncated MIDI event")
         pos += DATA_BYTES[kind]
         if kind == 0x90 and args[1] > 0:
             events.append((tick, "on", (ch, args[0], args[1])))

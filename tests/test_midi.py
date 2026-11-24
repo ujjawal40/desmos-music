@@ -123,3 +123,10 @@ def test_drum_grids():
     from desmos_music.midi import drum_grids
     notes = [(0, 0.1, 36, 110), (1, 0.1, 36, 80), (0.5, 0.1, 42, 60), (0, 0.1, 99, 100)]
     assert drum_grids(notes, 0.25, 2) == {"kick": "X... x...", "tick": "..x. ...."}
+
+
+@pytest.mark.parametrize("data", [b"MThd\x00\x00", smf(b"\x00\x90\x45")])
+def test_truncated_files_are_song_errors(data):
+    from desmos_music.midi import midi_to_song
+    with pytest.raises(SongError):
+        midi_to_song(data, "x")
