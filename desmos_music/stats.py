@@ -127,8 +127,12 @@ def lint(song: dict) -> list[str]:
     for v in song["voices"]:
         loop = _loop_length(v, st["base_hz"])
         names = v.get("in", [])
-        for name in [names] if isinstance(names, str) else names:
+        names = [names] if isinstance(names, str) else names
+        playing_until = {sections[n][1] for n in names}
+        for name in names:
             start = sections[name][0]
+            if any(abs(start - end) < 1e-9 for end in playing_until):
+                continue  # carries straight on from the previous section
             into = (start - float(v.get("offset", 0))) % loop if loop else 0
             if 1e-9 < into < loop - 1e-9:
                 warns.append(f"voice '{v['name']}' enters section '{name}' {into:g} beats into its "

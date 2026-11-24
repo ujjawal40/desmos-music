@@ -56,3 +56,10 @@ def test_lint_gain_is_per_section():
     assert lint(s) == []
     s["voices"][1]["in"] = ["a", "b"]
     assert any("section 'a'" in w for w in lint(s))
+
+
+def test_lint_phrase_alignment_ignores_continuous_play():
+    from desmos_music.stats import lint
+    s = one_voice(seq="A3:4 C4:4 E4:4", offset=0, **{"in": ["a", "b"]})
+    s["sections"] = [["a", 0, 16], ["b", 16, 32]]
+    assert lint(s) == []
