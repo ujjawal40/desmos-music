@@ -60,6 +60,33 @@
     ]
   },
   {
+    "name": "tesseract",
+    "title": "Tesseract (Interstellar-style, original)",
+    "length": 80.0,
+    "sections": [
+      {
+        "name": "drift",
+        "start": 0.0,
+        "end": 16.0
+      },
+      {
+        "name": "fold",
+        "start": 16.0,
+        "end": 48.0
+      },
+      {
+        "name": "collapse",
+        "start": 48.0,
+        "end": 64.0
+      },
+      {
+        "name": "return",
+        "start": 64.0,
+        "end": 80.0
+      }
+    ]
+  },
+  {
     "name": "tutorial_1_drone",
     "title": "Tutorial 1 — a drone",
     "length": 16,

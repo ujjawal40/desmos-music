@@ -1,0 +1,30 @@
+{
+  "title": "Tesseract (Interstellar-style, original)",
+  "description": "Original space-organ piece in E minor: an off-kilter clock (3+3+2), an organ 'pulse' arpeggio over i–VI–III–VII, a Shepard tone that never stops rising, then a quiet bell line. Time unit = 1 beat.",
+  "base": "E3",
+  "key": "E3 minor",
+  "bpm": 64,
+  "window": 8,
+  "sections": [
+    {"name": "drift", "start": 0, "end": 16},
+    {"name": "fold", "start": 16, "end": 48},
+    {"name": "collapse", "start": 48, "end": 64},
+    {"name": "return", "start": 64, "end": 80}
+  ],
+  "voices": [
+    {"name": "tick", "hits": "X . . x . . x .", "step": 0.5, "drum": "tick", "gain": 0.1, "color": "#e8e0c8"},
+    {"name": "pedal", "latex": "-1", "timbre": "organ", "detune": 5,
+     "dynamics": [[0, 0], [10, 0.9], [64, 1], [80, 0]], "gain": 0.22, "color": "#5b7fa6"},
+    {"name": "arp", "seq": "[E3m]:4 [C3maj7]:4 [G3]:4 [D3]:4", "arp": "pulse", "arp_step": 0.5,
+     "in": ["fold", "collapse"], "env": "organ", "timbre": "organ",
+     "dynamics": [[16, 0.4], [48, 1]], "gain": 0.26, "color": "#9cc3e6"},
+    {"name": "pad", "seq": "[E3m]:4 [C3maj7]:4 [G3]:4 [D3]:4", "in": "collapse", "env": "pad",
+     "timbre": "organ", "gain": 0.26, "color": "#3e5f86"},
+    {"name": "bass", "seq": "E2:4 C2:4 G2:4 D2:4", "in": ["collapse", "return"], "env": "pad",
+     "timbre": "organ", "gain": 0.24, "color": "#27405e"},
+    {"name": "rise", "shepard": {"period": 8, "layers": 4, "low": -1, "span": 4}, "in": "collapse",
+     "dynamics": [[48, 0], [56, 1]], "gain": 0.14, "color": "#c9d8e8"},
+    {"name": "bell", "seq": "^5:3 ^4 | ^3:2 ^2:2 | ^1:3 ^7, | ^1:4", "key": "E4 minor",
+     "in": "return", "offset": 64, "env": "bell", "glide": 0.05, "gain": 0.3, "color": "#f2f6fb"}
+  ]
+}
