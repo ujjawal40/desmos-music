@@ -84,3 +84,12 @@ def test_manifest_lists_sections_and_length(in_tmp):
     entry = json.loads((in_tmp / "build" / "index.json").read_text())[0]
     assert entry["length"] == 48
     assert [s["name"] for s in entry["sections"]] == ["intro", "main"]
+
+
+def test_new_styles_build_and_lint_clean(in_tmp):
+    from desmos_music.stats import lint
+    for style in ("basic", "dune", "interstellar"):
+        assert main(["new", style, "--style", style]) == 0
+        song = json.loads((in_tmp / "songs" / f"{style}.json").read_text())
+        assert lint(song) == [], style
+    assert main([]) == 0

@@ -1,7 +1,7 @@
 """CLI.
 
   python -m desmos_music [songs...] [-o build]   build songs (default: songs/*.json)
-  python -m desmos_music new NAME                scaffold songs/NAME.json
+  python -m desmos_music new NAME [--style S]    scaffold songs/NAME.json (basic, dune, interstellar)
   python -m desmos_music serve [--port 8000]     build all, then serve the local player
   python -m desmos_music stats [songs...]        duration, tone count, ranges, warnings
   python -m desmos_music import-midi FILE.mid    convert a MIDI file into songs/<name>.json
@@ -51,6 +51,38 @@ def manifest_entry(path) -> dict:
     }
 
 
+STYLES = {
+    "basic": TEMPLATE,
+    "interstellar": {
+        "title": "Untitled", "description": "Space-organ starter: clock, pedal, arpeggio, pads.",
+        "base": "A3", "key": "A3 minor", "bpm": 70, "window": 8,
+        "sections": [{"name": "intro", "start": 0, "end": 16}, {"name": "build", "start": 16, "end": 48}],
+        "voices": [
+            {"name": "tick", "hits": "X . x . x . x .", "step": 0.5, "drum": "tick", "gain": 0.1},
+            {"name": "pedal", "latex": "-1", "timbre": "organ", "detune": 6,
+             "dynamics": [[0, 0], [12, 1]], "gain": 0.22, "color": "#5b7fa6"},
+            {"name": "arp", "seq": "[A3m]:4 [F3]:4 [C3]:4 [E3]:4", "arp": "pulse", "arp_step": 0.5,
+             "in": "build", "env": "organ", "timbre": "organ", "gain": 0.26, "color": "#9cc3e6"},
+            {"name": "pad", "seq": "[A3m]:4 [F3]:4 [C3]:4 [E3]:4", "in": "build", "env": "pad",
+             "timbre": "organ", "dynamics": [[16, 0], [32, 1]], "gain": 0.25, "color": "#3e5f86"},
+        ],
+    },
+    "dune": {
+        "title": "Untitled", "description": "Desert starter: drone, chant, war drums.",
+        "base": "D4", "key": "D3 phrygian", "bpm": 64, "window": 8,
+        "sections": [{"name": "intro", "start": 0, "end": 16}, {"name": "drums", "start": 16, "end": 48}],
+        "voices": [
+            {"name": "drone", "latex": "-2", "timbre": "reed", "detune": 9,
+             "dynamics": [[0, 0], [8, 1]], "gain": 0.25, "color": "#8a5a1c"},
+            {"name": "chant", "seq": "^1:3 ^b2 | ^1:2 ^7,:2 | ^1:4 | ^3:2 ^b2 ^1", "env": "voice",
+             "timbre": "brass", "glide": 0.25, "vibrato": [1.5, 0.2], "gain": 0.24, "color": "#c47f1a"},
+            {"name": "taiko", "hits": "X . . x X . x .", "step": 0.5, "drum": "taiko", "in": "drums",
+             "gain": 0.55, "color": "#f5a623"},
+        ],
+    },
+}
+
+
 def build_all(songs, out: Path) -> int:
     built = []
     for s in songs:
@@ -73,13 +105,14 @@ def build_all(songs, out: Path) -> int:
 def cmd_new(argv) -> int:
     p = argparse.ArgumentParser(prog="desmos_music new")
     p.add_argument("name")
+    p.add_argument("--style", choices=sorted(STYLES), default="basic")
     args = p.parse_args(argv)
     path = Path("songs") / f"{args.name}.json"
     if path.exists():
         print(f"{path} already exists", file=sys.stderr)
         return 1
     path.parent.mkdir(exist_ok=True)
-    path.write_text(json.dumps({**TEMPLATE, "title": args.name}, indent=2) + "\n")
+    path.write_text(json.dumps({**STYLES[args.style], "title": args.name}, indent=2) + "\n")
     print(f"created {path} — edit it, then: python -m desmos_music serve")
     return 0
 
