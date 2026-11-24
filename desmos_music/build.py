@@ -38,6 +38,7 @@ from .music import (
 )
 
 NAME_RE = re.compile(r"^[A-Za-z][A-Za-z0-9]*$")
+PLAYHEAD_ID = "playhead"  # stable id so players can seek with setExpression
 TICK_MS = 50  # ticker step; Desmos fires roughly every 20ms at best
 RESERVED_HELPERS = {"t", "x", "y", "B", "S", "L", "e"}
 KINDS = ("latex", "notes", "seq", "hits", "shepard")
@@ -387,6 +388,7 @@ def build_state(song: dict) -> dict:
     # --- Controls -------------------------------------------------------
     c = folder("Controls", collapsed=False)
     expr("t=0", c, slider={"hardMin": True, "min": "0", "max": _fmt(length or 64)})
+    exprs[-1]["id"] = PLAYHEAD_ID
     expr(f"B={_fmt(round(base_hz, 4))}", c,
          slider={"hardMin": True, "hardMax": True, "min": "55", "max": "880"})
     expr(f"S={_fmt(round(speed, 4))}", c,

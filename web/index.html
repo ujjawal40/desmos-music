@@ -50,7 +50,7 @@
     const isPlaying = () => calc.getState().expressions.ticker?.playing;
     document.getElementById('play').onclick = () => setPlaying(!isPlaying());
     document.getElementById('restart').onclick = () => {
-      calc.setExpression({ id: '3', latex: 't=0' });
+      calc.setExpression({ id: 'playhead', latex: 't=0' });
     };
     document.getElementById('load').onclick = load;
     window.calc = calc;

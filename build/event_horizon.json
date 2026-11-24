@@ -26,7 +26,7 @@
       },
       {
         "type": "expression",
-        "id": "3",
+        "id": "playhead",
         "latex": "t=0",
         "folderId": "2",
         "slider": {

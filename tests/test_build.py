@@ -157,3 +157,9 @@ def test_shepard_tone_layers():
     assert sum(l.startswith("a_{a") and "\\sin" in l for l in ls) == 3
     with pytest.raises(SongError, match="direction"):
         build_state(song(shepard={"direction": "sideways"}))
+
+
+def test_playhead_has_stable_id():
+    state = build_state(song(seq="A3"))
+    t = next(e for e in state["expressions"]["list"] if e.get("latex") == "t=0")
+    assert t["id"] == "playhead"
