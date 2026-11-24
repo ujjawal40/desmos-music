@@ -79,3 +79,9 @@ def test_chord_symbols():
         chord_hz("A3blah")
     with pytest.raises(SongError):
         chord_hz("Am")
+
+
+def test_seq_chord_symbols():
+    notes, _ = parse_seq("[A3m]:4 [F3]+A4", 1, 220)
+    assert notes[0].pitches == [0, 3, 7] and notes[0].dur == 4
+    assert notes[1].pitches == [-4, 0, 3, 12]

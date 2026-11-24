@@ -172,6 +172,16 @@ def parse_notes(notes: list, base_hz: float, key=None) -> list[Note]:
     return out
 
 
+def _pitches(body: str, base_hz: float, key) -> list:
+    out = []
+    for part in body.split("+"):
+        if part.startswith("[") and part.endswith("]"):
+            out += [_rel(f, base_hz) for f in chord_hz(part[1:-1])]
+        else:
+            out.append(semitones(part, base_hz, key))
+    return out
+
+
 def _split_dur(tok: str, step: float) -> tuple[str, float]:
     if ":" in tok:
         body, d = tok.rsplit(":", 1)
@@ -191,6 +201,7 @@ def parse_seq(seq: str, step: float, base_hz: float, key=None) -> tuple[list[Not
     Tokens, whitespace separated, each `step` long unless given `:dur`:
       A3  C#4  Bb2  7      a note (name or semitones above base)
       A3+C4+E4             a chord
+      [A3m]  [F3maj7]      chord symbol (root with octave + quality)
       A3?                  ghost note (half volume)
       -                    hold the previous note one more step
       .  or  r             rest
@@ -215,7 +226,7 @@ def parse_seq(seq: str, step: float, base_hz: float, key=None) -> tuple[list[Not
             amp = 1.0
             if body.endswith("?"):
                 body, amp = body[:-1], 0.5
-            notes.append(Note(t, dur, [semitones(p, base_hz, key) for p in body.split("+")], amp))
+            notes.append(Note(t, dur, _pitches(body, base_hz, key), amp))
             last_was_note = True
         t += dur
     if not notes:
