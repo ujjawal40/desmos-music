@@ -29,6 +29,8 @@
     const calc = Desmos.GraphingCalculator(document.getElementById('calc'), { expressionsCollapsed: false });
     async function load() {
       const name = document.getElementById('song').value;
+      localStorage.setItem('desmos-music:song', name);
+      history.replaceState(null, '', `?song=${encodeURIComponent(name)}`);
       const res = await fetch(`../build/${name}.json`);
       if (!res.ok) { alert(`build/${name}.json not found — run: python -m desmos_music`); return; }
       calc.setState(await res.json());
@@ -49,8 +51,8 @@
       const res = await fetch('../build/index.json');
       songs = res.ok ? await res.json() : [{ name: 'dune_one', title: 'dune_one' }];
       for (const s of songs) sel.add(new Option(s.title, s.name));
-      const want = new URLSearchParams(location.search).get('song');
-      if (want) sel.value = want;
+      const want = new URLSearchParams(location.search).get('song') || localStorage.getItem('desmos-music:song');
+      if (want && songs.some((s) => s.name === want)) sel.value = want;
       sel.onchange = load;
       load();
     }
