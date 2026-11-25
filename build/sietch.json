@@ -16,7 +16,7 @@
       {
         "type": "text",
         "id": "1",
-        "text": "Sietch (Dune-style, original)\nOriginal desert piece in D double-harmonic: a falling Shepard 'wind', a beating reed drone, a chant with ghost notes, swung taiko, a braam at the start of the rite, and a sliding wail. Time unit = 1 beat.\nSections: wind (0–16) → gathering (16–40) → rite (40–56) → dusk (56–64)\nPress ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
+        "text": "Sietch (Dune-style, original)\nOriginal desert piece in D double-harmonic: a falling Shepard 'wind', a beating reed drone, a chant with ghost notes, swung taiko, a braam at the start of the rite, and a sliding wail. Time unit = 1 beat.\nSections: wind (0–16) → gathering (16–40) → rite (40–56) → dusk (56–64)\nPress ▶ on the ticker (top of the list), then click the speaker icon above the list to unmute (Desmos starts muted)."
       },
       {
         "type": "folder",

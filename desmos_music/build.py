@@ -402,7 +402,8 @@ def build_state(song: dict) -> dict:
     if sections:
         plan = "\nSections: " + " → ".join(f"{n} ({_fmt(a)}–{_fmt(b)})" for n, (a, b) in sections.items())
     note(f"{song['title']}\n{song.get('description', '')}{plan}\n"
-         "Press ▶ on the ticker (top of the list) and unmute the tones in 'Audio'.")
+         "Press ▶ on the ticker (top of the list), then click the speaker icon above the "
+         "list to unmute (Desmos starts muted).")
 
     # --- Controls -------------------------------------------------------
     c = folder("Controls", collapsed=False)

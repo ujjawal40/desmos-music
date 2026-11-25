@@ -16,7 +16,7 @@
       {
         "type": "text",
         "id": "1",
-        "text": "Arrakis (Dune-style, original)\nOriginal piece in the style of a desert-epic score: a beating low D drone, a throat-sung Phrygian chant (D–Eb), war drums, a sliding vocal wail and a sandworm riser. Time unit = 1 beat.\nSections: dawn (0–16) → storm (16–48) → worm (48–64) → settle (64–72)\nPress ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
+        "text": "Arrakis (Dune-style, original)\nOriginal piece in the style of a desert-epic score: a beating low D drone, a throat-sung Phrygian chant (D–Eb), war drums, a sliding vocal wail and a sandworm riser. Time unit = 1 beat.\nSections: dawn (0–16) → storm (16–48) → worm (48–64) → settle (64–72)\nPress ▶ on the ticker (top of the list), then click the speaker icon above the list to unmute (Desmos starts muted)."
       },
       {
         "type": "folder",

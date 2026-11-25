@@ -16,7 +16,7 @@
       {
         "type": "text",
         "id": "1",
-        "text": "Tesseract (Interstellar-style, original)\nOriginal space-organ piece in E minor: an off-kilter clock (3+3+2), an organ 'pulse' arpeggio over i–VI–III–VII, a Shepard tone that never stops rising, then a quiet bell line. Time unit = 1 beat.\nSections: drift (0–16) → fold (16–48) → collapse (48–64) → return (64–80)\nPress ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
+        "text": "Tesseract (Interstellar-style, original)\nOriginal space-organ piece in E minor: an off-kilter clock (3+3+2), an organ 'pulse' arpeggio over i–VI–III–VII, a Shepard tone that never stops rising, then a quiet bell line. Time unit = 1 beat.\nSections: drift (0–16) → fold (16–48) → collapse (48–64) → return (64–80)\nPress ▶ on the ticker (top of the list), then click the speaker icon above the list to unmute (Desmos starts muted)."
       },
       {
         "type": "folder",

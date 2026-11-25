@@ -16,7 +16,7 @@
       {
         "type": "text",
         "id": "1",
-        "text": "Tutorial 5 — sections and dynamics\nSections name stretches of time; 'in' picks where a voice plays; 'dynamics' draws a volume line. The playhead loops at the end.\nSections: quiet (0–8) → loud (8–24) → fade (24–32)\nPress ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
+        "text": "Tutorial 5 — sections and dynamics\nSections name stretches of time; 'in' picks where a voice plays; 'dynamics' draws a volume line. The playhead loops at the end.\nSections: quiet (0–8) → loud (8–24) → fade (24–32)\nPress ▶ on the ticker (top of the list), then click the speaker icon above the list to unmute (Desmos starts muted)."
       },
       {
         "type": "folder",

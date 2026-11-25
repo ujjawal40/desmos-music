@@ -16,7 +16,7 @@
       {
         "type": "text",
         "id": "1",
-        "text": "Tutorial 2 — a melody with seq\nEach token lasts one step; '-' holds, '.' rests, ':2' sets a duration in beats. Glide slides between touching notes.\nPress ▶ on the ticker (top of the list) and unmute the tones in 'Audio'."
+        "text": "Tutorial 2 — a melody with seq\nEach token lasts one step; '-' holds, '.' rests, ':2' sets a duration in beats. Glide slides between touching notes.\nPress ▶ on the ticker (top of the list), then click the speaker icon above the list to unmute (Desmos starts muted)."
       },
       {
         "type": "folder",
