@@ -7,10 +7,11 @@
   <script src="https://www.desmos.com/api/v1.11/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
   <style>
     html, body { margin: 0; height: 100%; background: #1d1a16; color: #f5e6c8; font-family: system-ui, sans-serif; }
-    header { padding: 8px 12px; display: flex; gap: 12px; align-items: center; }
+    body { display: flex; flex-direction: column; overflow: hidden; }
+    header { padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
     select, button { font: inherit; }
     #pos { min-width: 16ch; color: #ffd27a; }
-    #calc { position: absolute; top: 48px; bottom: 0; left: 0; right: 0; }
+    #calc { flex: 1; min-height: 0; position: relative; }
   </style>
 </head>
 <body>
@@ -23,7 +24,7 @@
     <code id="pos">–</code>
     <label title="Reload the graph when build/ changes (run: python -m desmos_music watch)"><input type="checkbox" id="live" /> live</label>
     <button id="copy" title="Copy the Calc.setState(...) script to paste into the console on desmos.com">Copy for desmos.com</button>
-    <span>Space = play/pause. Turn on the speakers in the Audio folder.</span>
+    <span>Space = play/pause. No sound? Click the speaker icon above the expression list.</span>
   </header>
   <div id="calc"></div>
   <script>
@@ -66,7 +67,19 @@
       sel.onchange = load;
       load();
     }
+    // Desmos starts every graph with its tones muted (the speaker button at the
+    // top of the expression list). It reacts to pointer events, not click(), and
+    // browsers only allow audio to start inside a user gesture, so we unmute
+    // from the Play click / Space press itself.
+    function unmute() {
+      const b = document.querySelector('.dcg-global-mute-button.dcg-is-muted');
+      if (!b) return;
+      for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup']) {
+        b.dispatchEvent(new PointerEvent(type, { bubbles: true }));
+      }
+    }
     function setPlaying(on) {
+      if (on) unmute();
       const s = calc.getState();
       s.expressions.ticker.playing = on;
       setGraph(s);
