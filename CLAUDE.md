@@ -36,7 +36,8 @@ Our reading of it is that `y` is pitch in octaves (that's why the denominators a
 - Piecewise takes the first matching branch, so drum hits are cut off at the next hit.
 - `calc.setState()` silently disconnects every `HelperExpression`. Re-create helpers after each setState (see `setGraph` in web/index.html).
 - The playhead slider has the stable id `playhead`, so seek with `calc.setExpression({id: 'playhead', latex: 't=…'})`.
-- Not yet verified: whether `tone()` makes sound through the embedded API in `web/index.html` (nobody has listened yet).
+- Desmos starts every graph with tones **muted** (global speaker button `.dcg-global-mute-button.dcg-is-muted` above the expression list). It ignores `.click()`; dispatching pointerdown/mousedown/pointerup/mouseup unmutes it, and it stays unmuted across `setState`. The player does this inside the Play click so the browser lets audio start. Checked 2026-11-25: after one Play click the AudioContext is `running` and tone oscillators start (no human has listened yet).
+- `web/index.html` must fit a narrow window: the header wraps and `#calc` fills the rest. A fixed-height header pushed Play off-screen.
 
 ## Roadmap / ideas (not built yet)
 - Transcribe sections 2–6 of the clip into more songs, or into sections of one song.
